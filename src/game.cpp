@@ -1,21 +1,21 @@
 #include "game.hpp"
 
 Game::Game()
+    : windowTitle_("Tetris"),
+      windowWidth_(1280),
+      windowHeight_(720),
+      board_(Board(windowWidth_, windowHeight_)),
+      bgColor_({0x28, 0x28, 0x28, 0xFF})
 {
-  windowTitle_ = "Tetris";
-  windowWidth_ = 800;
-  windowHeight_ = 850;
-  boardPositionX_ = 50;
-  boardPositionY_ = 50;
 }
 
 Game::Game(std::string windowTitle, int windowWidth, int windowHeight)
+    : windowTitle_(windowTitle),
+      windowWidth_(windowWidth),
+      windowHeight_(windowHeight),
+      board_(Board(windowWidth_, windowHeight_)),
+      bgColor_({0x28, 0x28, 0x28, 0xFF})
 {
-  windowTitle_ = windowTitle;
-  windowWidth_ = windowWidth;
-  windowHeight_ = windowHeight;
-  boardPositionX_ = 50;
-  boardPositionY_ = 50;
 }
 
 Game::~Game()
@@ -44,14 +44,6 @@ bool Game::init()
   if (renderer_ == NULL)
   {
     printf("Could not initialize renderer. SDL_Error: %s", SDL_GetError());
-    return false;
-  }
-
-  windowSurface_ = SDL_GetWindowSurface(window_);
-  if (SDL_FillRect(windowSurface_, NULL,
-                   SDL_MapRGB(windowSurface_->format, 0xFF, 0xFF, 0xFF)) == -1)
-  {
-    printf("Could not fill rectangle. SDL_Error: %s", SDL_GetError());
     return false;
   }
 
@@ -86,10 +78,11 @@ void Game::run()
 
 void Game::draw()
 {
-  SDL_SetRenderDrawColor(renderer_, 0x28, 0x28, 0x28, 0xFF);
+  SDL_SetRenderDrawColor(
+      renderer_, bgColor_.r, bgColor_.g, bgColor_.b, bgColor_.a);
   SDL_RenderClear(renderer_);
 
-  // board_.draw(renderer_);
+  board_.draw(renderer_);
 
   SDL_RenderPresent(renderer_);
 }

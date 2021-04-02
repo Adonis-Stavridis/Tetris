@@ -33,8 +33,10 @@ include_directories(${SDL2_INCLUDE_DIRS})
 #-------------------------------------------------------------------------------
 
 add_executable(Tetris
-  src/game.hpp
+  src/board.cpp
+  src/board.hpp
   src/game.cpp
+  src/game.hpp
   src/main.cpp
 )
 target_link_libraries(Tetris ${SDL2_LIBRARIES})
