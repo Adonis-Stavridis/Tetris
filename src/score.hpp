@@ -13,8 +13,8 @@ class Score
 private:
   unsigned int value_;
 
-  SDL_Color textColor_, valueColor_;
   const char *text_;
+  SDL_Color textColor_, valueColor_;
 
   SDL_Rect textRect_, valueRect_;
   SDL_Texture *textTexture_, *valueTexture_;

@@ -2,9 +2,9 @@
 
 Score::Score()
     : value_(0),
+      text_("Score"),
       textColor_({0xFF, 0xFA, 0xFA, 0xFF}),
-      valueColor_({0xFF, 0xD7, 0x00, 0xFF}),
-      text_("Score")
+      valueColor_({0xFF, 0xD7, 0x00, 0xFF})
 {
 }
 
