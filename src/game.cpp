@@ -7,7 +7,8 @@ Game::Game()
       board_(Board(windowWidth_, windowHeight_)),
       score_(Score()),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      state_(GameState::Startgame)
+      state_(GameState::StartgameState),
+      startgame_(Startgame())
 {
 }
 
@@ -18,7 +19,8 @@ Game::Game(std::string windowTitle, int windowWidth, int windowHeight)
       board_(Board(windowWidth_, windowHeight_)),
       score_(Score()),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      state_(GameState::Startgame)
+      state_(GameState::StartgameState),
+      startgame_(Startgame())
 {
 }
 
@@ -69,6 +71,7 @@ bool Game::init()
   }
 
   score_.init(renderer_, font_);
+  startgame_.init(renderer_, font_, windowWidth_, windowHeight_);
 
   running_ = true;
 
@@ -99,8 +102,9 @@ void Game::draw()
       renderer_, bgColor_.r, bgColor_.g, bgColor_.b, bgColor_.a);
   SDL_RenderClear(renderer_);
 
-  board_.draw(renderer_);
-  score_.draw(renderer_);
+  // board_.draw(renderer_);
+  // score_.draw(renderer_);
+  startgame_.draw(renderer_);
 
   SDL_RenderPresent(renderer_);
 }

@@ -9,14 +9,15 @@
 
 #include "board.hpp"
 #include "score.hpp"
+#include "startgame.hpp"
 
 #define FONT_SIZE 32
 
 enum GameState
 {
-  Startgame = 0,
-  Ingame = 1,
-  Endgame = 2
+  StartgameState = 0,
+  IngameState = 1,
+  EndgameState = 2
 };
 
 class Game
@@ -39,6 +40,8 @@ private:
   SDL_Renderer *renderer_;
 
   GameState state_;
+
+  Startgame startgame_;
 
 public:
   Game();
