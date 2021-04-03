@@ -30,6 +30,8 @@ private:
   SDL_Window *window_;
   SDL_Renderer *renderer_;
 
+  GameState state_;
+
 public:
   Game();
   Game(std::string windowTitle, int windowWidth, int windowHeight);

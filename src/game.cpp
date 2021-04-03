@@ -5,7 +5,8 @@ Game::Game()
       windowWidth_(1280),
       windowHeight_(720),
       board_(Board(windowWidth_, windowHeight_)),
-      bgColor_({0x28, 0x28, 0x28, 0xFF})
+      bgColor_({0x28, 0x28, 0x28, 0xFF}),
+      state_(GameState::Menu)
 {
 }
 
@@ -14,7 +15,8 @@ Game::Game(std::string windowTitle, int windowWidth, int windowHeight)
       windowWidth_(windowWidth),
       windowHeight_(windowHeight),
       board_(Board(windowWidth_, windowHeight_)),
-      bgColor_({0x28, 0x28, 0x28, 0xFF})
+      bgColor_({0x28, 0x28, 0x28, 0xFF}),
+      state_(GameState::Menu)
 {
 }
 

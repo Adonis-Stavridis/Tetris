@@ -8,6 +8,7 @@ class Board
 private:
   SDL_Rect rect_;
   SDL_Color color_;
+  SDL_Color border_;
 
 public:
   Board(const int windowWidth, const int windowHeight);
