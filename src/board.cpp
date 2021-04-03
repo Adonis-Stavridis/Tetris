@@ -2,14 +2,9 @@
 
 Board::Board(const int windowWidth, const int windowHeight)
     : rect_({windowWidth / 2 - 200, 50, 400, windowHeight - 100}),
-<<<<<<< HEAD
       color_({0x40, 0x40, 0x40, 0xFF}),
       border_({0xFF, 0xD7, 0x00, 0xFF}),
       line_({0xFF,0xFF,0xFF,0xFF})
-=======
-      fillColor_({0x40, 0x40, 0x40, 0xFF}),
-      borderColor_({0xFF, 0xD7, 0x00, 0xFF})
->>>>>>> 16775ce9ff7960db2d49c2ceaaaa554f33bc05e1
 {
 }
 
