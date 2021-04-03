@@ -1,18 +1,31 @@
 #ifndef SCORE_HPP
 #define SCORE_HPP
 
+#include <iostream>
+
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
+#define FONT_SIZE 32
 
 class Score
 {
 private:
-  unsigned int value;
+  unsigned int value_;
+
+  TTF_Font *font_;
+  SDL_Color textColor_, valueColor_;
+  const char *text_;
+
+  SDL_Rect textRect_, valueRect_;
+  SDL_Texture *textTexture_, *valueTexture_;
 
 public:
   Score();
   ~Score();
 
-  void draw(SDL_Renderer *renderer_);
+  void init(SDL_Renderer *renderer);
+  void draw(SDL_Renderer *renderer);
 };
 
 #endif // SCORE_HPP
