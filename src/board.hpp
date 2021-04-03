@@ -11,11 +11,14 @@ private:
   SDL_Color borderColor_;
   SDL_Color line_;
 
+  int boardArray_[10][20];
+
 public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
   void draw(SDL_Renderer *renderer_);
+  void initBoard();
 };
 
 #endif // BOARD_HPP

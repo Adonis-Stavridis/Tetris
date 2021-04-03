@@ -33,3 +33,14 @@ void Board::draw(SDL_Renderer *renderer_)
     SDL_RenderDrawLine(renderer_, rect_.x, y, rect_.x + rect_.w, y );
   }
 }
+
+void Board::initBoard()
+{
+  for(int i = 0; i < 10; i++)
+  {
+      for(int j = 0; j < 20; j++)
+      {
+        boardArray_[i][j] = 0;
+      }
+  }
+}
