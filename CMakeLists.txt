@@ -41,6 +41,8 @@ add_executable(Tetris
   src/score.hpp
   src/tetromino.cpp
   src/tetromino.hpp
+  src/startgame.cpp
+  src/startgame.hpp
   src/main.cpp
 )
 target_link_libraries(Tetris ${SDL2_LIBRARIES} SDL2_ttf)
