@@ -5,8 +5,9 @@ Game::Game()
       windowWidth_(1280),
       windowHeight_(720),
       board_(Board(windowWidth_, windowHeight_)),
+      score_(Score()),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      state_(GameState::Menu)
+      state_(GameState::Startgame)
 {
 }
 
@@ -15,8 +16,9 @@ Game::Game(std::string windowTitle, int windowWidth, int windowHeight)
       windowWidth_(windowWidth),
       windowHeight_(windowHeight),
       board_(Board(windowWidth_, windowHeight_)),
+      score_(Score()),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      state_(GameState::Menu)
+      state_(GameState::Startgame)
 {
 }
 
@@ -28,7 +30,8 @@ bool Game::init()
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
   {
-    printf("Could not initialize SDL. SDL Error: %s\n", SDL_GetError());
+    std::cerr << "Could not initialize SDL. SDL Error: " << SDL_GetError()
+              << std::endl;
     return false;
   }
 
@@ -37,7 +40,8 @@ bool Game::init()
       windowWidth_, windowHeight_, SDL_WINDOW_SHOWN);
   if (window_ == NULL)
   {
-    printf("Could not create window. SDL Error: %s\n", SDL_GetError());
+    std::cerr << "Could not create window. SDL Error: " << SDL_GetError()
+              << std::endl;
     return false;
   }
 
@@ -45,19 +49,30 @@ bool Game::init()
       window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (renderer_ == NULL)
   {
-    printf("Could not initialize renderer. SDL_Error: %s", SDL_GetError());
+    std::cerr << "Could not initialize renderer. SDL_Error: " << SDL_GetError()
+              << std::endl;
     return false;
   }
+
+  if (TTF_Init() < 0)
+  {
+    std::cerr << "Could not initialize TTF. TTF Error: " << TTF_GetError()
+              << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  font_ = TTF_OpenFont("assets/fonts/PressStart2P-vaV7.ttf", FONT_SIZE);
+  if (!font_)
+  {
+    std::cerr << "TTF_OpenFont failed: " << TTF_GetError() << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  score_.init(renderer_, font_);
 
   running_ = true;
 
   return true;
-}
-
-void Game::loadMedia()
-{
-  // _blockTexture.loadFromFile("res/block.png", renderer_, 0.35f);
-  // _board.setTexture(_blockTexture);
 }
 
 void Game::run()
@@ -85,6 +100,16 @@ void Game::draw()
   SDL_RenderClear(renderer_);
 
   board_.draw(renderer_);
+  score_.draw(renderer_);
 
   SDL_RenderPresent(renderer_);
+}
+
+void Game::quit()
+{
+  SDL_DestroyRenderer(renderer_);
+  SDL_DestroyWindow(window_);
+
+  TTF_Quit();
+  SDL_Quit();
 }

@@ -2,16 +2,21 @@
 #define GAME_HPP
 
 #include <string>
+#include <iostream>
 
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "board.hpp"
+#include "score.hpp"
+
+#define FONT_SIZE 32
 
 enum GameState
 {
-  Menu = 0,
+  Startgame = 0,
   Ingame = 1,
-  Score = 2
+  Endgame = 2
 };
 
 class Game
@@ -20,8 +25,11 @@ private:
   std::string windowTitle_;
   int windowWidth_;
   int windowHeight_;
+  
   Board board_;
+  Score score_;
 
+  TTF_Font *font_;
   SDL_Color bgColor_;
 
   bool running_;
@@ -40,7 +48,7 @@ public:
   bool init();
   void run();
   void draw();
-  void loadMedia();
+  void quit();
 };
 
 #endif //GAME_HPP

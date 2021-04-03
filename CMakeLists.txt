@@ -37,9 +37,11 @@ add_executable(Tetris
   src/board.hpp
   src/game.cpp
   src/game.hpp
+  src/score.cpp
+  src/score.hpp
   src/main.cpp
 )
-target_link_libraries(Tetris ${SDL2_LIBRARIES})
+target_link_libraries(Tetris ${SDL2_LIBRARIES} SDL2_ttf)
 
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/sprites.bmp
-# 	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
