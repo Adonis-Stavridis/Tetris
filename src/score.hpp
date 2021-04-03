@@ -13,7 +13,6 @@ class Score
 private:
   unsigned int value_;
 
-  TTF_Font *font_;
   SDL_Color textColor_, valueColor_;
   const char *text_;
 
@@ -24,7 +23,7 @@ public:
   Score();
   ~Score();
 
-  void init(SDL_Renderer *renderer);
+  void init(SDL_Renderer *renderer, TTF_Font *font);
   void draw(SDL_Renderer *renderer);
 };
 

@@ -2,37 +2,21 @@
 
 Score::Score()
     : value_(0),
-      font_(nullptr),
       textColor_({0xFF, 0xFA, 0xFA, 0xFF}),
       valueColor_({0xFF, 0xD7, 0x00, 0xFF}),
       text_("Score")
 {
-  if (TTF_Init() < 0)
-  {
-    std::cerr << "Could not initialize TTF. TTF Error: " << TTF_GetError()
-              << std::endl;
-    exit(EXIT_FAILURE);
-  }
-
-  font_ = TTF_OpenFont("assets/fonts/PressStart2P-vaV7.ttf", FONT_SIZE);
-  if (!font_)
-  {
-    std::cerr << "TTF_OpenFont failed: " << TTF_GetError() << std::endl;
-    exit(EXIT_FAILURE);
-  }
 }
 
 Score::~Score()
 {
   SDL_DestroyTexture(textTexture_);
   SDL_DestroyTexture(valueTexture_);
-
-  TTF_Quit();
 }
 
-void Score::init(SDL_Renderer *renderer)
+void Score::init(SDL_Renderer *renderer, TTF_Font *font)
 {
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, text_, textColor_);
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   int tempWidth, tempHeight;
   SDL_QueryTexture(textTexture_, NULL, NULL, &tempWidth, &tempHeight);
@@ -40,7 +24,7 @@ void Score::init(SDL_Renderer *renderer)
   SDL_FreeSurface(tempSurface);
 
   const char *valueText = std::to_string(value_).c_str();
-  tempSurface = TTF_RenderText_Blended(font_, valueText, valueColor_);
+  tempSurface = TTF_RenderText_Blended(font, valueText, valueColor_);
   valueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(valueTexture_, NULL, NULL, &tempWidth, &tempHeight);
   valueRect_ =

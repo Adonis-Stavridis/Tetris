@@ -54,7 +54,21 @@ bool Game::init()
     return false;
   }
 
-  score_.init(renderer_);
+  if (TTF_Init() < 0)
+  {
+    std::cerr << "Could not initialize TTF. TTF Error: " << TTF_GetError()
+              << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  font_ = TTF_OpenFont("assets/fonts/PressStart2P-vaV7.ttf", FONT_SIZE);
+  if (!font_)
+  {
+    std::cerr << "TTF_OpenFont failed: " << TTF_GetError() << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  score_.init(renderer_, font_);
 
   running_ = true;
 
@@ -96,5 +110,6 @@ void Game::quit()
   SDL_DestroyRenderer(renderer_);
   SDL_DestroyWindow(window_);
 
+  TTF_Quit();
   SDL_Quit();
 }
