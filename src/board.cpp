@@ -1,7 +1,7 @@
 #include "board.hpp"
 
 Board::Board(const int windowWidth, const int windowHeight)
-    : rect_({windowWidth / 2 - 200, 50, 400, windowHeight - 100}),
+    : rect_({windowWidth / 2 - 200, 50, 400, windowHeight - 80}),
       fillColor_({0x40, 0x40, 0x40, 0xFF}),
       borderColor_({0xFF, 0xD7, 0x00, 0xFF}),
       line_({0xFF,0xFF,0xFF,0xFF})
@@ -28,7 +28,7 @@ void Board::draw(SDL_Renderer *renderer_)
     SDL_RenderDrawLine(renderer_, x, rect_.y, x, rect_.y + rect_.h);
   }
   SDL_SetRenderDrawColor(renderer_, line_.r, line_.g, line_.b, line_.a);
-  for (int y = rect_.y+31; y < rect_.y + rect_.h; y += 31)
+  for (int y = rect_.y+40; y < rect_.y + rect_.h; y += 40)
   {
     SDL_RenderDrawLine(renderer_, rect_.x, y, rect_.x + rect_.w, y );
   }
