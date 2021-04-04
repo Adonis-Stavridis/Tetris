@@ -72,14 +72,12 @@ void Game::run()
     while (SDL_PollEvent(&event_))
     {
       PageAction action = gamePage_->handleInput(event_);
-      std::cout << action << std::endl;
       checkEvent(action);
 
       if (event_.type == SDL_QUIT)
         running_ = false;
     }
 
-    // board_.update();
     draw();
   }
 }
@@ -119,6 +117,10 @@ void Game::checkEvent(PageAction action)
   case PageAction::NextPage:
     currentState = (currentState + 1) % PAGE_NUMBER;
     gamePage_ = gameStates[currentState];
+    break;
+
+  case PageAction::Quit:
+    running_ = false;
     break;
 
   default:

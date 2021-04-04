@@ -6,7 +6,8 @@
 enum PageAction
 {
   None = 0,
-  NextPage = 1
+  NextPage = 1,
+  Quit = 2
 };
 
 class GamePage

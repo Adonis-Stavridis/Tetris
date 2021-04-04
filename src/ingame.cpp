@@ -24,7 +24,38 @@ void Ingame::draw(SDL_Renderer *renderer)
 PageAction Ingame::handleInput(SDL_Event event)
 {
   if (event.type == SDL_KEYDOWN)
-    return PageAction::NextPage;
+  {
+    switch (event.key.keysym.sym)
+    {
+    case SDLK_LEFT:
+      std::cout << "KEY: LEFT" << std::endl;
+      break;
+
+    case SDLK_RIGHT:
+      std::cout << "KEY: RIGHT" << std::endl;
+      break;
+
+    case SDLK_UP:
+      std::cout << "KEY: UP" << std::endl;
+      break;
+
+    case SDLK_DOWN:
+      std::cout << "KEY: DOWN" << std::endl;
+      break;
+
+    case SDLK_ESCAPE:
+      return PageAction::Quit;
+      break;
+
+    // ! TO REMOVE : TEMPORARY
+    case SDLK_SPACE:
+      return PageAction::NextPage;
+      break;
+
+    default:
+      break;
+    }
+  }
 
   return PageAction::None;
 }

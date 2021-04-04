@@ -31,7 +31,12 @@ void Startgame::draw(SDL_Renderer *renderer)
 PageAction Startgame::handleInput(SDL_Event event)
 {
   if (event.type == SDL_KEYDOWN)
-    return PageAction::NextPage;
+  {
+    if (event.key.keysym.sym == SDLK_ESCAPE)
+      return PageAction::Quit;
+    else
+      return PageAction::NextPage;
+  }
 
   return PageAction::None;
 }
