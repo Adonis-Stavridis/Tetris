@@ -9,7 +9,7 @@ private:
   SDL_Rect rect_;
   SDL_Color fillColor_;
   SDL_Color borderColor_;
-  SDL_Color line_;
+  SDL_Color gridColor_;
 
   int boardArray_[10][20];
 
