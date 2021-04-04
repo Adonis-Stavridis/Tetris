@@ -27,3 +27,11 @@ void Startgame::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, textTexture_, nullptr, &textRect_);
 }
+
+PageAction Startgame::handleInput(SDL_Event event)
+{
+  if (event.type == SDL_KEYDOWN)
+    return PageAction::NextPage;
+
+  return PageAction::None;
+}
