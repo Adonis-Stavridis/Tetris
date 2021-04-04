@@ -34,8 +34,6 @@ private:
   SDL_Window *window_;
   SDL_Renderer *renderer_;
 
-  // void (Game::*drawFunction_)();
-
   Startgame startgame_;
   Ingame ingame_;
   GamePage *gamePage_;

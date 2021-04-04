@@ -5,7 +5,6 @@ Game::Game()
       windowWidth_(1280),
       windowHeight_(720),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      // drawFunction_(&Game::drawStartgame),
       startgame_(Startgame()),
       ingame_(Ingame(windowWidth_, windowHeight_)),
       gamePage_(&startgame_)
@@ -73,6 +72,7 @@ void Game::run()
     while (SDL_PollEvent(&event_))
     {
       PageAction action = gamePage_->handleInput(event_);
+      std::cout << action << std::endl;
       checkEvent(action);
 
       if (event_.type == SDL_QUIT)
@@ -117,7 +117,7 @@ void Game::checkEvent(PageAction action)
     break;
 
   case PageAction::NextPage:
-    currentState = currentState + 1 % PAGE_NUMBER;
+    currentState = (currentState + 1) % PAGE_NUMBER;
     gamePage_ = gameStates[currentState];
     break;
 
