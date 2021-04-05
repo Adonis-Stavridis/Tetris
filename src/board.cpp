@@ -12,7 +12,7 @@ Board::~Board()
 {
 }
 
-void Board::draw(SDL_Renderer *renderer_)
+void Board::draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_)
 {
   // Draw the window of the game
   SDL_SetRenderDrawColor(renderer_, fillColor_.r, fillColor_.g, fillColor_.b,
@@ -36,7 +36,8 @@ void Board::draw(SDL_Renderer *renderer_)
                          borderColor_.b, borderColor_.a);
   SDL_RenderDrawRect(renderer_, &rect_);
 
-  //Draw the spawn window
+  /***** Draw the spawn window *****/
+  
   SDL_SetRenderDrawColor(renderer_, fillColor_.r, fillColor_.g, fillColor_.b,
                          fillColor_.a);
 
@@ -64,29 +65,107 @@ void Board::draw(SDL_Renderer *renderer_)
     SDL_RenderDrawLine(renderer_, rect2_.x, y, rect2_.x + rect2_.w, y);
   }
 
-  draw2(renderer_, 0);
-}
+  /***** Draw the spawn window for the next fourth tetromino *****/
 
-void Board::draw2(SDL_Renderer *renderer_, int k)
-{
+  SDL_SetRenderDrawColor(renderer_, fillColor_.r, fillColor_.g, fillColor_.b,
+                         fillColor_.a);
+  rect3_ = rect_;
+  rect3_.x += rect_.w + 50;
+  rect3_.w = 192;
+  SDL_RenderFillRect(renderer_, &rect3_);
+
+  SDL_SetRenderDrawColor(renderer_, borderColor_.r, borderColor_.g,
+                         borderColor_.b, borderColor_.a);
+  SDL_RenderDrawRect(renderer_, &rect3_);
+
+  // Draw the lines for the grid
+  SDL_SetRenderDrawColor(renderer_, gridColor_.r, gridColor_.g, gridColor_.b, gridColor_.a);
+  for (int x = rect3_.x + 32; x < rect3_.x + rect3_.w; x += 32)
+  {
+    SDL_RenderDrawLine(renderer_, x, rect3_.y, x, rect3_.y + rect3_.h);
+  }
+
+  SDL_SetRenderDrawColor(renderer_, gridColor_.r, gridColor_.g, gridColor_.b, gridColor_.a);
+  for (int y = rect3_.y + 32; y < rect3_.y + rect3_.h; y += 32)
+  {
+    SDL_RenderDrawLine(renderer_, rect3_.x, y, rect3_.x + rect3_.w, y);
+  }
+  
+  std::queue<int> tmp = randomTetromino_;
+  //To jump a line between tetro spawners
+  int spaceLine = 64;
+  //To do not erase the x and y
   int tmpx, tmpy;
   tmpx = rect2_.x;
   tmpy = rect2_.y;
 
+  //First spawner
+  drawTetrominoSpawn(renderer_, tmp.front(),true,spaceLine,tmpx,tmpy);
+  tmp.pop();
+
+  //To do not erase the x and y
+  tmpx = rect3_.x;
+  tmpy = rect3_.y;
+  //Fourth others spawners
+  while (!tmp.empty())
+  {
+    drawTetrominoSpawn(renderer_, tmp.front(),false, spaceLine,tmpx,tmpy);
+    tmp.pop();
+    spaceLine += 128;
+  }
+  
+
+}
+
+void Board::drawTetrominoSpawn(SDL_Renderer *renderer_, int nbTypeTetro, bool b, int spaceLine, int tmpx, int tmpy)
+{
   for (int i = 0; i < 4; i++)
   {
     for (int j = 0; j < 4; j++)
     {
-      if (tab[k].matrix[i][j] == 1)
+      if (tab[nbTypeTetro].matrix[i][j] == 1)
       {
-        rect2_.x = tmpx;
-        rect2_.y = tmpy;
-        rect2_.x = rect2_.x + j * 50 + 1;
-        rect2_.y = rect2_.y + i * 50 + 51;
-        rect2_.w = 50 - 1;
-        rect2_.h = 50 - 1;
-        SDL_SetRenderDrawColor(renderer_, tab[k].tetrominoColor.r, tab[k].tetrominoColor.g,tab[k].tetrominoColor.b, tab[k].tetrominoColor.a);
-        SDL_RenderFillRect(renderer_, &rect2_);
+        if(b == true)
+        {
+          rect2_.x = tmpx;
+          rect2_.y = tmpy;
+          rect2_.y = rect2_.y + i * 50 + 51;
+          rect2_.w = 50 - 1;
+          rect2_.h = 50 - 1;
+
+          // To center the square
+          if(nbTypeTetro == 1)
+          {
+            rect2_.x = rect2_.x + j * 50 + 51;
+          }
+          else
+          {
+            rect2_.x = rect2_.x + j * 50 + 1;
+          }
+        }
+        else
+        {
+          rect3_.x = tmpx + 32;
+          rect3_.y = tmpy;
+          rect3_.y = rect3_.y + i * 32 + spaceLine + 1;
+          rect3_.w = 32 - 1;
+          rect3_.h = 32 - 1;
+          
+          if(nbTypeTetro == 1)
+          {
+            rect3_.x = rect3_.x + j * 32 + 33;
+          }
+          else
+          {
+            rect3_.x = rect3_.x + j * 32 + 1;
+          }
+        }
+        SDL_SetRenderDrawColor(renderer_, tab[nbTypeTetro].tetrominoColor.r, tab[nbTypeTetro].tetrominoColor.g,tab[nbTypeTetro].tetrominoColor.b, tab[nbTypeTetro].tetrominoColor.a);
+        
+        if(b == true)
+          SDL_RenderFillRect(renderer_, &rect2_);
+        else
+          SDL_RenderFillRect(renderer_, &rect3_);
       }
     }
   }

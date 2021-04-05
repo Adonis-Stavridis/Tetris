@@ -2,6 +2,7 @@
 #define BOARD_HPP
 
 #include <SDL2/SDL.h>
+#include <queue>
 
 class Board
 {
@@ -12,8 +13,11 @@ private:
   SDL_Color gridColor_;
 
   SDL_Rect rect2_;
+  SDL_Rect rect3_;
+
   int boardArray_[10][20];
 
+  //A METTRE DANS UNE AUTRE CLASSE 
   struct tetromino
   {
     int matrix[4][4];
@@ -77,9 +81,12 @@ public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
-  void draw(SDL_Renderer *renderer_);
-  void draw2(SDL_Renderer *renderer_, int k);
+  void draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_);
+  void drawTetrominoSpawn(SDL_Renderer *renderer_, int k, bool b, int spaceLine, int x, int y);
   void initBoard();
+
+  // A METTRE DANS UNE AUTRE CLASSE
+  std::queue<int>randomTetromino_;
 };
 
 #endif // BOARD_HPP
