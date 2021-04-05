@@ -6,7 +6,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-class Startgame
+#include "gamepage.hpp"
+
+class Startgame : public GamePage
 {
 private:
   const char *text_;
@@ -22,6 +24,7 @@ public:
   void init(SDL_Renderer *renderer, TTF_Font *font,
             const int windowWidth, const int windowHeight);
   void draw(SDL_Renderer *renderer);
+  PageAction handleInput(SDL_Event event);
 };
 
 #endif // STARTGAME_HPP

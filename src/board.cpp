@@ -1,11 +1,12 @@
 #include "board.hpp"
 
 Board::Board(const int windowWidth, const int windowHeight)
-    : rect_({windowWidth / 2 - 200, 50, 400, windowHeight - 80}),
+    : rect_({windowWidth / 2 - 160, windowHeight / 2 - 320, 320, 640}),
       fillColor_({0x40, 0x40, 0x40, 0xFF}),
       borderColor_({0xFF, 0xD7, 0x00, 0xFF}),
       line_({0xFF,0xFF,0xFF,0xFF}),
       cell_({0xFF,0x00,0x00,0xFF})
+      gridColor_({0x80, 0x80, 0x80, 0xFF})
 {
 }
 
@@ -36,7 +37,7 @@ void Board::draw(SDL_Renderer *renderer_)
 
   for (int y = rect_.y+40; y < rect_.y + rect_.h; y += 40)
   {
-    SDL_RenderDrawLine(renderer_, rect_.x, y, rect_.x + rect_.w, y );
+    SDL_RenderDrawLine(renderer_, rect_.x, y, rect_.x + rect_.w, y);
   }
 
   //Draw the spawn window
@@ -97,11 +98,11 @@ void Board::draw2(SDL_Renderer *renderer_, int k)
 
 void Board::initBoard()
 {
-  for(int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; i++)
   {
-      for(int j = 0; j < 20; j++)
-      {
-        boardArray_[i][j] = 0;
-      }
+    for (int j = 0; j < 20; j++)
+    {
+      boardArray_[i][j] = 0;
+    }
   }
 }

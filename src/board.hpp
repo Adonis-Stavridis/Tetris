@@ -9,7 +9,7 @@ private:
   SDL_Rect rect_;
   SDL_Color fillColor_;
   SDL_Color borderColor_;
-  SDL_Color line_;
+  SDL_Color gridColor_;
 
   SDL_Rect rect2_;
   SDL_Color cell_;

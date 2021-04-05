@@ -9,16 +9,14 @@
 
 #include "board.hpp"
 #include "score.hpp"
+#include "gamepage.hpp"
 #include "startgame.hpp"
+#include "ingame.hpp"
 
+#define FONT_PATH "assets/fonts/PressStart2P-vaV7.ttf"
 #define FONT_SIZE 32
 
-enum GameState
-{
-  StartgameState = 0,
-  IngameState = 1,
-  EndgameState = 2
-};
+#define PAGE_NUMBER 2
 
 class Game
 {
@@ -26,9 +24,6 @@ private:
   std::string windowTitle_;
   int windowWidth_;
   int windowHeight_;
-  
-  Board board_;
-  Score score_;
 
   TTF_Font *font_;
   SDL_Color bgColor_;
@@ -39,9 +34,9 @@ private:
   SDL_Window *window_;
   SDL_Renderer *renderer_;
 
-  GameState state_;
-
   Startgame startgame_;
+  Ingame ingame_;
+  GamePage *gamePage_;
 
 public:
   Game();
@@ -52,6 +47,8 @@ public:
   void run();
   void draw();
   void quit();
+
+  void checkEvent(PageAction action);
 };
 
 #endif //GAME_HPP

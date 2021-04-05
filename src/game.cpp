@@ -4,23 +4,10 @@ Game::Game()
     : windowTitle_("Tetris"),
       windowWidth_(1280),
       windowHeight_(720),
-      board_(Board(windowWidth_, windowHeight_)),
-      score_(Score()),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      state_(GameState::StartgameState),
-      startgame_(Startgame())
-{
-}
-
-Game::Game(std::string windowTitle, int windowWidth, int windowHeight)
-    : windowTitle_(windowTitle),
-      windowWidth_(windowWidth),
-      windowHeight_(windowHeight),
-      board_(Board(windowWidth_, windowHeight_)),
-      score_(Score()),
-      bgColor_({0x28, 0x28, 0x28, 0xFF}),
-      state_(GameState::StartgameState),
-      startgame_(Startgame())
+      startgame_(Startgame()),
+      ingame_(Ingame(windowWidth_, windowHeight_)),
+      gamePage_(&startgame_)
 {
 }
 
@@ -51,7 +38,7 @@ bool Game::init()
       window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (renderer_ == NULL)
   {
-    std::cerr << "Could not initialize renderer. SDL_Error: " << SDL_GetError()
+    std::cerr << "Could not initialize renderer. SDL Error: " << SDL_GetError()
               << std::endl;
     return false;
   }
@@ -63,15 +50,15 @@ bool Game::init()
     exit(EXIT_FAILURE);
   }
 
-  font_ = TTF_OpenFont("assets/fonts/PressStart2P-vaV7.ttf", FONT_SIZE);
+  font_ = TTF_OpenFont(FONT_PATH, FONT_SIZE);
   if (!font_)
   {
     std::cerr << "TTF_OpenFont failed: " << TTF_GetError() << std::endl;
     exit(EXIT_FAILURE);
   }
 
-  score_.init(renderer_, font_);
   startgame_.init(renderer_, font_, windowWidth_, windowHeight_);
+  ingame_.init(renderer_, font_);
 
   running_ = true;
 
@@ -84,14 +71,13 @@ void Game::run()
   {
     while (SDL_PollEvent(&event_))
     {
+      PageAction action = gamePage_->handleInput(event_);
+      checkEvent(action);
+
       if (event_.type == SDL_QUIT)
         running_ = false;
-      if (event_.type == SDL_KEYDOWN)
-        running_ = false;
-      // board_.handleInput(event_);
     }
 
-    // board_.update();
     draw();
   }
 }
@@ -105,6 +91,7 @@ void Game::draw()
   board_.draw(renderer_);
   score_.draw(renderer_);
   //startgame_.draw(renderer_);
+  gamePage_->draw(renderer_);
 
   SDL_RenderPresent(renderer_);
 }
@@ -116,4 +103,31 @@ void Game::quit()
 
   TTF_Quit();
   SDL_Quit();
+}
+
+void Game::checkEvent(PageAction action)
+{
+  static uint currentState = 0;
+  static GamePage *gameStates[PAGE_NUMBER] =
+      {&startgame_, &ingame_};
+
+  switch (action)
+  {
+  case PageAction::None:
+    // nothing
+    break;
+
+  case PageAction::NextPage:
+    currentState = (currentState + 1) % PAGE_NUMBER;
+    gamePage_ = gameStates[currentState];
+    break;
+
+  case PageAction::Quit:
+    running_ = false;
+    break;
+
+  default:
+    std::cerr << "Game Error: Unknown PageAction" << std::endl;
+    break;
+  }
 }
