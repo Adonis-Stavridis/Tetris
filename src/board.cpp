@@ -5,7 +5,7 @@ Board::Board(const int windowWidth, const int windowHeight)
       fillColor_({0x40, 0x40, 0x40, 0xFF}),
       borderColor_({0xFF, 0xD7, 0x00, 0xFF}),
       gridColor_({0x80, 0x80, 0x80, 0xFF}),
-      cell_({0xFF,0x00,0x00,0xFF})
+      cell_({0xFF, 0x00, 0x00, 0xFF})
 {
 }
 
@@ -20,24 +20,22 @@ void Board::draw(SDL_Renderer *renderer_)
                          fillColor_.a);
   SDL_RenderFillRect(renderer_, &rect_);
 
-  SDL_SetRenderDrawColor(renderer_, borderColor_.r, borderColor_.g,
-                         borderColor_.b, borderColor_.a);
-  SDL_RenderDrawRect(renderer_, &rect_);
-
   // Draw the lines for the grid
   SDL_SetRenderDrawColor(renderer_, gridColor_.r, gridColor_.g, gridColor_.b, gridColor_.a);
-
-  for (int x = rect_.x+40; x < rect_.x + rect_.w; x += 40)
+  for (int x = rect_.x + 32; x < rect_.x + rect_.w; x += 32)
   {
     SDL_RenderDrawLine(renderer_, x, rect_.y, x, rect_.y + rect_.h);
   }
 
   SDL_SetRenderDrawColor(renderer_, gridColor_.r, gridColor_.g, gridColor_.b, gridColor_.a);
-
-  for (int y = rect_.y+40; y < rect_.y + rect_.h; y += 40)
+  for (int y = rect_.y + 32; y < rect_.y + rect_.h; y += 32)
   {
     SDL_RenderDrawLine(renderer_, rect_.x, y, rect_.x + rect_.w, y);
   }
+
+  SDL_SetRenderDrawColor(renderer_, borderColor_.r, borderColor_.g,
+                         borderColor_.b, borderColor_.a);
+  SDL_RenderDrawRect(renderer_, &rect_);
 
   //Draw the spawn window
   SDL_SetRenderDrawColor(renderer_, fillColor_.r, fillColor_.g, fillColor_.b,
@@ -55,43 +53,43 @@ void Board::draw(SDL_Renderer *renderer_)
 
   SDL_SetRenderDrawColor(renderer_, gridColor_.r, gridColor_.g, gridColor_.b, gridColor_.a);
 
-  for (int x = rect2_.x+50; x < rect2_.x + rect2_.w; x += 50)
+  for (int x = rect2_.x + 50; x < rect2_.x + rect2_.w; x += 50)
   {
     SDL_RenderDrawLine(renderer_, x, rect2_.y, x, rect2_.y + rect2_.h);
   }
 
   SDL_SetRenderDrawColor(renderer_, gridColor_.r, gridColor_.g, gridColor_.b, gridColor_.a);
 
-  for (int y = rect2_.y+50; y < rect2_.y + rect2_.h; y += 50)
+  for (int y = rect2_.y + 50; y < rect2_.y + rect2_.h; y += 50)
   {
-    SDL_RenderDrawLine(renderer_, rect2_.x, y, rect2_.x + rect2_.w, y );
+    SDL_RenderDrawLine(renderer_, rect2_.x, y, rect2_.x + rect2_.w, y);
   }
 
-  draw2(renderer_,6);
+  draw2(renderer_, 6);
 }
 
 void Board::draw2(SDL_Renderer *renderer_, int k)
 {
-  int tmpx,tmpy;
+  int tmpx, tmpy;
   tmpx = rect2_.x;
   tmpy = rect2_.y;
 
-  for(int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; i++)
   {
-      for(int j = 0; j < 4; j++)
+    for (int j = 0; j < 4; j++)
+    {
+      if (tab[k].matrix[i][j] == 1)
       {
-        if( tab[k].matrix[i][j] == 1)
-        {
-          rect2_.x = tmpx;
-          rect2_.y = tmpy;
-          rect2_.x = rect2_.x + j*50 +1;
-          rect2_.y = rect2_.y + i*50 +1;
-          rect2_.w = 50-1;
-          rect2_.h = 50-1;
-          SDL_SetRenderDrawColor(renderer_, cell_.r, cell_.g, cell_.b, cell_.a);
-          SDL_RenderFillRect(renderer_, &rect2_);
-        }
+        rect2_.x = tmpx;
+        rect2_.y = tmpy;
+        rect2_.x = rect2_.x + j * 50 + 1;
+        rect2_.y = rect2_.y + i * 50 + 1;
+        rect2_.w = 50 - 1;
+        rect2_.h = 50 - 1;
+        SDL_SetRenderDrawColor(renderer_, cell_.r, cell_.g, cell_.b, cell_.a);
+        SDL_RenderFillRect(renderer_, &rect2_);
       }
+    }
   }
 }
 
