@@ -4,8 +4,7 @@ Board::Board(const int windowWidth, const int windowHeight)
     : rect_({windowWidth / 2 - 160, windowHeight / 2 - 320, 320, 640}),
       fillColor_({0x40, 0x40, 0x40, 0xFF}),
       borderColor_({0xFF, 0xD7, 0x00, 0xFF}),
-      gridColor_({0x80, 0x80, 0x80, 0xFF}),
-      cell_({0xFF, 0x00, 0x00, 0xFF})
+      gridColor_({0x80, 0x80, 0x80, 0xFF})
 {
 }
 
@@ -65,7 +64,7 @@ void Board::draw(SDL_Renderer *renderer_)
     SDL_RenderDrawLine(renderer_, rect2_.x, y, rect2_.x + rect2_.w, y);
   }
 
-  draw2(renderer_, 6);
+  draw2(renderer_, 0);
 }
 
 void Board::draw2(SDL_Renderer *renderer_, int k)
@@ -83,10 +82,10 @@ void Board::draw2(SDL_Renderer *renderer_, int k)
         rect2_.x = tmpx;
         rect2_.y = tmpy;
         rect2_.x = rect2_.x + j * 50 + 1;
-        rect2_.y = rect2_.y + i * 50 + 1;
+        rect2_.y = rect2_.y + i * 50 + 51;
         rect2_.w = 50 - 1;
         rect2_.h = 50 - 1;
-        SDL_SetRenderDrawColor(renderer_, cell_.r, cell_.g, cell_.b, cell_.a);
+        SDL_SetRenderDrawColor(renderer_, tab[k].tetrominoColor.r, tab[k].tetrominoColor.g,tab[k].tetrominoColor.b, tab[k].tetrominoColor.a);
         SDL_RenderFillRect(renderer_, &rect2_);
       }
     }
