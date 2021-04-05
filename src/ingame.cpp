@@ -17,12 +17,14 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 
 void Ingame::draw(SDL_Renderer *renderer)
 {
+  //Add tetromino in the queue before draw
   board_.randomTetromino_ = updateRandomTetro();
-  board_.draw(renderer, board_.randomTetromino_);
+  board_.draw(renderer, board_.randomTetromino_,key);
+  //key = 0;
   score_.draw(renderer);
 }
 
-PageAction Ingame::handleInput(SDL_Event event)
+PageAction Ingame::handleInput(SDL_Event event)// ,SDL_Renderer *renderer)
 {
   if (event.type == SDL_KEYDOWN)
   {
@@ -30,18 +32,25 @@ PageAction Ingame::handleInput(SDL_Event event)
     {
     case SDLK_LEFT:
       std::cout << "KEY: LEFT" << std::endl;
+      //VERIFIER QUON SOIT DANS LA WINDOW
+      key = 1;
+      SDL_Renderer *renderer;
+      draw(renderer);
       break;
 
     case SDLK_RIGHT:
       std::cout << "KEY: RIGHT" << std::endl;
+      key = 2;
       break;
 
     case SDLK_UP:
       std::cout << "KEY: UP" << std::endl;
+      key = 3;
       break;
 
     case SDLK_DOWN:
       std::cout << "KEY: DOWN" << std::endl;
+      key = 4;
       break;
 
     case SDLK_ESCAPE:

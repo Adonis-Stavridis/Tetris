@@ -12,7 +12,7 @@ Board::~Board()
 {
 }
 
-void Board::draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_)
+void Board::draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_, int shifting)
 {
   // Draw the window of the game
   SDL_SetRenderDrawColor(renderer_, fillColor_.r, fillColor_.g, fillColor_.b,
@@ -104,7 +104,7 @@ void Board::draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_)
   int spaceLine = 64;
 
   //To do not erase the x and y because at each iteration it's modifying
-  int tmpx, tmpy;
+  int tmpx, tmpy, tmpw, tmph;
   tmpx = rect2_.x;
   tmpy = rect2_.y;
 
@@ -123,8 +123,17 @@ void Board::draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_)
     //To jump 2 lines between 2 tetrominos
     spaceLine += 128;
   }
-  
 
+  tmpx = rect_.x;
+  tmpy = rect_.y;
+  tmpw = rect_.w;
+  tmph = rect_.h;
+  drawTetrominoGame(renderer_,randomTetromino_.front(),tmpx,tmpy, shifting);
+  randomTetromino_.pop();
+  rect_.x = tmpx;
+  rect_.y = tmpy;
+  rect_.w = tmpw;
+  rect_.h = tmph;
 }
 
 void Board::drawTetrominoSpawn(SDL_Renderer *renderer_, int nbTypeTetro, bool b, int spaceLine, int tmpx, int tmpy)
@@ -190,13 +199,62 @@ void Board::drawTetrominoSpawn(SDL_Renderer *renderer_, int nbTypeTetro, bool b,
   }
 }
 
-void Board::initBoard()
+void Board::drawTetrominoGame(SDL_Renderer *renderer_, int front, int tmpx, int tmpy, int shifting)
 {
-  for (int i = 0; i < 10; i++)
+  std::cout << shifting << std::endl;
+  //SDL_Rect r;
+  for (int i = 0; i < 4; i++)
   {
-    for (int j = 0; j < 20; j++)
+    for (int j = 0; j < 4; j++)
     {
-      boardArray_[i][j] = 0;
+      //If 1 we draw a square
+      if (tab[front].matrix[i][j] == 1)
+      {
+          rect_.x = tmpx;
+          rect_.y = tmpy;
+
+          rect_.x = rect_.x + j * 32 + 1;
+          rect_.y = rect_.y + i * 32 + 1;
+          if(shifting == 1 || shifting == 2)
+            rect_.x = shift(rect_.x,shifting);
+          if(shifting == 3 || shifting == 4)
+            rect_.y = shift(rect_.y,shifting);
+
+          rect_.w = 32 - 1;
+          rect_.h = 32 - 1;
+          SDL_SetRenderDrawColor(renderer_, tab[front].tetrominoColor.r, tab[front].tetrominoColor.g,tab[front].tetrominoColor.b, tab[front].tetrominoColor.a);
+          SDL_RenderFillRect(renderer_, &rect_);
+      }
     }
   }
+}
+
+int Board::shift(int i, int s)
+{
+  switch(s)
+  {
+    case 1:
+    {
+      i -= 32;
+      break;
+    }
+    case 2:
+    {
+      i += 32;
+      break;
+    }
+    case 3:
+    {
+      i += 32;
+      break;
+    }
+    case 4:
+    {
+      i -= 32;
+      break;
+    }
+    default:
+      break;
+  }
+  return i;
 }

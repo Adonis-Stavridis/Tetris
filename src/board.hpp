@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <queue>
+#include <iostream>
 
 class Board
 {
@@ -14,8 +15,6 @@ private:
 
   SDL_Rect rect2_;
   SDL_Rect rect3_;
-
-  int boardArray_[10][20];
 
   //A METTRE DANS UNE AUTRE CLASSE 
   struct tetromino
@@ -81,9 +80,10 @@ public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
-  void draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_);
+  void draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_, int shifting);
   void drawTetrominoSpawn(SDL_Renderer *renderer_, int k, bool b, int spaceLine, int x, int y);
-  void initBoard();
+  void drawTetrominoGame(SDL_Renderer *renderer_, int front, int tmpx, int tmpy, int shifting);
+  int shift(int i, int s);
 
   // A METTRE DANS UNE AUTRE CLASSE
   std::queue<int>randomTetromino_;
