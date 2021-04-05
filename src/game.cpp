@@ -102,9 +102,9 @@ void Game::draw()
       renderer_, bgColor_.r, bgColor_.g, bgColor_.b, bgColor_.a);
   SDL_RenderClear(renderer_);
 
-  // board_.draw(renderer_);
-  // score_.draw(renderer_);
-  startgame_.draw(renderer_);
+  board_.draw(renderer_);
+  score_.draw(renderer_);
+  //startgame_.draw(renderer_);
 
   SDL_RenderPresent(renderer_);
 }
