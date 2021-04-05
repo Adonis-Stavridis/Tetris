@@ -34,8 +34,8 @@ PageAction Ingame::handleInput(SDL_Event event)// ,SDL_Renderer *renderer)
       std::cout << "KEY: LEFT" << std::endl;
       //VERIFIER QUON SOIT DANS LA WINDOW
       key = 1;
-      SDL_Renderer *renderer;
-      draw(renderer);
+      // SDL_Renderer *renderer;
+      // draw(renderer);
       break;
 
     case SDLK_RIGHT:
