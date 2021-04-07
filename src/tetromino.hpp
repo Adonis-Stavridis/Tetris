@@ -6,12 +6,9 @@
 class Tetromino
 {
 private:
-
 public:
-
-    void randomTretromino();
-    void randomPosition();
-
-}
+  void randomTretromino();
+  void randomPosition();
+};
 
 #endif // TETROMINO_HPP

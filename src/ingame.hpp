@@ -22,9 +22,9 @@ public:
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
   void draw(SDL_Renderer *renderer);
-  std::queue<int> updateRandomTetro();
-  PageAction handleInput(SDL_Event event);//, SDL_Renderer *renderer);
+  PageAction handleInput(SDL_Event event); //, SDL_Renderer *renderer);
 
+  std::queue<int> updateRandomTetro();
   int key = 0;
 };
 

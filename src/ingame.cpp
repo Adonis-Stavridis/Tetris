@@ -19,12 +19,12 @@ void Ingame::draw(SDL_Renderer *renderer)
 {
   //Add tetromino in the queue before draw
   board_.randomTetromino_ = updateRandomTetro();
-  board_.draw(renderer, board_.randomTetromino_,key);
+  board_.draw(renderer, board_.randomTetromino_, key);
   //key = 0;
   score_.draw(renderer);
 }
 
-PageAction Ingame::handleInput(SDL_Event event)// ,SDL_Renderer *renderer)
+PageAction Ingame::handleInput(SDL_Event event) // ,SDL_Renderer *renderer)
 {
   if (event.type == SDL_KEYDOWN)
   {
@@ -75,12 +75,12 @@ std::queue<int> Ingame::updateRandomTetro()
   int random;
   srand(time(NULL));
   // Fill the queue to always see the next tetromino + actual tetromino
-  while(board_.randomTetromino_.size() < 5)
+  while (board_.randomTetromino_.size() < 5)
   {
     std::cout << "IM IN" << std::endl;
     random = rand() % 7;
     std::cout << random << std::endl;
     board_.randomTetromino_.push(random);
-  }  
+  }
   return board_.randomTetromino_;
 }

@@ -4,7 +4,11 @@ Game::Game()
     : windowTitle_("Tetris"),
       windowWidth_(1280),
       windowHeight_(720),
+      window_(nullptr),
+      renderer_(nullptr),
+      font_(nullptr),
       bgColor_({0x28, 0x28, 0x28, 0xFF}),
+      running_(false),
       startgame_(Startgame()),
       ingame_(Ingame(windowWidth_, windowHeight_)),
       gamePage_(&startgame_)
@@ -15,13 +19,13 @@ Game::~Game()
 {
 }
 
-bool Game::init()
+void Game::init()
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
   {
     std::cerr << "Could not initialize SDL. SDL Error: " << SDL_GetError()
               << std::endl;
-    return false;
+    exit(EXIT_FAILURE);
   }
 
   window_ = SDL_CreateWindow(
@@ -31,7 +35,7 @@ bool Game::init()
   {
     std::cerr << "Could not create window. SDL Error: " << SDL_GetError()
               << std::endl;
-    return false;
+    exit(EXIT_FAILURE);
   }
 
   renderer_ = SDL_CreateRenderer(
@@ -40,7 +44,7 @@ bool Game::init()
   {
     std::cerr << "Could not initialize renderer. SDL Error: " << SDL_GetError()
               << std::endl;
-    return false;
+    exit(EXIT_FAILURE);
   }
 
   if (TTF_Init() < 0)
@@ -61,20 +65,20 @@ bool Game::init()
   ingame_.init(renderer_, font_);
 
   running_ = true;
-
-  return true;
 }
 
 void Game::run()
 {
+  SDL_Event event;
+
   while (running_)
   {
-    while (SDL_PollEvent(&event_))
+    while (SDL_PollEvent(&event))
     {
-      PageAction action = gamePage_->handleInput(event_);
+      PageAction action = gamePage_->handleInput(event);
       checkEvent(action);
 
-      if (event_.type == SDL_QUIT)
+      if (event.type == SDL_QUIT)
         running_ = false;
     }
 
