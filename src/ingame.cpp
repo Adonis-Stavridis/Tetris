@@ -23,6 +23,11 @@ void Ingame::draw(SDL_Renderer *renderer)
   score_.draw(renderer);
 }
 
+void Ingame::start()
+{
+  score_.start();
+}
+
 PageAction Ingame::handleInput(SDL_Event event)
 {
   if (event.type == SDL_KEYDOWN)

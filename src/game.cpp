@@ -121,6 +121,7 @@ void Game::checkEvent(PageAction action)
   case PageAction::NextPage:
     currentState = (currentState + 1) % PAGE_NUMBER;
     gamePage_ = gameStates[currentState];
+    gamePage_->start();
     break;
 
   case PageAction::Quit:

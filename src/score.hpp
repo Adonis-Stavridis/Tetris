@@ -23,8 +23,7 @@ private:
 
   TTF_Font *font_;
 
-  void
-  updateTime(SDL_Renderer *renderer);
+  void updateTime(SDL_Renderer *renderer);
 
 public:
   Score();
@@ -32,6 +31,7 @@ public:
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
   void draw(SDL_Renderer *renderer);
+  void start();
 };
 
 #endif // SCORE_HPP

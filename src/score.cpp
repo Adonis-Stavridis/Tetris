@@ -53,6 +53,12 @@ void Score::draw(SDL_Renderer *renderer)
   SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 }
 
+void Score::start()
+{
+  value_ = 0;
+  startTime_ = std::chrono::system_clock::now();
+}
+
 void Score::updateTime(SDL_Renderer *renderer)
 {
   std::chrono::duration<double> elapsedTime =

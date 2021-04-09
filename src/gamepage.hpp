@@ -14,6 +14,7 @@ class GamePage
 {
 public:
   virtual void draw(SDL_Renderer *renderer) = 0;
+  virtual void start() = 0;
   virtual PageAction handleInput(SDL_Event event) = 0;
 };
 
