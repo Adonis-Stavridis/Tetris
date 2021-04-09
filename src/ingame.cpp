@@ -69,9 +69,9 @@ std::queue<int> Ingame::updateRandomTetro()
   // Fill the queue to always see the next tetromino + actual tetromino
   while (board_.randomTetromino_.size() < 5)
   {
-    std::cout << "IM IN" << std::endl;
+    // std::cout << "IM IN" << std::endl;
     random = rand() % 7;
-    std::cout << random << std::endl;
+    // std::cout << random << std::endl;
     board_.randomTetromino_.push(random);
   }
   return board_.randomTetromino_;
