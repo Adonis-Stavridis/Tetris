@@ -11,13 +11,13 @@
 class Score
 {
 private:
+  const char *score_;
   unsigned int value_;
+  std::string time_;
 
-  const char *text_;
-  SDL_Color textColor_, valueColor_;
-
-  SDL_Rect textRect_, valueRect_;
-  SDL_Texture *textTexture_, *valueTexture_;
+  SDL_Color scoreColor_, valueColor_, timeColor_;
+  SDL_Rect scoreRect_, valueRect_, timeRect_;
+  SDL_Texture *scoreTexture_, *valueTexture_, *timeTexture_;
 
 public:
   Score();
