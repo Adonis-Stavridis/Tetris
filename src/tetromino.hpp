@@ -77,11 +77,13 @@ private:
     };
 
 public:
-
+    Tetromino();
+    ~Tetromino();
     std::queue<int> randomTetromino_;
 
-    std::queue<int> randomTretromino();
-    void randomPosition();
+    std::queue<int> randomTetromino();
+    tetromino rotate(tetromino t);
+    void move(tetromino t, int x, int y);
 
 };
 
