@@ -15,6 +15,7 @@ Score::~Score()
 {
   SDL_DestroyTexture(scoreTexture_);
   SDL_DestroyTexture(valueTexture_);
+  SDL_DestroyTexture(timeTexture_);
 }
 
 void Score::init(SDL_Renderer *renderer, TTF_Font *font)
