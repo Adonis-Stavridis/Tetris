@@ -30,7 +30,7 @@ private:
       ,{0,0,0,0}
       ,{0,0,0,0}
       ,{0,0,0,0}},
-      {0x00,0xFF,0xFF,0xFF}
+      {0x00,0xFF,0xFF,0xFF},
     },
     {
       {{1,1,0,0}
@@ -80,10 +80,8 @@ public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
-  void draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_, int shifting);
+  void draw(SDL_Renderer *renderer_, std::queue<int>randomTetromino_);
   void drawTetrominoSpawn(SDL_Renderer *renderer_, int k, bool b, int spaceLine, int x, int y);
-  void drawTetrominoGame(SDL_Renderer *renderer_, int front, int tmpx, int tmpy, int shifting);
-  int shift(int i, int s);
 
   // A METTRE DANS UNE AUTRE CLASSE
   std::queue<int>randomTetromino_;
