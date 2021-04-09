@@ -6,11 +6,7 @@ int main()
 {
   Game game;
 
-  if (!game.init())
-  {
-    std::cerr << "Game Error: Failed to init game" << std::endl;
-    exit(EXIT_FAILURE);
-  }
+  game.init();
 
   game.run();
 

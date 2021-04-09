@@ -16,7 +16,7 @@ private:
   SDL_Rect rect2_;
   SDL_Rect rect3_;
 
-  //A METTRE DANS UNE AUTRE CLASSE 
+  //A METTRE DANS UNE AUTRE CLASSE
   struct tetromino
   {
     int matrix[4][4];
@@ -84,7 +84,7 @@ public:
   void drawTetrominoSpawn(SDL_Renderer *renderer_, int k, bool b, int spaceLine, int x, int y);
 
   // A METTRE DANS UNE AUTRE CLASSE
-  std::queue<int>randomTetromino_;
+  std::queue<int> randomTetromino_;
 };
 
 #endif // BOARD_HPP

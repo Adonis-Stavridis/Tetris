@@ -7,8 +7,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "board.hpp"
-#include "score.hpp"
 #include "gamepage.hpp"
 #include "startgame.hpp"
 #include "ingame.hpp"
@@ -25,25 +23,24 @@ private:
   int windowWidth_;
   int windowHeight_;
 
+  SDL_Window *window_;
+  SDL_Renderer *renderer_;
+
   TTF_Font *font_;
   SDL_Color bgColor_;
 
   bool running_;
-  SDL_Event event_;
-
-  SDL_Window *window_;
-  SDL_Renderer *renderer_;
 
   Startgame startgame_;
   Ingame ingame_;
+
   GamePage *gamePage_;
 
 public:
   Game();
-  Game(std::string windowTitle, int windowWidth, int windowHeight);
   ~Game();
 
-  bool init();
+  void init();
   void run();
   void draw();
   void quit();
