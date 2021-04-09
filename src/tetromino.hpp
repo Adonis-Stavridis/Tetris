@@ -9,7 +9,6 @@
 class Tetromino
 {
 private:
-<<<<<<< HEAD
     struct tetromino
     {
         int matrix[4][4];
@@ -77,14 +76,8 @@ private:
         }
     };
 
-=======
->>>>>>> 5b690163d2adcc844380c1b4735414f6311b1f15
 public:
-  void randomTretromino();
-  void randomPosition();
-};
 
-<<<<<<< HEAD
     std::queue<int> randomTetromino_;
 
     std::queue<int> randomTretromino();
@@ -93,6 +86,3 @@ public:
 };
 
 #endif // TETROMINO_HPP
-=======
-#endif // TETROMINO_HPP
->>>>>>> 5b690163d2adcc844380c1b4735414f6311b1f15
