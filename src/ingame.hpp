@@ -24,8 +24,8 @@ public:
   void draw(SDL_Renderer *renderer);
   void start();
   PageAction handleInput(SDL_Event event);
-
-  std::queue<int> updateRandomTetro();
 };
 
 #endif // INGAME_HPP
+
+// std::queue<int> updateRandomTetro();

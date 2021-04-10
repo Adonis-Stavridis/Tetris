@@ -17,9 +17,7 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 
 void Ingame::draw(SDL_Renderer *renderer)
 {
-  //Add tetromino in the queue before draw
-  board_.randomTetromino_ = updateRandomTetro();
-  board_.draw(renderer, board_.randomTetromino_);
+  board_.draw(renderer);
   score_.draw(renderer);
 }
 
@@ -67,17 +65,17 @@ PageAction Ingame::handleInput(SDL_Event event)
   return PageAction::None;
 }
 
-std::queue<int> Ingame::updateRandomTetro()
-{
-  int random;
-  srand(time(NULL));
-  // Fill the queue to always see the next tetromino + actual tetromino
-  while (board_.randomTetromino_.size() < 5)
-  {
-    // std::cout << "IM IN" << std::endl;
-    random = rand() % 7;
-    // std::cout << random << std::endl;
-    board_.randomTetromino_.push(random);
-  }
-  return board_.randomTetromino_;
-}
+// std::queue<int> Ingame::updateRandomTetro()
+// {
+//   int random;
+//   srand(time(NULL));
+//   // Fill the queue to always see the next tetromino + actual tetromino
+//   while (board_.randomTetromino_.size() < 5)
+//   {
+//     // std::cout << "IM IN" << std::endl;
+//     random = rand() % 7;
+//     // std::cout << random << std::endl;
+//     board_.randomTetromino_.push(random);
+//   }
+//   return board_.randomTetromino_;
+// }
