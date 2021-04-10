@@ -5,9 +5,9 @@ Score::Score()
       value_(0),
       time_("00:00"),
       startTime_(std::chrono::system_clock::now()),
-      scoreColor_({0xFF, 0xFA, 0xFA, 0xFF}),
-      valueColor_({0xFF, 0xD7, 0x00, 0xFF}),
-      timeColor_({0xFF, 0x63, 0x47, 0xFF})
+      scoreColor_(Colors::snow()),
+      valueColor_(Colors::gold()),
+      timeColor_(Colors::tomato())
 {
 }
 

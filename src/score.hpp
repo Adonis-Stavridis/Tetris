@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "colors.hpp"
+
 #define FONT_SIZE 32
 
 class Score

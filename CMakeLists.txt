@@ -35,6 +35,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 add_executable(Tetris
   src/board.cpp
   src/board.hpp
+  src/colors.hpp
   src/game.cpp
   src/game.hpp
   src/gamepage.hpp

@@ -4,6 +4,12 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
+#include "colors.hpp"
+
+#define WIDTH 10
+#define HEIGHT 22
+#define VHEIGHT 20
+
 class Board
 {
 private:
@@ -14,6 +20,8 @@ private:
 
   SDL_Rect rect2_;
   SDL_Rect rect3_;
+
+  uint board_[WIDTH][HEIGHT];
 
 public:
   Board(const int windowWidth, const int windowHeight);

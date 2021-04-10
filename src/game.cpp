@@ -7,7 +7,7 @@ Game::Game()
       window_(nullptr),
       renderer_(nullptr),
       font_(nullptr),
-      bgColor_({0x28, 0x28, 0x28, 0xFF}),
+      bgColor_(Colors::background()),
       running_(false),
       startgame_(Startgame()),
       ingame_(Ingame(windowWidth_, windowHeight_)),

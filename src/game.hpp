@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "colors.hpp"
 #include "gamepage.hpp"
 #include "startgame.hpp"
 #include "ingame.hpp"

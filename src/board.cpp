@@ -2,9 +2,9 @@
 
 Board::Board(const int windowWidth, const int windowHeight)
     : rect_({windowWidth / 2 - 160, windowHeight / 2 - 320, 320, 640}),
-      fillColor_({0x40, 0x40, 0x40, 0xFF}),
-      borderColor_({0xFF, 0xD7, 0x00, 0xFF}),
-      gridColor_({0x50, 0x50, 0x50, 0xFF})
+      fillColor_(Colors::darkgrey()),
+      borderColor_(Colors::gold()),
+      gridColor_(Colors::grey())
 {
 }
 
