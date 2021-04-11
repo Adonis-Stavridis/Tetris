@@ -9,12 +9,15 @@
 #include "gamepage.hpp"
 #include "board.hpp"
 #include "score.hpp"
+#include "tetromino.hpp"
 
 class Ingame : public GamePage
 {
 private:
   Board board_;
   Score score_;
+
+  Tetromino *curTetromino_;
 
 public:
   Ingame(const int windowWidth_, const int windowHeight_);

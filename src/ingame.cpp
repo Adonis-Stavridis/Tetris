@@ -2,7 +2,8 @@
 
 Ingame::Ingame(const int windowWidth_, const int windowHeight_)
     : board_(Board(windowWidth_, windowHeight_)),
-      score_(Score())
+      score_(Score()),
+      curTetromino_(nullptr)
 {
 }
 
@@ -33,19 +34,23 @@ PageAction Ingame::handleInput(SDL_Event event)
     switch (event.key.keysym.sym)
     {
     case SDLK_LEFT:
-      std::cout << "KEY: LEFT" << std::endl;
+      curTetromino_->translate(TetrominoTranslation::Left);
       break;
 
     case SDLK_RIGHT:
-      std::cout << "KEY: RIGHT" << std::endl;
-      break;
-
-    case SDLK_UP:
-      std::cout << "KEY: UP" << std::endl;
+      curTetromino_->translate(TetrominoTranslation::Right);
       break;
 
     case SDLK_DOWN:
-      std::cout << "KEY: DOWN" << std::endl;
+      curTetromino_->translate(TetrominoTranslation::Down);
+      break;
+
+    case SDLK_z:
+      curTetromino_->rotate(TetrominoRotation::CCW);
+      break;
+
+    case SDLK_x:
+      curTetromino_->rotate(TetrominoRotation::CW);
       break;
 
     case SDLK_ESCAPE:

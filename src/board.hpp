@@ -7,7 +7,7 @@
 #include "colors.hpp"
 
 #define WIDTH 10
-#define HEIGHT 22
+#define HEIGHT 24
 #define VHEIGHT 20
 
 class Board

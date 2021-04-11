@@ -1,65 +1,59 @@
 #ifndef TETROMINO_HPP
 #define TETROMINO_HPP
 
-#include <SDL2/SDL.h>
-#include <utility>
-#include <queue>
 #include <iostream>
+#include <array>
+
+#include <SDL2/SDL.h>
+
+#include "colors.hpp"
+
+#define MATRIX_SIZE 4
+
+enum TetrominoType
+{
+  I = 0,
+  J,
+  L,
+  O,
+  S,
+  T,
+  Z,
+  num
+};
+
+enum TetrominoTranslation
+{
+  Left = 0,
+  Right,
+  Down
+};
+
+enum TetrominoRotation
+{
+  CCW = 0,
+  CW
+};
 
 class Tetromino
 {
 private:
-  struct tetromino
-  {
-    int matrix[4][4];
-    SDL_Color tetrominoColor;
-    std::pair<int, int> pos;
-  };
-
-  tetromino tab[7] =
-      {
-          {
-              {{1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-              {0x00, 0xFF, 0xFF, 0xFF},
-              {0, 0},
-          },
-          {
-              {{1, 1, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-              {0xFF, 0xFF, 0x0, 0xFF},
-              {0, 0},
-          },
-          {
-              {{1, 1, 1, 0}, {0, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-              {0x8B, 0x00, 0x8B, 0xFF},
-              {0, 0},
-          },
-          {
-              {{1, 1, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-              {0xFF, 0x8C, 0x00, 0xFF},
-              {0, 0},
-          },
-          {
-              {{1, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-              {0x00, 0x00, 0xFF, 0xFF},
-              {0, 0},
-          },
-          {
-              {{1, 1, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-              {0xFF, 0x00, 0x00, 0xFF},
-              {0, 0},
-          },
-          {{{0, 1, 1, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-           {0x00, 0xFF, 0x00, 0xFF},
-           {0, 0}}};
+  std::array<std::array<bool, MATRIX_SIZE>, MATRIX_SIZE> matrix_;
+  SDL_Color color_;
+  uint posX_, posY_;
 
 public:
-    Tetromino();
-    ~Tetromino();
-    std::queue<int> randomTetromino_;
+  Tetromino(TetrominoType tetroType);
+  ~Tetromino();
 
-    std::queue<int> randomTetromino();
-    tetromino rotate(tetromino t);
-    void move(tetromino t, int x, int y);
-
+  void translate(TetrominoTranslation translation);
+  void rotate(TetrominoRotation rotation);
 };
+
 #endif // TETROMINO_HPP
+
+// std::queue<int> randomTetromino_;
+
+// std::queue<int> randomTetromino();
+// tetromino rotate(tetromino t);
+// void move(tetromino t, int x, int y);
