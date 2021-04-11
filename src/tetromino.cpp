@@ -4,6 +4,8 @@ Tetromino::Tetromino(TetrominoType tetroType)
     : posX_(5),
       posY_(0)
 {
+  std::cout << tetroType << std::endl;
+
   switch (tetroType)
   {
   case TetrominoType::I:
@@ -74,16 +76,36 @@ Tetromino::~Tetromino()
 {
 }
 
+Matrix Tetromino::getMatrix()
+{
+  return matrix_;
+}
+
+int Tetromino::getPosX()
+{
+  return posX_;
+}
+
+int Tetromino::getPosY()
+{
+  return posY_;
+}
+
+SDL_Color Tetromino::getColor()
+{
+  return color_;
+}
+
 void Tetromino::translate(TetrominoTranslation translation)
 {
   switch (translation)
   {
   case TetrominoTranslation::Left:
-    posX_++;
+    posX_--;
     break;
 
   case TetrominoTranslation::Right:
-    posX_--;
+    posX_++;
     break;
 
   case TetrominoTranslation::Down:
@@ -97,7 +119,7 @@ void Tetromino::translate(TetrominoTranslation translation)
 
 void Tetromino::rotate(TetrominoRotation rotation)
 {
-  std::array<std::array<bool, MATRIX_SIZE>, MATRIX_SIZE> newMatrix;
+  Matrix newMatrix;
 
   switch (rotation)
   {

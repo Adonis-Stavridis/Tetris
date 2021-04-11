@@ -68,4 +68,4 @@ namespace Colors
 
 } // namespace Colors
 
-#endif
+#endif // COLOLS_HPP

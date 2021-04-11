@@ -13,17 +13,20 @@ Ingame::~Ingame()
 
 void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 {
+  srand(time(NULL));
+
   score_.init(renderer, font);
 }
 
 void Ingame::draw(SDL_Renderer *renderer)
 {
-  board_.draw(renderer);
+  board_.draw(renderer, curTetromino_);
   score_.draw(renderer);
 }
 
 void Ingame::start()
 {
+  curTetromino_ = initTetroQueue();
   score_.start();
 }
 
@@ -68,6 +71,25 @@ PageAction Ingame::handleInput(SDL_Event event)
   }
 
   return PageAction::None;
+}
+
+Tetromino *Ingame::initTetroQueue()
+{
+  std::queue<Tetromino> tempQueue;
+
+  for (int i = 0; i < TETROQUEUE_SIZE; i++)
+    tempQueue.push(spawnTetromino());
+
+  tetroQueue_.swap(tempQueue);
+  return &tetroQueue_.front();
+}
+
+Tetromino Ingame::spawnTetromino()
+{
+  TetrominoType tetroType =
+      static_cast<TetrominoType>(rand() % TetrominoType::num);
+
+  return Tetromino(tetroType);
 }
 
 // std::queue<int> Ingame::updateRandomTetro()

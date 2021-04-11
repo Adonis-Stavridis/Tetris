@@ -12,14 +12,34 @@ Board::~Board()
 {
 }
 
-void Board::draw(SDL_Renderer *renderer)
+void Board::draw(SDL_Renderer *renderer, Tetromino *tetromino)
 {
-  // Draw the window of the game
   SDL_SetRenderDrawColor(renderer, fillColor_.r, fillColor_.g, fillColor_.b,
                          fillColor_.a);
   SDL_RenderFillRect(renderer, &rect_);
 
-  // Draw the lines for the grid
+  Matrix tetroMatrix = tetromino->getMatrix();
+  SDL_Color tetroColor = tetromino->getColor();
+  int tetroPosX = tetromino->getPosX();
+  int tetroPosY = tetromino->getPosY();
+
+  SDL_SetRenderDrawColor(renderer, tetroColor.r, tetroColor.g, tetroColor.b,
+                         tetroColor.a);
+  for (int i = 0; i < MATRIX_SIZE; i++)
+  {
+    for (int j = 0; j < MATRIX_SIZE; j++)
+    {
+      if (tetroMatrix[i][j])
+      {
+        SDL_Rect tetroRect = {rect_.x + 32 * (tetroPosX + i),
+                              rect_.y + 32 * (tetroPosY + j),
+                              32,
+                              32};
+        SDL_RenderFillRect(renderer, &tetroRect);
+      }
+    }
+  }
+
   SDL_SetRenderDrawColor(renderer, gridColor_.r, gridColor_.g, gridColor_.b,
                          gridColor_.a);
   for (int x = rect_.x + 32; x < rect_.x + rect_.w; x += 32)

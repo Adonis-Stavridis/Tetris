@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "colors.hpp"
+#include "tetromino.hpp"
 
 #define WIDTH 10
 #define HEIGHT 24
@@ -27,7 +28,7 @@ public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
-  void draw(SDL_Renderer *renderer);
+  void draw(SDL_Renderer *renderer, Tetromino *tetromino);
 };
 
 #endif // BOARD_HPP

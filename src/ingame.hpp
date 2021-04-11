@@ -2,6 +2,8 @@
 #define INGAME_HPP
 
 #include <iostream>
+#include <time.h>
+#include <queue>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -11,6 +13,8 @@
 #include "score.hpp"
 #include "tetromino.hpp"
 
+#define TETROQUEUE_SIZE 4
+
 class Ingame : public GamePage
 {
 private:
@@ -18,6 +22,11 @@ private:
   Score score_;
 
   Tetromino *curTetromino_;
+
+  std::queue<Tetromino> tetroQueue_;
+
+  Tetromino *initTetroQueue();
+  Tetromino spawnTetromino();
 
 public:
   Ingame(const int windowWidth_, const int windowHeight_);
