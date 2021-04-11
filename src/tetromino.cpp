@@ -1,11 +1,9 @@
 #include "tetromino.hpp"
 
 Tetromino::Tetromino(TetrominoType tetroType)
-    : posX_(5),
+    : posX_(4),
       posY_(0)
 {
-  std::cout << tetroType << std::endl;
-
   switch (tetroType)
   {
   case TetrominoType::I:

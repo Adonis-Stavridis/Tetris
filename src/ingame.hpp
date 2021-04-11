@@ -4,6 +4,7 @@
 #include <iostream>
 #include <time.h>
 #include <queue>
+#include <chrono>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -15,9 +16,15 @@
 
 #define TETROQUEUE_SIZE 4
 
+typedef std::chrono::_V2::system_clock::time_point TimeStamp;
+typedef std::chrono::duration<double> Duration;
+
 class Ingame : public GamePage
 {
 private:
+  TimeStamp startTime_;
+  Duration curTime_;
+
   Board board_;
   Score score_;
 
@@ -27,6 +34,8 @@ private:
 
   Tetromino *initTetroQueue();
   Tetromino spawnTetromino();
+
+  void updateTime();
 
 public:
   Ingame(const int windowWidth_, const int windowHeight_);

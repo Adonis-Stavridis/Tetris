@@ -4,7 +4,6 @@ Score::Score()
     : score_("Score"),
       value_(0),
       time_("00:00"),
-      startTime_(std::chrono::system_clock::now()),
       scoreColor_(Colors::snow()),
       valueColor_(Colors::gold()),
       timeColor_(Colors::tomato())
@@ -46,29 +45,26 @@ void Score::init(SDL_Renderer *renderer, TTF_Font *font)
   font_ = font;
 }
 
-void Score::draw(SDL_Renderer *renderer)
+void Score::draw(SDL_Renderer *renderer, std::chrono::duration<double> curTime)
 {
   SDL_RenderCopy(renderer, scoreTexture_, nullptr, &scoreRect_);
   SDL_RenderCopy(renderer, valueTexture_, nullptr, &valueRect_);
-  updateTime(renderer);
+  updateTime(renderer, curTime);
   SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 }
 
 void Score::start()
 {
   value_ = 0;
-  startTime_ = std::chrono::system_clock::now();
 }
 
-void Score::updateTime(SDL_Renderer *renderer)
+void Score::updateTime(SDL_Renderer *renderer,
+                       std::chrono::duration<double> curTime)
 {
-  std::chrono::duration<double> elapsedTime =
-      std::chrono::system_clock::now() - startTime_;
-
   uint minutes =
-      std::chrono::duration_cast<std::chrono::minutes>(elapsedTime).count();
+      std::chrono::duration_cast<std::chrono::minutes>(curTime).count();
   uint seconds =
-      std::chrono::duration_cast<std::chrono::seconds>(elapsedTime).count() %
+      std::chrono::duration_cast<std::chrono::seconds>(curTime).count() %
       60;
 
   std::string newTime;

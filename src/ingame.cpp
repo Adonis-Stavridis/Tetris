@@ -1,7 +1,9 @@
 #include "ingame.hpp"
 
 Ingame::Ingame(const int windowWidth_, const int windowHeight_)
-    : board_(Board(windowWidth_, windowHeight_)),
+    : startTime_(std::chrono::system_clock::now()),
+      curTime_(std::chrono::system_clock::now() - startTime_),
+      board_(Board(windowWidth_, windowHeight_)),
       score_(Score()),
       curTetromino_(nullptr)
 {
@@ -20,12 +22,17 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 
 void Ingame::draw(SDL_Renderer *renderer)
 {
+  updateTime();
+
   board_.draw(renderer, curTetromino_);
-  score_.draw(renderer);
+  score_.draw(renderer, curTime_);
 }
 
 void Ingame::start()
 {
+  startTime_ = std::chrono::system_clock::now();
+  curTime_ = std::chrono::system_clock::now() - startTime_;
+
   curTetromino_ = initTetroQueue();
   score_.start();
 }
@@ -90,6 +97,11 @@ Tetromino Ingame::spawnTetromino()
       static_cast<TetrominoType>(rand() % TetrominoType::num);
 
   return Tetromino(tetroType);
+}
+
+void Ingame::updateTime()
+{
+  curTime_ = std::chrono::system_clock::now() - startTime_;
 }
 
 // std::queue<int> Ingame::updateRandomTetro()

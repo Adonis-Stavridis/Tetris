@@ -17,7 +17,6 @@ private:
   const char *score_;
   unsigned int value_;
   std::string time_;
-  std::chrono::_V2::system_clock::time_point startTime_;
 
   SDL_Color scoreColor_, valueColor_, timeColor_;
   SDL_Rect scoreRect_, valueRect_, timeRect_;
@@ -25,14 +24,15 @@ private:
 
   TTF_Font *font_;
 
-  void updateTime(SDL_Renderer *renderer);
+  void updateTime(SDL_Renderer *renderer,
+                  std::chrono::duration<double> curTime);
 
 public:
   Score();
   ~Score();
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
-  void draw(SDL_Renderer *renderer);
+  void draw(SDL_Renderer *renderer, std::chrono::duration<double> curTime);
   void start();
 };
 
