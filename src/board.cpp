@@ -19,20 +19,24 @@ void Board::draw(SDL_Renderer *renderer, Tetromino *tetromino)
   SDL_RenderFillRect(renderer, &rect_);
 
   Matrix tetroMatrix = tetromino->getMatrix();
+  size_t isize = tetroMatrix.size();
+  size_t jsize = tetroMatrix[0].size();
   SDL_Color tetroColor = tetromino->getColor();
   int tetroPosX = tetromino->getPosX();
   int tetroPosY = tetromino->getPosY();
 
   SDL_SetRenderDrawColor(renderer, tetroColor.r, tetroColor.g, tetroColor.b,
                          tetroColor.a);
-  for (int i = 0; i < MATRIX_SIZE; i++)
+  for (size_t i = 0; i < isize; i++)
   {
-    for (int j = 0; j < MATRIX_SIZE; j++)
+    for (size_t j = 0; j < jsize; j++)
     {
       if (tetroMatrix[i][j])
       {
-        SDL_Rect tetroRect = {rect_.x + 32 * (tetroPosX + i),
-                              rect_.y + 32 * (tetroPosY + j),
+        int ivalue = static_cast<int>(i);
+        int jvalue = static_cast<int>(j);
+        SDL_Rect tetroRect = {rect_.x + 32 * (tetroPosX + ivalue),
+                              rect_.y + 32 * (tetroPosY + jvalue),
                               32,
                               32};
         SDL_RenderFillRect(renderer, &tetroRect);

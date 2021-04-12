@@ -2,15 +2,13 @@
 #define TETROMINO_HPP
 
 #include <iostream>
-#include <array>
+#include <vector>
 
 #include <SDL2/SDL.h>
 
 #include "colors.hpp"
 
-#define MATRIX_SIZE 4
-
-typedef std::array<std::array<bool, MATRIX_SIZE>, MATRIX_SIZE> Matrix;
+typedef std::vector<std::vector<bool>> Matrix;
 
 enum TetrominoType
 {
