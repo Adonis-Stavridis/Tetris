@@ -12,6 +12,7 @@ Tetromino::Tetromino(TetrominoType tetroType)
                 {0, 1, 0, 0},
                 {0, 1, 0, 0}}};
     color_ = Colors::tomato();
+    posX_ -= 1;
     break;
 
   case TetrominoType::J:
@@ -61,6 +62,9 @@ Tetromino::Tetromino(TetrominoType tetroType)
     exit(EXIT_FAILURE);
     break;
   }
+
+  setupRandomRotation();
+  posY_ = -setupPosY();
 }
 
 Tetromino::~Tetromino()
@@ -144,4 +148,33 @@ void Tetromino::rotate(TetrominoRotation rotation)
   }
 
   matrix_ = newMatrix;
+}
+
+void Tetromino::setupRandomRotation()
+{
+  int numberRotation = rand() % 4;
+
+  for (int i = 0; i < numberRotation; i++)
+    rotate(TetrominoRotation::CW);
+}
+
+int Tetromino::setupPosY()
+{
+  size_t isize = matrix_.size();
+  size_t jsize = matrix_[0].size();
+  size_t low = 0;
+
+  for (size_t i = isize; i-- > 0;)
+  {
+    for (size_t j = jsize; j-- > 0;)
+    {
+      if (matrix_[i][j])
+      {
+        low = std::max(low, j);
+        break;
+      }
+    }
+  }
+
+  return static_cast<int>(low);
 }

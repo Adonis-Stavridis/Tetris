@@ -31,12 +31,16 @@ void Board::draw(SDL_Renderer *renderer, Tetromino *tetromino)
   {
     for (size_t j = 0; j < jsize; j++)
     {
-      if (tetroMatrix[i][j])
+      int ivalue = static_cast<int>(i);
+      int jvalue = static_cast<int>(j);
+
+      int iPos = tetroPosX + ivalue;
+      int jPos = tetroPosY + jvalue;
+
+      if (jPos >= 0 && tetroMatrix[i][j])
       {
-        int ivalue = static_cast<int>(i);
-        int jvalue = static_cast<int>(j);
-        SDL_Rect tetroRect = {rect_.x + 32 * (tetroPosX + ivalue),
-                              rect_.y + 32 * (tetroPosY + jvalue),
+        SDL_Rect tetroRect = {rect_.x + 32 * (iPos),
+                              rect_.y + 32 * (jPos),
                               32,
                               32};
         SDL_RenderFillRect(renderer, &tetroRect);

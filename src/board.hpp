@@ -8,8 +8,7 @@
 #include "tetromino.hpp"
 
 #define WIDTH 10
-#define HEIGHT 24
-#define VHEIGHT 20
+#define HEIGHT 20
 
 class Board
 {

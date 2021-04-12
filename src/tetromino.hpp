@@ -42,6 +42,9 @@ private:
   SDL_Color color_;
   int posX_, posY_;
 
+  void setupRandomRotation();
+  int setupPosY();
+
 public:
   Tetromino(TetrominoType tetroType);
   ~Tetromino();
