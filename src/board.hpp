@@ -28,7 +28,8 @@ public:
   ~Board();
 
   void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
-  bool sideCollision(const Tetromino &tetromino);
+  bool collision(const Tetromino &tetromino);
+  bool lockable(const Tetromino &tetromino);
 };
 
 #endif // BOARD_HPP

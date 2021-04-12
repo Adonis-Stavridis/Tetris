@@ -47,38 +47,26 @@ PageAction Ingame::handleInput(SDL_Event event)
 {
   if (event.type == SDL_KEYDOWN)
   {
-    Tetromino tempTetro = *curTetromino_;
-
     switch (event.key.keysym.sym)
     {
     case SDLK_LEFT:
-      tempTetro.translate(TetrominoTranslation::Left);
-      if (!board_.sideCollision(tempTetro))
-        *curTetromino_ = tempTetro;
+      tetroTranslate(TetrominoTranslation::Left);
       break;
 
     case SDLK_RIGHT:
-      tempTetro.translate(TetrominoTranslation::Right);
-      if (!board_.sideCollision(tempTetro))
-        *curTetromino_ = tempTetro;
+      tetroTranslate(TetrominoTranslation::Right);
       break;
 
     case SDLK_DOWN:
-      tempTetro.translate(TetrominoTranslation::Down);
-      if (!board_.sideCollision(tempTetro))
-        *curTetromino_ = tempTetro;
+      tetroTranslate(TetrominoTranslation::Down);
       break;
 
     case SDLK_z:
-      tempTetro.rotate(TetrominoRotation::CCW);
-      if (!board_.sideCollision(tempTetro))
-        *curTetromino_ = tempTetro;
+      tetroRotate(TetrominoRotation::CCW);
       break;
 
     case SDLK_x:
-      tempTetro.rotate(TetrominoRotation::CW);
-      if (!board_.sideCollision(tempTetro))
-        *curTetromino_ = tempTetro;
+      tetroRotate(TetrominoRotation::CW);
       break;
 
     case SDLK_ESCAPE:
@@ -130,6 +118,31 @@ void Ingame::tetroFall()
   if (tempTime > timeToPass_)
   {
     timeToPass_ += timeToFall_;
-    curTetromino_->translate(TetrominoTranslation::Down);
+    tetroTranslate(TetrominoTranslation::Down);
   }
+}
+
+void Ingame::tetroTranslate(TetrominoTranslation translation)
+{
+  Tetromino tempTetro = *curTetromino_;
+
+  tempTetro.translate(translation);
+
+  if (!board_.collision(tempTetro))
+    *curTetromino_ = tempTetro;
+
+  if (translation == TetrominoTranslation::Down &&
+      board_.lockable(tempTetro))
+  {
+    std::cout << "hit" << std::endl;
+  }
+}
+
+void Ingame::tetroRotate(TetrominoRotation rotation)
+{
+  Tetromino tempTetro = *curTetromino_;
+
+  tempTetro.rotate(rotation);
+  if (!board_.collision(tempTetro))
+    *curTetromino_ = tempTetro;
 }

@@ -41,6 +41,9 @@ private:
   void updateTime();
   void tetroFall();
 
+  void tetroTranslate(TetrominoTranslation translation);
+  void tetroRotate(TetrominoRotation rotation);
+
 public:
   Ingame(const int windowWidth_, const int windowHeight_);
   ~Ingame();
@@ -52,5 +55,3 @@ public:
 };
 
 #endif // INGAME_HPP
-
-// std::queue<int> updateRandomTetro();

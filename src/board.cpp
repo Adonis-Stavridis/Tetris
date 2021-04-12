@@ -67,22 +67,48 @@ void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino)
   SDL_RenderDrawRect(renderer, &rect_);
 }
 
-bool Board::sideCollision(const Tetromino &tetromino)
+bool Board::collision(const Tetromino &tetromino)
 {
   const Matrix tetroMatrix = tetromino.getMatrix();
   const size_t isize = tetroMatrix.size();
   const size_t jsize = tetroMatrix[0].size();
   const int tetroPosX = tetromino.getPosX();
+  const int tetroPosY = tetromino.getPosY();
 
   for (size_t i = 0; i < isize; i++)
   {
     for (size_t j = 0; j < jsize; j++)
     {
       int ivalue = static_cast<int>(i);
+      int jvalue = static_cast<int>(j);
 
       int iPos = tetroPosX + ivalue;
+      int jPos = tetroPosY + jvalue;
 
-      if (tetroMatrix[i][j] && (iPos < 0 || iPos >= WIDTH))
+      if (tetroMatrix[i][j] && (iPos < 0 || iPos >= WIDTH || jPos >= HEIGHT))
+        return true;
+    }
+  }
+
+  return false;
+}
+
+bool Board::lockable(const Tetromino &tetromino)
+{
+  const Matrix tetroMatrix = tetromino.getMatrix();
+  const size_t isize = tetroMatrix.size();
+  const size_t jsize = tetroMatrix[0].size();
+  const int tetroPosY = tetromino.getPosY();
+
+  for (size_t i = 0; i < isize; i++)
+  {
+    for (size_t j = 0; j < jsize; j++)
+    {
+      int jvalue = static_cast<int>(j);
+
+      int jPos = tetroPosY + jvalue;
+
+      if (tetroMatrix[i][j] && jPos >= HEIGHT)
         return true;
     }
   }
