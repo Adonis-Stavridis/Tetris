@@ -4,6 +4,7 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
     : startTime_(std::chrono::system_clock::now()),
       curTime_(std::chrono::system_clock::now() - startTime_),
       timeToFall_(1000),
+      timeToPass_(timeToFall_),
       board_(Board(windowWidth_, windowHeight_)),
       score_(Score()),
       curTetromino_(nullptr)
@@ -33,6 +34,10 @@ void Ingame::start()
 {
   startTime_ = std::chrono::system_clock::now();
   curTime_ = std::chrono::system_clock::now() - startTime_;
+
+  timeToFall_ = 1000;
+  timeToPass_ =
+      std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
 
   curTetromino_ = initTetroQueue();
   score_.start();
@@ -107,15 +112,12 @@ void Ingame::updateTime()
 
 void Ingame::tetroFall()
 {
-  static int timeToPass =
-      std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
-
   int tempTime =
       std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count();
 
-  if (tempTime > timeToPass)
+  if (tempTime > timeToPass_)
   {
-    timeToPass += timeToFall_;
+    timeToPass_ += timeToFall_;
     curTetromino_->translate(TetrominoTranslation::Down);
   }
 }

@@ -26,6 +26,7 @@ private:
   Duration curTime_;
 
   int timeToFall_;
+  int timeToPass_;
 
   Board board_;
   Score score_;
