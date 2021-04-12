@@ -35,6 +35,11 @@ struct GridRect
     set_ = true;
     color_ = color;
   }
+
+  void unlock()
+  {
+    set_ = false;
+  }
 };
 
 class Board
@@ -54,6 +59,7 @@ public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
+  void start();
   void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
   bool collision(const Tetromino &tetromino);
   bool lockable(const Tetromino &tetromino);

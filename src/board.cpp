@@ -12,6 +12,17 @@ Board::~Board()
 {
 }
 
+void Board::start()
+{
+  for (int i = 0; i < WIDTH; i++)
+  {
+    for (int j = 0; j < HEIGHT; j++)
+    {
+      grid_[i][j].unlock();
+    }
+  }
+}
+
 void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino)
 {
   SDL_SetRenderDrawColor(renderer, fillColor_.r, fillColor_.g, fillColor_.b,

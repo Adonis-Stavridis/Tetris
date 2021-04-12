@@ -40,6 +40,8 @@ void Ingame::start()
       std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
 
   curTetromino_ = initTetroQueue();
+
+  board_.start();
   score_.start();
 }
 
