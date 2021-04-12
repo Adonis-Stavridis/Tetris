@@ -36,6 +36,7 @@ private:
   std::queue<Tetromino> tetroQueue_;
 
   Tetromino *initTetroQueue();
+  Tetromino *getTetroQueue();
   Tetromino spawnTetromino();
 
   void updateTime();

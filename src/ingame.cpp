@@ -97,6 +97,14 @@ Tetromino *Ingame::initTetroQueue()
   return &tetroQueue_.front();
 }
 
+Tetromino *Ingame::getTetroQueue()
+{
+  tetroQueue_.pop();
+  tetroQueue_.push(spawnTetromino());
+
+  return &tetroQueue_.front();
+}
+
 Tetromino Ingame::spawnTetromino()
 {
   TetrominoType tetroType =
@@ -135,6 +143,8 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
       board_.lockable(tempTetro))
   {
     board_.lock(*curTetromino_);
+
+    curTetromino_ = getTetroQueue();
   }
 }
 
