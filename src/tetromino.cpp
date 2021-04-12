@@ -126,7 +126,7 @@ void Tetromino::rotate(TetrominoRotation rotation)
     {
       for (int j = 0; j < MATRIX_SIZE; j++)
       {
-        newMatrix[i][j] = matrix_[j][MATRIX_SIZE - i - 1];
+        newMatrix[i][j] = matrix_[MATRIX_SIZE - j - 1][i];
       }
     }
     break;
@@ -136,7 +136,7 @@ void Tetromino::rotate(TetrominoRotation rotation)
     {
       for (int j = 0; j < MATRIX_SIZE; j++)
       {
-        newMatrix[i][j] = matrix_[MATRIX_SIZE - j - 1][i];
+        newMatrix[i][j] = matrix_[j][MATRIX_SIZE - i - 1];
       }
     }
     break;
