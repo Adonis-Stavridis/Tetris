@@ -26,7 +26,7 @@ void Ingame::draw(SDL_Renderer *renderer)
 {
   updateTime();
   tetroFall();
-  board_.draw(renderer, curTetromino_);
+  board_.draw(renderer, *curTetromino_);
   score_.draw(renderer, curTime_);
 }
 
@@ -47,26 +47,38 @@ PageAction Ingame::handleInput(SDL_Event event)
 {
   if (event.type == SDL_KEYDOWN)
   {
+    Tetromino tempTetro = *curTetromino_;
+
     switch (event.key.keysym.sym)
     {
     case SDLK_LEFT:
-      curTetromino_->translate(TetrominoTranslation::Left);
+      tempTetro.translate(TetrominoTranslation::Left);
+      if (!board_.sideCollision(tempTetro))
+        *curTetromino_ = tempTetro;
       break;
 
     case SDLK_RIGHT:
-      curTetromino_->translate(TetrominoTranslation::Right);
+      tempTetro.translate(TetrominoTranslation::Right);
+      if (!board_.sideCollision(tempTetro))
+        *curTetromino_ = tempTetro;
       break;
 
     case SDLK_DOWN:
-      curTetromino_->translate(TetrominoTranslation::Down);
+      tempTetro.translate(TetrominoTranslation::Down);
+      if (!board_.sideCollision(tempTetro))
+        *curTetromino_ = tempTetro;
       break;
 
     case SDLK_z:
-      curTetromino_->rotate(TetrominoRotation::CCW);
+      tempTetro.rotate(TetrominoRotation::CCW);
+      if (!board_.sideCollision(tempTetro))
+        *curTetromino_ = tempTetro;
       break;
 
     case SDLK_x:
-      curTetromino_->rotate(TetrominoRotation::CW);
+      tempTetro.rotate(TetrominoRotation::CW);
+      if (!board_.sideCollision(tempTetro))
+        *curTetromino_ = tempTetro;
       break;
 
     case SDLK_ESCAPE:
@@ -121,18 +133,3 @@ void Ingame::tetroFall()
     curTetromino_->translate(TetrominoTranslation::Down);
   }
 }
-
-// std::queue<int> Ingame::updateRandomTetro()
-// {
-//   int random;
-//   srand(time(NULL));
-//   // Fill the queue to always see the next tetromino + actual tetromino
-//   while (board_.randomTetromino_.size() < 5)
-//   {
-//     // std::cout << "IM IN" << std::endl;
-//     random = rand() % 7;
-//     // std::cout << random << std::endl;
-//     board_.randomTetromino_.push(random);
-//   }
-//   return board_.randomTetromino_;
-// }

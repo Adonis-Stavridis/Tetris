@@ -27,7 +27,8 @@ public:
   Board(const int windowWidth, const int windowHeight);
   ~Board();
 
-  void draw(SDL_Renderer *renderer, Tetromino *tetromino);
+  void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
+  bool sideCollision(const Tetromino &tetromino);
 };
 
 #endif // BOARD_HPP

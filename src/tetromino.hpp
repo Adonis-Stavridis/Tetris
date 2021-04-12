@@ -39,8 +39,8 @@ class Tetromino
 {
 private:
   Matrix matrix_;
-  SDL_Color color_;
   int posX_, posY_;
+  SDL_Color color_;
 
   void setupRandomRotation();
   int setupPosY();
@@ -49,10 +49,10 @@ public:
   Tetromino(TetrominoType tetroType);
   ~Tetromino();
 
-  Matrix getMatrix();
-  int getPosX();
-  int getPosY();
-  SDL_Color getColor();
+  const Matrix getMatrix() const;
+  int getPosX() const;
+  int getPosY() const;
+  const SDL_Color getColor() const;
 
   void translate(TetrominoTranslation translation);
   void rotate(TetrominoRotation rotation);

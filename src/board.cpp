@@ -12,18 +12,18 @@ Board::~Board()
 {
 }
 
-void Board::draw(SDL_Renderer *renderer, Tetromino *tetromino)
+void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino)
 {
   SDL_SetRenderDrawColor(renderer, fillColor_.r, fillColor_.g, fillColor_.b,
                          fillColor_.a);
   SDL_RenderFillRect(renderer, &rect_);
 
-  Matrix tetroMatrix = tetromino->getMatrix();
-  size_t isize = tetroMatrix.size();
-  size_t jsize = tetroMatrix[0].size();
-  SDL_Color tetroColor = tetromino->getColor();
-  int tetroPosX = tetromino->getPosX();
-  int tetroPosY = tetromino->getPosY();
+  const Matrix tetroMatrix = tetromino.getMatrix();
+  const size_t isize = tetroMatrix.size();
+  const size_t jsize = tetroMatrix[0].size();
+  const int tetroPosX = tetromino.getPosX();
+  const int tetroPosY = tetromino.getPosY();
+  const SDL_Color tetroColor = tetromino.getColor();
 
   SDL_SetRenderDrawColor(renderer, tetroColor.r, tetroColor.g, tetroColor.b,
                          tetroColor.a);
@@ -65,6 +65,29 @@ void Board::draw(SDL_Renderer *renderer, Tetromino *tetromino)
   SDL_SetRenderDrawColor(renderer, borderColor_.r, borderColor_.g,
                          borderColor_.b, borderColor_.a);
   SDL_RenderDrawRect(renderer, &rect_);
+}
+
+bool Board::sideCollision(const Tetromino &tetromino)
+{
+  const Matrix tetroMatrix = tetromino.getMatrix();
+  const size_t isize = tetroMatrix.size();
+  const size_t jsize = tetroMatrix[0].size();
+  const int tetroPosX = tetromino.getPosX();
+
+  for (size_t i = 0; i < isize; i++)
+  {
+    for (size_t j = 0; j < jsize; j++)
+    {
+      int ivalue = static_cast<int>(i);
+
+      int iPos = tetroPosX + ivalue;
+
+      if (tetroMatrix[i][j] && (iPos < 0 || iPos >= WIDTH))
+        return true;
+    }
+  }
+
+  return false;
 }
 
 // /***** Draw the spawn window *****/

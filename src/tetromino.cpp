@@ -11,8 +11,8 @@ Tetromino::Tetromino(TetrominoType tetroType)
                 {0, 1, 0, 0},
                 {0, 1, 0, 0},
                 {0, 1, 0, 0}}};
-    color_ = Colors::tomato();
     posX_ -= 1;
+    color_ = Colors::tomato();
     break;
 
   case TetrominoType::J:
@@ -71,22 +71,22 @@ Tetromino::~Tetromino()
 {
 }
 
-Matrix Tetromino::getMatrix()
+const Matrix Tetromino::getMatrix() const
 {
   return matrix_;
 }
 
-int Tetromino::getPosX()
+int Tetromino::getPosX() const
 {
   return posX_;
 }
 
-int Tetromino::getPosY()
+int Tetromino::getPosY() const
 {
   return posY_;
 }
 
-SDL_Color Tetromino::getColor()
+const SDL_Color Tetromino::getColor() const
 {
   return color_;
 }
