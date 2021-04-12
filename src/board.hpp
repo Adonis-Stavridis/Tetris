@@ -1,8 +1,10 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-#include <SDL2/SDL.h>
 #include <iostream>
+#include <unordered_set>
+
+#include <SDL2/SDL.h>
 
 #include "colors.hpp"
 #include "tetromino.hpp"
@@ -54,6 +56,8 @@ private:
   SDL_Rect rect3_;
 
   GridRect grid_[WIDTH][HEIGHT];
+
+  void checkLine(int line);
 
 public:
   Board(const int windowWidth, const int windowHeight);

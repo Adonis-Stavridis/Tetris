@@ -160,6 +160,8 @@ bool Board::lock(const Tetromino &tetromino)
   const int tetroPosY = tetromino.getPosY();
   const SDL_Color tetroColor = tetromino.getColor();
 
+  std::unordered_set<int> changedLines;
+
   for (size_t i = 0; i < isize; i++)
   {
     for (size_t j = 0; j < jsize; j++)
@@ -174,13 +176,33 @@ bool Board::lock(const Tetromino &tetromino)
       {
         if (jPos < 0)
           return false;
-          
+
         grid_[iPos][jPos].lock(tetroColor);
+        changedLines.insert(jPos);
       }
     }
   }
 
+  for (int line : changedLines)
+  {
+    checkLine(line);
+  }
+
   return true;
+}
+
+void Board::checkLine(int line)
+{
+  for (int i = 0; i < WIDTH; i++)
+  {
+    if (!grid_[i][line].locked())
+      return;
+  }
+
+  for (int i = 0; i < WIDTH; i++)
+  {
+    grid_[i][line].lock(Colors::grey());
+  }
 }
 
 // /***** Draw the spawn window *****/
