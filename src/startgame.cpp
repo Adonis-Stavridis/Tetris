@@ -23,9 +23,11 @@ void Startgame::init(SDL_Renderer *renderer, TTF_Font *font,
   SDL_FreeSurface(tempSurface);
 }
 
-void Startgame::draw(SDL_Renderer *renderer)
+PageAction Startgame::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, textTexture_, nullptr, &textRect_);
+
+  return PageAction::None;
 }
 
 void Startgame::start()

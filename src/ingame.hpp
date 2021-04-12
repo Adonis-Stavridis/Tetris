@@ -28,6 +28,8 @@ private:
   int timeToFall_;
   int timeToPass_;
 
+  bool endgame_;
+
   Board board_;
   Score score_;
 
@@ -50,7 +52,7 @@ public:
   ~Ingame();
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
-  void draw(SDL_Renderer *renderer);
+  PageAction draw(SDL_Renderer *renderer);
   void start();
   PageAction handleInput(SDL_Event event);
 };

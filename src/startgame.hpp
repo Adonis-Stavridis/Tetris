@@ -23,7 +23,7 @@ public:
 
   void init(SDL_Renderer *renderer, TTF_Font *font,
             const int windowWidth, const int windowHeight);
-  void draw(SDL_Renderer *renderer);
+  PageAction draw(SDL_Renderer *renderer);
   void start();
   PageAction handleInput(SDL_Event event);
 };

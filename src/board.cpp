@@ -151,7 +151,7 @@ bool Board::lockable(const Tetromino &tetromino)
   return false;
 }
 
-void Board::lock(const Tetromino &tetromino)
+bool Board::lock(const Tetromino &tetromino)
 {
   const Matrix tetroMatrix = tetromino.getMatrix();
   const size_t isize = tetroMatrix.size();
@@ -171,9 +171,16 @@ void Board::lock(const Tetromino &tetromino)
       int jPos = tetroPosY + jvalue;
 
       if (tetroMatrix[i][j])
+      {
+        if (jPos < 0)
+          return false;
+          
         grid_[iPos][jPos].lock(tetroColor);
+      }
     }
   }
+
+  return true;
 }
 
 // /***** Draw the spawn window *****/

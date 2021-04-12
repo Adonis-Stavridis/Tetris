@@ -63,7 +63,7 @@ public:
   void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
   bool collision(const Tetromino &tetromino);
   bool lockable(const Tetromino &tetromino);
-  void lock(const Tetromino &tetromino);
+  bool lock(const Tetromino &tetromino);
 };
 
 #endif // BOARD_HPP

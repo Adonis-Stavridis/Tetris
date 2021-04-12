@@ -92,7 +92,8 @@ void Game::draw()
       renderer_, bgColor_.r, bgColor_.g, bgColor_.b, bgColor_.a);
   SDL_RenderClear(renderer_);
 
-  gamePage_->draw(renderer_);
+  PageAction action = gamePage_->draw(renderer_);
+  checkEvent(action);
 
   SDL_RenderPresent(renderer_);
 }
