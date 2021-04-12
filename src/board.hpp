@@ -10,6 +10,33 @@
 #define WIDTH 10
 #define HEIGHT 20
 
+struct GridRect
+{
+  bool set_;
+  SDL_Color color_;
+
+  GridRect()
+  {
+    set_ = false;
+  }
+
+  bool locked()
+  {
+    return set_;
+  }
+
+  SDL_Color color()
+  {
+    return color_;
+  }
+
+  void lock(SDL_Color color)
+  {
+    set_ = true;
+    color_ = color;
+  }
+};
+
 class Board
 {
 private:
@@ -21,7 +48,7 @@ private:
   SDL_Rect rect2_;
   SDL_Rect rect3_;
 
-  uint board_[WIDTH][HEIGHT];
+  GridRect grid_[WIDTH][HEIGHT];
 
 public:
   Board(const int windowWidth, const int windowHeight);
@@ -30,6 +57,7 @@ public:
   void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
   bool collision(const Tetromino &tetromino);
   bool lockable(const Tetromino &tetromino);
+  void lock(const Tetromino &tetromino);
 };
 
 #endif // BOARD_HPP

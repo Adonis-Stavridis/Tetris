@@ -134,7 +134,7 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
   if (translation == TetrominoTranslation::Down &&
       board_.lockable(tempTetro))
   {
-    std::cout << "hit" << std::endl;
+    board_.lock(*curTetromino_);
   }
 }
 

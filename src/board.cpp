@@ -48,6 +48,25 @@ void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino)
     }
   }
 
+  for (int i = 0; i < WIDTH; i++)
+  {
+    for (int j = 0; j < HEIGHT; j++)
+    {
+      if (grid_[i][j].locked())
+      {
+        SDL_Color gridColor = grid_[i][j].color();
+        SDL_Rect gridRect = {rect_.x + 32 * i,
+                             rect_.y + 32 * j,
+                             32,
+                             32};
+
+        SDL_SetRenderDrawColor(renderer, gridColor.r, gridColor.g, gridColor.b,
+                               gridColor.a);
+        SDL_RenderFillRect(renderer, &gridRect);
+      }
+    }
+  }
+
   SDL_SetRenderDrawColor(renderer, gridColor_.r, gridColor_.g, gridColor_.b,
                          gridColor_.a);
   for (int x = rect_.x + 32; x < rect_.x + rect_.w; x += 32)
@@ -114,6 +133,31 @@ bool Board::lockable(const Tetromino &tetromino)
   }
 
   return false;
+}
+
+void Board::lock(const Tetromino &tetromino)
+{
+  const Matrix tetroMatrix = tetromino.getMatrix();
+  const size_t isize = tetroMatrix.size();
+  const size_t jsize = tetroMatrix[0].size();
+  const int tetroPosX = tetromino.getPosX();
+  const int tetroPosY = tetromino.getPosY();
+  const SDL_Color tetroColor = tetromino.getColor();
+
+  for (size_t i = 0; i < isize; i++)
+  {
+    for (size_t j = 0; j < jsize; j++)
+    {
+      int ivalue = static_cast<int>(i);
+      int jvalue = static_cast<int>(j);
+
+      int iPos = tetroPosX + ivalue;
+      int jPos = tetroPosY + jvalue;
+
+      if (tetroMatrix[i][j])
+        grid_[iPos][jPos].lock(tetroColor);
+    }
+  }
 }
 
 // /***** Draw the spawn window *****/
