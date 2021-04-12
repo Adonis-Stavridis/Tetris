@@ -3,6 +3,7 @@
 Ingame::Ingame(const int windowWidth_, const int windowHeight_)
     : startTime_(std::chrono::system_clock::now()),
       curTime_(std::chrono::system_clock::now() - startTime_),
+      timeToFall_(1000),
       board_(Board(windowWidth_, windowHeight_)),
       score_(Score()),
       curTetromino_(nullptr)
@@ -23,7 +24,7 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 void Ingame::draw(SDL_Renderer *renderer)
 {
   updateTime();
-
+  tetroFall();
   board_.draw(renderer, curTetromino_);
   score_.draw(renderer, curTime_);
 }
@@ -102,6 +103,21 @@ Tetromino Ingame::spawnTetromino()
 void Ingame::updateTime()
 {
   curTime_ = std::chrono::system_clock::now() - startTime_;
+}
+
+void Ingame::tetroFall()
+{
+  static int timeToPass =
+      std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
+
+  int tempTime =
+      std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count();
+
+  if (tempTime > timeToPass)
+  {
+    timeToPass += timeToFall_;
+    curTetromino_->translate(TetrominoTranslation::Down);
+  }
 }
 
 // std::queue<int> Ingame::updateRandomTetro()

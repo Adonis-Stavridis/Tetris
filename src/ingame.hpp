@@ -25,6 +25,8 @@ private:
   TimeStamp startTime_;
   Duration curTime_;
 
+  int timeToFall_;
+
   Board board_;
   Score score_;
 
@@ -36,6 +38,7 @@ private:
   Tetromino spawnTetromino();
 
   void updateTime();
+  void tetroFall();
 
 public:
   Ingame(const int windowWidth_, const int windowHeight_);
