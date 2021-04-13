@@ -2,8 +2,10 @@
 
 Endgame::Endgame()
     : text_("GAME OVER !"),
-      textColor_({0xFF, 0xFA, 0xFA, 0xFF})
-
+      textColor_(Colors::tomato()),
+      scoreColor_(Colors::gold()),
+      timeColor_(Colors::snow()),
+      score_(0)
 {
 }
 
@@ -26,13 +28,21 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
   ingame_ = ingame;
   renderer_ = renderer;
   font_ = font;
-  score_ = 0;
+
   std::string scoreStd = "Score : " + std::to_string(score_);
 
-  tempSurface = TTF_RenderText_Blended(font, scoreStd.c_str(), textColor_);
+  tempSurface = TTF_RenderText_Blended(font, scoreStd.c_str(), scoreColor_);
   scoreTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(scoreTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  scoreRect_ = {textRect_.x, textRect_.y + 60, textRect_.w, textRect_.h};
+  scoreRect_ = {textRect_.x, textRect_.y + 60, tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+
+  std::string timeStd = "Time : 00:00";
+
+  tempSurface = TTF_RenderText_Blended(font, timeStd.c_str(), timeColor_);
+  timeTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  SDL_QueryTexture(timeTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  timeRect_ = {scoreRect_.x, scoreRect_.y + 60, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 }
 
@@ -40,6 +50,7 @@ PageAction Endgame::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, textTexture_, nullptr, &textRect_);
   SDL_RenderCopy(renderer, scoreTexture_, nullptr, &scoreRect_);
+  SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 
   return PageAction::None;
 }
@@ -47,13 +58,23 @@ PageAction Endgame::draw(SDL_Renderer *renderer)
 void Endgame::start()
 {
   score_ = ingame_->getScore();
+  time_ = ingame_->getTime();
+
+  updateTime(renderer_, time_);
+
   std::string scoreStd = "Score : " + std::to_string(score_);
-  
+  std::string timeStd = "Time : ";
+
   int tempWidth, tempHeight;
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, scoreStd.c_str(), textColor_);
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, scoreStd.c_str(), scoreColor_);
   scoreTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
   SDL_QueryTexture(scoreTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  scoreRect_ = {scoreRect_.x, scoreRect_.y, scoreRect_.w, scoreRect_.h};
+  scoreRect_ = {scoreRect_.x, scoreRect_.y, tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+
+  tempSurface = TTF_RenderText_Blended(font_, timeStd.c_str(), timeColor_);
+  SDL_QueryTexture(timeTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  timeRect_ = {timeRect_.x, timeRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 }
 
@@ -68,4 +89,28 @@ PageAction Endgame::handleInput(SDL_Event event)
   }
 
   return PageAction::None;
+}
+
+void Endgame::updateTime(SDL_Renderer *renderer,
+                             std::chrono::duration<double> time)
+{
+  uint minutes =
+      std::chrono::duration_cast<std::chrono::minutes>(time).count();
+  uint seconds =
+      std::chrono::duration_cast<std::chrono::seconds>(time).count() %
+      60;
+
+  std::string newTime = "Time : ";
+  if (minutes < 10)
+    newTime += "0";
+  newTime += std::to_string(minutes);
+  newTime += ':';
+  if (seconds < 10)
+    newTime += "0";
+  newTime += std::to_string(seconds);
+  
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(
+        font_, newTime.c_str(), timeColor_);
+  timeTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  SDL_FreeSurface(tempSurface);
 }
