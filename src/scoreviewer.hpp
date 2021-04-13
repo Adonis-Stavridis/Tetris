@@ -39,7 +39,6 @@ public:
   void init(SDL_Renderer *renderer, TTF_Font *font);
   void draw(SDL_Renderer *renderer, uint scoreValue, uint levelValue,
             std::chrono::duration<double> curTime);
-  void start();
 };
 
 #endif // SCOREVIEWER_HPP
