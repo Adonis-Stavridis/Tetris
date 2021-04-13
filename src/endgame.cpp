@@ -126,10 +126,19 @@ PageAction Endgame::handleInput(SDL_Event event)
 {
   if (event.type == SDL_KEYDOWN)
   {
-    if (event.key.keysym.sym == SDLK_ESCAPE)
+    switch (event.key.keysym.sym)
+    {
+    case SDLK_ESCAPE:
       return PageAction::Quit;
-    else
+      break;
+
+    case SDLK_SPACE:
       return PageAction::NextPage;
+      break;
+
+    default:
+      break;
+    }
   }
 
   return PageAction::None;
