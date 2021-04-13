@@ -62,11 +62,20 @@ void Game::init()
     exit(EXIT_FAILURE);
   }
 
+  if (Mix_OpenAudio(
+          44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+  {
+    std::cerr << "Mix_OpenAudio failed: " << Mix_GetError() << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
   startgame_.init(renderer_, font_, windowWidth_, windowHeight_);
   ingame_.init(renderer_, font_);
   endgame_.init(renderer_, font_, windowWidth_, windowHeight_, &ingame_);
 
   running_ = true;
+
+  gamePage_->start();
 }
 
 void Game::run()
@@ -106,6 +115,9 @@ void Game::quit()
   SDL_DestroyWindow(window_);
 
   TTF_Quit();
+
+  Mix_CloseAudio();
+
   SDL_Quit();
 }
 

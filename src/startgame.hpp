@@ -17,6 +17,8 @@ private:
   SDL_Rect textRect_;
   SDL_Texture *textTexture_;
 
+  Mix_Music *music_;
+
 public:
   Startgame();
   ~Startgame();
