@@ -5,9 +5,13 @@
 #include <time.h>
 #include <queue>
 #include <chrono>
+#include <array>
+#include <algorithm>
+#include <random>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "gamepage.hpp"
 #include "board.hpp"
@@ -16,13 +20,20 @@
 
 #define TETROQUEUE_SIZE 4
 
+#define AXEL_F_MUSIC "assets/music/axel_f.mp3"
+#define BLUE_MUSIC "assets/music/blue.mp3"
+#define BOHEMIAN_RHAPSODY_MUSIC "assets/music/bohemian_rhapsody.mp3"
+#define HARDER_BETTER_FASTER_STRONGER_MUSIC \
+  "assets/music/harder_better_faster_stronger.mp3"
+#define RASPUTIN_MUSIC "assets/music/rasputin.mp3"
+#define MUSIC_NUMBER 5
+
 typedef std::chrono::_V2::system_clock::time_point TimeStamp;
 typedef std::chrono::duration<double> Duration;
 
 class Ingame : public GamePage
 {
 private:
-
   TimeStamp startTime_;
   Duration curTime_;
 
@@ -41,6 +52,8 @@ private:
   Tetromino *curTetromino_;
 
   std::queue<Tetromino> tetroQueue_;
+
+  std::array<Mix_Music *, MUSIC_NUMBER> music_;
 
   Tetromino *initTetroQueue();
   Tetromino *getTetroQueue();

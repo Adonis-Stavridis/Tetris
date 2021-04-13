@@ -24,6 +24,21 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
   srand(time(NULL));
 
   scoreViewer_.init(renderer, font);
+
+  music_[0] = Mix_LoadMUS(AXEL_F_MUSIC);
+  music_[1] = Mix_LoadMUS(BLUE_MUSIC);
+  music_[2] = Mix_LoadMUS(BOHEMIAN_RHAPSODY_MUSIC);
+  music_[3] = Mix_LoadMUS(HARDER_BETTER_FASTER_STRONGER_MUSIC);
+  music_[4] = Mix_LoadMUS(RASPUTIN_MUSIC);
+
+  for (int i = 0; i < MUSIC_NUMBER; i++)
+  {
+    if (!music_[i])
+    {
+      std::cerr << "Mix_LoadMUS failed!" << i << std::endl;
+      exit(EXIT_FAILURE);
+    }
+  }
 }
 
 PageAction Ingame::draw(SDL_Renderer *renderer)
@@ -47,7 +62,8 @@ void Ingame::start()
 
   timeToFall_ = 1000;
   timeToPass_ =
-      std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
+      std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() +
+      timeToFall_;
 
   endgame_ = false;
 
@@ -58,6 +74,15 @@ void Ingame::start()
   curTetromino_ = initTetroQueue();
 
   board_.start();
+
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(music_.begin(), music_.end(), std::default_random_engine(seed));
+
+  if (Mix_PlayMusic(music_[0], -1) == -1)
+  {
+    std::cerr << "Mix_PlayMusic failed!" << std::endl;
+    exit(EXIT_FAILURE);
+  }
 }
 
 PageAction Ingame::handleInput(SDL_Event event)
