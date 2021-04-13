@@ -15,14 +15,15 @@ class Endgame : public GamePage
 private:
 
     const char *text_;
-    SDL_Color textColor_, scoreColor_, timeColor_;
+    SDL_Color textColor_, scoreColor_, timeColor_, levelColor_, endColor_;
 
-    SDL_Rect textRect_, scoreRect_, timeRect_;
-    SDL_Texture *textTexture_, *scoreTexture_, *timeTexture_;
+    SDL_Rect textRect_, scoreRect_, timeRect_, levelRect_, endRect_;
+    SDL_Texture *textTexture_, *scoreTexture_, *timeTexture_, *levelTexture_, *endTexture_;
 
     //To get score + time and print them
     int score_;
     std::chrono::duration<double> time_;
+    int level_;
     SDL_Renderer *renderer_;
     TTF_Font *font_;
     Ingame *ingame_;

@@ -73,6 +73,10 @@ public:
     return curTime_;
   }
 
+  inline uint getLevel()
+  {
+    return level_;
+  }
 };
 
 #endif // INGAME_HPP
