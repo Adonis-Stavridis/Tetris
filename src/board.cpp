@@ -199,7 +199,6 @@ uint Board::checkLines(std::set<int> changedLines)
       if (!grid_[i][line].locked())
         skip = true;
     }
-    rmLines += 1;
 
     for (int i = 0; i < WIDTH && !skip; i++)
     {
@@ -211,6 +210,9 @@ uint Board::checkLines(std::set<int> changedLines)
           grid_[i][j].unlock();
       }
     }
+
+    if (!skip)
+      rmLines += 1;
   }
 
   return rmLines;
