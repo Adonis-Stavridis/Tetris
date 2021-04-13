@@ -6,6 +6,7 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       timeToFall_(1000),
       timeToPass_(timeToFall_),
       endgame_(false),
+      lineClear_(0),
       level_(0),
       score_(0),
       board_(Board(windowWidth_, windowHeight_)),
@@ -49,6 +50,9 @@ void Ingame::start()
       std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
 
   endgame_ = false;
+
+  lineClear_ = 0;
+  level_ = 0;
   score_ = 0;
 
   curTetromino_ = initTetroQueue();
@@ -181,4 +185,14 @@ void Ingame::updateScore(uint lines)
   const uint scorePerLine[5] = {0, 40, 100, 300, 1200};
 
   score_ += scorePerLine[lines] * (level_ + 1);
+
+  lineClear_ += lines;
+
+  uint currentLevel = level_;
+  level_ = lineClear_ / 10;
+
+  if (level_ > currentLevel)
+  {
+    timeToFall_ -= 100;
+  }
 }

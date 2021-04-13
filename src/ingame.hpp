@@ -30,6 +30,7 @@ private:
 
   bool endgame_;
 
+  uint lineClear_;
   uint level_;
   uint score_;
 
