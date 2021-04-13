@@ -36,6 +36,8 @@ add_executable(Tetris
   src/board.cpp
   src/board.hpp
   src/colors.hpp
+  src/endgame.cpp
+  src/endgame.hpp
   src/game.cpp
   src/game.hpp
   src/gamepage.hpp

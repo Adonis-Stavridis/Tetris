@@ -11,11 +11,12 @@
 #include "gamepage.hpp"
 #include "startgame.hpp"
 #include "ingame.hpp"
+#include "endgame.hpp"
 
 #define FONT_PATH "assets/fonts/PressStart2P-vaV7.ttf"
 #define FONT_SIZE 32
 
-#define PAGE_NUMBER 2
+#define PAGE_NUMBER 3
 
 class Game
 {
@@ -34,6 +35,7 @@ private:
 
   Startgame startgame_;
   Ingame ingame_;
+  Endgame endgame_;
 
   GamePage *gamePage_;
 
