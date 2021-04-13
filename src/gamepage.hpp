@@ -4,8 +4,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
-#define MUSIC_PATH "assets/music/theme.mp3"
-
 enum PageAction
 {
   None = 0,

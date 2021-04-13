@@ -25,7 +25,7 @@ void Startgame::init(SDL_Renderer *renderer, TTF_Font *font,
                (windowHeight / 2) - (tempHeight / 2), tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  music_ = Mix_LoadMUS(MUSIC_PATH);
+  music_ = Mix_LoadMUS(THEME_MUSIC);
   if (!music_)
   {
     std::cerr << "Mix_LoadMUS failed!" << std::endl;

@@ -32,9 +32,6 @@ include_directories(${SDL2_INCLUDE_DIRS})
 #	EXECUTABLES
 #-------------------------------------------------------------------------------
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
-	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
-
 add_executable(Tetris
   src/board.cpp
   src/board.hpp
@@ -55,3 +52,6 @@ add_executable(Tetris
   src/tetromino.hpp
 )
 target_link_libraries(Tetris ${SDL2_LIBRARIES} SDL2_ttf SDL2_mixer)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)

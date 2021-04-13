@@ -8,7 +8,8 @@ Endgame::Endgame()
       levelColor_(Colors::dodgerblue()),
       endColor_(Colors::snow()),
       score_(0),
-      level_(0)
+      level_(0),
+      music_(nullptr)
 {
 }
 
@@ -18,7 +19,7 @@ Endgame::~Endgame()
 }
 
 void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
-                     const int windowWidth, const int windowHeight, Ingame *ingame)
+                   const int windowWidth, const int windowHeight, Ingame *ingame)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -63,6 +64,13 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
   SDL_QueryTexture(endTexture_, NULL, NULL, &tempWidth, &tempHeight);
   endRect_ = {(windowWidth / 2) - (tempWidth / 2), timeRect_.y + 150, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
+
+  music_ = Mix_LoadMUS(NEW_THEME_MUSIC);
+  if (!music_)
+  {
+    std::cerr << "Mix_LoadMUS failed!" << std::endl;
+    exit(EXIT_FAILURE);
+  }
 }
 
 PageAction Endgame::draw(SDL_Renderer *renderer)
@@ -106,6 +114,12 @@ void Endgame::start()
   SDL_QueryTexture(levelTexture_, NULL, NULL, &tempWidth, &tempHeight);
   levelRect_ = {levelRect_.x, levelRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
+
+  if (Mix_PlayMusic(music_, -1) == -1)
+  {
+    std::cerr << "Mix_PlayMusic failed!" << std::endl;
+    exit(EXIT_FAILURE);
+  }
 }
 
 PageAction Endgame::handleInput(SDL_Event event)
@@ -122,7 +136,7 @@ PageAction Endgame::handleInput(SDL_Event event)
 }
 
 void Endgame::updateTime(SDL_Renderer *renderer,
-                             std::chrono::duration<double> time)
+                         std::chrono::duration<double> time)
 {
   uint minutes =
       std::chrono::duration_cast<std::chrono::minutes>(time).count();
@@ -138,9 +152,9 @@ void Endgame::updateTime(SDL_Renderer *renderer,
   if (seconds < 10)
     newTime += "0";
   newTime += std::to_string(seconds);
-  
+
   SDL_Surface *tempSurface = TTF_RenderText_Blended(
-        font_, newTime.c_str(), timeColor_);
+      font_, newTime.c_str(), timeColor_);
   timeTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_FreeSurface(tempSurface);
 }

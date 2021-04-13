@@ -10,6 +10,8 @@
 #include "ingame.hpp"
 #include "colors.hpp"
 
+#define NEW_THEME_MUSIC "assets/music/new_theme.mp3"
+
 class Endgame : public GamePage
 {
 private:
@@ -28,7 +30,9 @@ private:
     TTF_Font *font_;
     Ingame *ingame_;
 
-public:
+    Mix_Music *music_;
+
+  public:
     Endgame();
     ~Endgame();
 

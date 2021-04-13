@@ -8,6 +8,8 @@
 
 #include "gamepage.hpp"
 
+#define THEME_MUSIC "assets/music/theme.mp3"
+
 class Startgame : public GamePage
 {
 private:
