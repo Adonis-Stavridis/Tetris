@@ -127,7 +127,12 @@ Tetromino Ingame::spawnTetromino()
   TetrominoType tetroType =
       static_cast<TetrominoType>(rand() % TetrominoType::num);
 
-  return Tetromino(tetroType);
+  Tetromino newTetro = Tetromino(tetroType);
+
+  if (board_.collision(newTetro))
+    endgame_ = true;
+
+  return newTetro;
 }
 
 void Ingame::updateTime()
@@ -156,8 +161,7 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
   if (!board_.collision(tempTetro))
     *curTetromino_ = tempTetro;
 
-  if (translation == TetrominoTranslation::Down &&
-      board_.lockable(tempTetro))
+  if (translation == TetrominoTranslation::Down && board_.lockable(tempTetro))
   {
     int lines = board_.lock(*curTetromino_);
     if (lines < 0)
