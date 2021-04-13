@@ -6,6 +6,7 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       timeToFall_(1000),
       timeToPass_(timeToFall_),
       endgame_(false),
+      level_(0),
       score_(0),
       board_(Board(windowWidth_, windowHeight_)),
       scoreViewer_(ScoreViewer()),
@@ -155,12 +156,12 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
   if (translation == TetrominoTranslation::Down &&
       board_.lockable(tempTetro))
   {
-    int updtScore = board_.lock(*curTetromino_);
-    if (updtScore < 0)
+    int lines = board_.lock(*curTetromino_);
+    if (lines < 0)
       endgame_ = true;
     else
     {
-      score_ += updtScore;
+      updateScore(lines);
       curTetromino_ = getTetroQueue();
     }
   }
@@ -173,4 +174,11 @@ void Ingame::tetroRotate(TetrominoRotation rotation)
   tempTetro.rotate(rotation);
   if (!board_.collision(tempTetro))
     *curTetromino_ = tempTetro;
+}
+
+void Ingame::updateScore(uint lines)
+{
+  const uint scorePerLine[5] = {0, 40, 100, 300, 1200};
+
+  score_ += scorePerLine[lines] * (level_ + 1);
 }

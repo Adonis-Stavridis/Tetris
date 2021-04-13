@@ -30,6 +30,7 @@ private:
 
   bool endgame_;
 
+  uint level_;
   uint score_;
 
   Board board_;
@@ -48,6 +49,8 @@ private:
 
   void tetroTranslate(TetrominoTranslation translation);
   void tetroRotate(TetrominoRotation rotation);
+
+  void updateScore(uint lines);
 
 public:
   Ingame(const int windowWidth_, const int windowHeight_);
