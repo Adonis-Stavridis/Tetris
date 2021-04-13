@@ -2,7 +2,7 @@
 #define BOARD_HPP
 
 #include <iostream>
-#include <unordered_set>
+#include <set>
 
 #include <SDL2/SDL.h>
 
@@ -57,7 +57,7 @@ private:
 
   GridRect grid_[WIDTH][HEIGHT];
 
-  void checkLine(int line);
+  void checkLines(std::set<int> changedLines);
 
 public:
   Board(const int windowWidth, const int windowHeight);

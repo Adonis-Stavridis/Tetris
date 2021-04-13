@@ -160,7 +160,7 @@ bool Board::lock(const Tetromino &tetromino)
   const int tetroPosY = tetromino.getPosY();
   const SDL_Color tetroColor = tetromino.getColor();
 
-  std::unordered_set<int> changedLines;
+  std::set<int> changedLines;
 
   for (size_t i = 0; i < isize; i++)
   {
@@ -183,25 +183,35 @@ bool Board::lock(const Tetromino &tetromino)
     }
   }
 
-  for (int line : changedLines)
-  {
-    checkLine(line);
-  }
+  checkLines(changedLines);
 
   return true;
 }
 
-void Board::checkLine(int line)
+void Board::checkLines(std::set<int> changedLines)
 {
-  for (int i = 0; i < WIDTH; i++)
-  {
-    if (!grid_[i][line].locked())
-      return;
-  }
+  int rmLines = 0;
 
-  for (int i = 0; i < WIDTH; i++)
+  for (int line : changedLines)
   {
-    grid_[i][line].lock(Colors::grey());
+    bool skip = false;
+    
+    for (int i = 0; i < WIDTH; i++)
+    {
+      if (!grid_[i][line - rmLines].locked())
+        skip = true;
+    }
+
+    for (int i = 0; i < WIDTH && !skip; i++)
+    {
+      for (int j = line - rmLines; j > 0; j--)
+      {
+        if (grid_[i][j - 1].locked())
+          grid_[i][j].lock(grid_[i][j - 1].color());
+        else
+          grid_[i][j].unlock();
+      }
+    }
   }
 }
 
