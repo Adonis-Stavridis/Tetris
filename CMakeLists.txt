@@ -42,8 +42,8 @@ add_executable(Tetris
   src/ingame.cpp
   src/ingame.hpp
   src/main.cpp
-  src/score.cpp
-  src/score.hpp
+  src/scoreviewer.cpp
+  src/scoreviewer.hpp
   src/startgame.cpp
   src/startgame.hpp
   src/tetromino.cpp

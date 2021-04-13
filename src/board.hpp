@@ -57,7 +57,7 @@ private:
 
   GridRect grid_[WIDTH][HEIGHT];
 
-  void checkLines(std::set<int> changedLines);
+  uint checkLines(std::set<int> changedLines);
 
 public:
   Board(const int windowWidth, const int windowHeight);
@@ -67,7 +67,7 @@ public:
   void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
   bool collision(const Tetromino &tetromino);
   bool lockable(const Tetromino &tetromino);
-  bool lock(const Tetromino &tetromino);
+  int lock(const Tetromino &tetromino);
 };
 
 #endif // BOARD_HPP

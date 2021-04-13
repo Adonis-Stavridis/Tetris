@@ -151,7 +151,7 @@ bool Board::lockable(const Tetromino &tetromino)
   return false;
 }
 
-bool Board::lock(const Tetromino &tetromino)
+int Board::lock(const Tetromino &tetromino)
 {
   const Matrix tetroMatrix = tetromino.getMatrix();
   const size_t isize = tetroMatrix.size();
@@ -175,7 +175,7 @@ bool Board::lock(const Tetromino &tetromino)
       if (tetroMatrix[i][j])
       {
         if (jPos < 0)
-          return false;
+          return -1;
 
         grid_[iPos][jPos].lock(tetroColor);
         changedLines.insert(jPos);
@@ -183,28 +183,27 @@ bool Board::lock(const Tetromino &tetromino)
     }
   }
 
-  checkLines(changedLines);
-
-  return true;
+  return checkLines(changedLines);
 }
 
-void Board::checkLines(std::set<int> changedLines)
+uint Board::checkLines(std::set<int> changedLines)
 {
-  int rmLines = 0;
+  uint rmLines = 0;
 
   for (int line : changedLines)
   {
     bool skip = false;
-    
+
     for (int i = 0; i < WIDTH; i++)
     {
-      if (!grid_[i][line - rmLines].locked())
+      if (!grid_[i][line].locked())
         skip = true;
     }
+    rmLines += 1;
 
     for (int i = 0; i < WIDTH && !skip; i++)
     {
-      for (int j = line - rmLines; j > 0; j--)
+      for (int j = line; j > 0; j--)
       {
         if (grid_[i][j - 1].locked())
           grid_[i][j].lock(grid_[i][j - 1].color());
@@ -213,6 +212,8 @@ void Board::checkLines(std::set<int> changedLines)
       }
     }
   }
+
+  return rmLines;
 }
 
 // /***** Draw the spawn window *****/

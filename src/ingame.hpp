@@ -11,7 +11,7 @@
 
 #include "gamepage.hpp"
 #include "board.hpp"
-#include "score.hpp"
+#include "scoreviewer.hpp"
 #include "tetromino.hpp"
 
 #define TETROQUEUE_SIZE 4
@@ -30,8 +30,10 @@ private:
 
   bool endgame_;
 
+  uint score_;
+
   Board board_;
-  Score score_;
+  ScoreViewer scoreViewer_;
 
   Tetromino *curTetromino_;
 

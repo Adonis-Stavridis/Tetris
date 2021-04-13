@@ -1,6 +1,6 @@
-#include "score.hpp"
+#include "scoreviewer.hpp"
 
-Score::Score()
+ScoreViewer::ScoreViewer()
     : score_("Score"),
       value_(0),
       time_("00:00"),
@@ -10,14 +10,14 @@ Score::Score()
 {
 }
 
-Score::~Score()
+ScoreViewer::~ScoreViewer()
 {
   SDL_DestroyTexture(scoreTexture_);
   SDL_DestroyTexture(valueTexture_);
   SDL_DestroyTexture(timeTexture_);
 }
 
-void Score::init(SDL_Renderer *renderer, TTF_Font *font)
+void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, score_, scoreColor_);
   scoreTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -45,21 +45,42 @@ void Score::init(SDL_Renderer *renderer, TTF_Font *font)
   font_ = font;
 }
 
-void Score::draw(SDL_Renderer *renderer, std::chrono::duration<double> curTime)
+void ScoreViewer::draw(SDL_Renderer *renderer, uint scoreValue,
+                       std::chrono::duration<double> curTime)
 {
   SDL_RenderCopy(renderer, scoreTexture_, nullptr, &scoreRect_);
+  updateScore(renderer, scoreValue);
   SDL_RenderCopy(renderer, valueTexture_, nullptr, &valueRect_);
   updateTime(renderer, curTime);
   SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 }
 
-void Score::start()
+void ScoreViewer::start()
 {
   value_ = 0;
 }
 
-void Score::updateTime(SDL_Renderer *renderer,
-                       std::chrono::duration<double> curTime)
+void ScoreViewer::updateScore(SDL_Renderer *renderer, uint scoreValue)
+{
+  if (value_ == scoreValue)
+    return;
+
+  value_ = scoreValue;
+  const std::string scoreString = std::to_string(value_);
+
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(
+      font_, scoreString.c_str(), valueColor_);
+  valueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  int tempWidth, tempHeight;
+  SDL_QueryTexture(valueTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  valueRect_ =
+      {scoreRect_.x + 10, scoreRect_.y + scoreRect_.h + 10,
+       tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+}
+
+void ScoreViewer::updateTime(SDL_Renderer *renderer,
+                             std::chrono::duration<double> curTime)
 {
   uint minutes =
       std::chrono::duration_cast<std::chrono::minutes>(curTime).count();

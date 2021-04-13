@@ -1,5 +1,5 @@
-#ifndef SCORE_HPP
-#define SCORE_HPP
+#ifndef SCOREVIEWER_HPP
+#define SCOREVIEWER_HPP
 
 #include <iostream>
 #include <chrono>
@@ -11,7 +11,7 @@
 
 #define FONT_SIZE 32
 
-class Score
+class ScoreViewer
 {
 private:
   const char *score_;
@@ -24,16 +24,18 @@ private:
 
   TTF_Font *font_;
 
+  void updateScore(SDL_Renderer *renderer, uint scoreValue);
   void updateTime(SDL_Renderer *renderer,
                   std::chrono::duration<double> curTime);
 
 public:
-  Score();
-  ~Score();
+  ScoreViewer();
+  ~ScoreViewer();
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
-  void draw(SDL_Renderer *renderer, std::chrono::duration<double> curTime);
+  void draw(SDL_Renderer *renderer, uint scoreValue,
+            std::chrono::duration<double> curTime);
   void start();
 };
 
-#endif // SCORE_HPP
+#endif // SCOREVIEWER_HPP

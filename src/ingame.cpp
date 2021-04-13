@@ -6,8 +6,9 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       timeToFall_(1000),
       timeToPass_(timeToFall_),
       endgame_(false),
+      score_(0),
       board_(Board(windowWidth_, windowHeight_)),
-      score_(Score()),
+      scoreViewer_(ScoreViewer()),
       curTetromino_(nullptr)
 {
 }
@@ -20,7 +21,7 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 {
   srand(time(NULL));
 
-  score_.init(renderer, font);
+  scoreViewer_.init(renderer, font);
 }
 
 PageAction Ingame::draw(SDL_Renderer *renderer)
@@ -29,7 +30,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   tetroFall();
 
   board_.draw(renderer, *curTetromino_);
-  score_.draw(renderer, curTime_);
+  scoreViewer_.draw(renderer, score_, curTime_);
 
   if (endgame_)
     return PageAction::NextPage;
@@ -47,11 +48,12 @@ void Ingame::start()
       std::chrono::duration_cast<std::chrono::milliseconds>(curTime_).count() + timeToFall_;
 
   endgame_ = false;
+  score_ = 0;
 
   curTetromino_ = initTetroQueue();
 
   board_.start();
-  score_.start();
+  scoreViewer_.start();
 }
 
 PageAction Ingame::handleInput(SDL_Event event)
@@ -153,10 +155,14 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
   if (translation == TetrominoTranslation::Down &&
       board_.lockable(tempTetro))
   {
-    if (board_.lock(*curTetromino_))
-      curTetromino_ = getTetroQueue();
-    else
+    int updtScore = board_.lock(*curTetromino_);
+    if (updtScore < 0)
       endgame_ = true;
+    else
+    {
+      score_ += updtScore;
+      curTetromino_ = getTetroQueue();
+    }
   }
 }
 
