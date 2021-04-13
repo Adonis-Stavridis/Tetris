@@ -11,7 +11,8 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       score_(0),
       board_(Board(windowWidth_, windowHeight_)),
       scoreViewer_(ScoreViewer()),
-      curTetromino_(nullptr)
+      curTetromino_(nullptr),
+      curMusic_(0)
 {
 }
 
@@ -52,6 +53,9 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   if (endgame_)
     return PageAction::NextPage;
 
+  if (!Mix_PlayingMusic())
+    playMusic();
+
   return PageAction::None;
 }
 
@@ -78,11 +82,9 @@ void Ingame::start()
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::shuffle(music_.begin(), music_.end(), std::default_random_engine(seed));
 
-  if (Mix_PlayMusic(music_[0], -1) == -1)
-  {
-    std::cerr << "Mix_PlayMusic failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
+  curMusic_ = 0;
+
+  playMusic();
 }
 
 PageAction Ingame::handleInput(SDL_Event event)
@@ -152,12 +154,7 @@ Tetromino Ingame::spawnTetromino()
   TetrominoType tetroType =
       static_cast<TetrominoType>(rand() % TetrominoType::num);
 
-  Tetromino newTetro = Tetromino(tetroType);
-
-  if (board_.collision(newTetro))
-    endgame_ = true;
-
-  return newTetro;
+  return Tetromino(tetroType);
 }
 
 void Ingame::updateTime()
@@ -223,4 +220,15 @@ void Ingame::updateScore(uint lines)
   {
     timeToFall_ -= 100;
   }
+}
+
+void Ingame::playMusic()
+{
+  if (Mix_PlayMusic(music_[curMusic_], 1) == -1)
+  {
+    std::cerr << "Mix_PlayMusic failed!" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  curMusic_ = (curMusic_ + 1) % MUSIC_NUMBER;
 }

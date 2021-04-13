@@ -54,6 +54,7 @@ private:
   std::queue<Tetromino> tetroQueue_;
 
   std::array<Mix_Music *, MUSIC_NUMBER> music_;
+  uint curMusic_;
 
   Tetromino *initTetroQueue();
   Tetromino *getTetroQueue();
@@ -66,6 +67,8 @@ private:
   void tetroRotate(TetrominoRotation rotation);
 
   void updateScore(uint lines);
+
+  void playMusic();
 
 public:
   Ingame(const int windowWidth_, const int windowHeight_);
