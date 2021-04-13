@@ -22,6 +22,7 @@ typedef std::chrono::duration<double> Duration;
 class Ingame : public GamePage
 {
 private:
+
   TimeStamp startTime_;
   Duration curTime_;
 
@@ -61,6 +62,17 @@ public:
   PageAction draw(SDL_Renderer *renderer);
   void start();
   PageAction handleInput(SDL_Event event);
+
+  inline uint getScore()
+  {
+    return score_;
+  }
+
+  inline Duration getTime()
+  {
+    return curTime_;
+  }
+
 };
 
 #endif // INGAME_HPP
