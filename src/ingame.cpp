@@ -32,7 +32,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   tetroFall();
 
   board_.draw(renderer, *curTetromino_);
-  scoreViewer_.draw(renderer, score_, curTime_);
+  scoreViewer_.draw(renderer, score_, level_, curTime_);
 
   if (endgame_)
     return PageAction::NextPage;
