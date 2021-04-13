@@ -58,7 +58,6 @@ void Ingame::start()
   curTetromino_ = initTetroQueue();
 
   board_.start();
-  scoreViewer_.start();
 }
 
 PageAction Ingame::handleInput(SDL_Event event)

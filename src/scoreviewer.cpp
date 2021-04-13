@@ -76,12 +76,6 @@ void ScoreViewer::draw(SDL_Renderer *renderer, uint scoreValue, uint levelValue,
   SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 }
 
-void ScoreViewer::start()
-{
-  scoreValue_ = 0;
-  levelValue_ = 0;
-}
-
 void ScoreViewer::updateScore(SDL_Renderer *renderer, uint scoreValue)
 {
   if (scoreValue_ == scoreValue)
