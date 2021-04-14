@@ -46,6 +46,7 @@ private:
   int setupPosY();
 
 public:
+  Tetromino();
   Tetromino(TetrominoType tetroType);
   ~Tetromino();
 

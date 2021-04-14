@@ -9,7 +9,7 @@ Startgame::Startgame()
 
 Startgame::~Startgame()
 {
-  SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(textTexture_);
 
   Mix_FreeMusic(music_);
 }
@@ -42,11 +42,13 @@ PageAction Startgame::draw(SDL_Renderer *renderer)
 
 void Startgame::start()
 {
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Startgame::handleInput(SDL_Event event)

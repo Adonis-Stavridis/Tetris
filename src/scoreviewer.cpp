@@ -16,13 +16,13 @@ ScoreViewer::ScoreViewer()
 
 ScoreViewer::~ScoreViewer()
 {
-  SDL_DestroyTexture(scoreTexture_);
-  SDL_DestroyTexture(scoreValueTexture_);
-  SDL_DestroyTexture(levelTexture_);
-  SDL_DestroyTexture(levelValueTexture_);
-  SDL_DestroyTexture(linesTexture_);
-  SDL_DestroyTexture(linesValueTexture_);
-  SDL_DestroyTexture(timeTexture_);
+  // SDL_DestroyTexture(scoreTexture_);
+  // SDL_DestroyTexture(scoreValueTexture_);
+  // SDL_DestroyTexture(levelTexture_);
+  // SDL_DestroyTexture(levelValueTexture_);
+  // SDL_DestroyTexture(linesTexture_);
+  // SDL_DestroyTexture(linesValueTexture_);
+  // SDL_DestroyTexture(timeTexture_);
 }
 
 void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)

@@ -13,9 +13,9 @@ Pseudogame::Pseudogame()
 
 Pseudogame::~Pseudogame()
 {
-  SDL_DestroyTexture(textTexture_);
-  SDL_DestroyTexture(pseudoTexture_);
-  SDL_DestroyTexture(endTexture_);
+  // SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(pseudoTexture_);
+  // SDL_DestroyTexture(endTexture_);
 
   Mix_FreeMusic(music_);
 }
@@ -63,7 +63,7 @@ PageAction Pseudogame::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, textTexture_, nullptr, &textRect_);
   SDL_RenderCopy(renderer, pseudoTexture_, nullptr, &pseudoRect_);
-  if(pseudo_[6] != '_')
+  if (pseudo_[6] != '_')
     SDL_RenderCopy(renderer, endTexture_, nullptr, &endRect_);
 
   return PageAction::None;
@@ -82,11 +82,13 @@ void Pseudogame::start()
   pseudoRect_ = {pseudoRect_.x, pseudoRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Pseudogame::handleInput(SDL_Event event)

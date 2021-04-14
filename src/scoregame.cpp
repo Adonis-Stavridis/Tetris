@@ -9,13 +9,14 @@ Scoregame::Scoregame()
 
 Scoregame::~Scoregame()
 {
-  SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(textTexture_);
 
   Mix_FreeMusic(music_);
 }
 
 void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
-                  const int windowWidth, const int windowHeight, Endgame *endgame, Pseudogame *pseudogame)
+                  const int windowWidth, const int windowHeight, 
+                  Endgame *endgame, Pseudogame *pseudogame)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -58,11 +59,13 @@ PageAction Scoregame::draw(SDL_Renderer *renderer)
 
 void Scoregame::start()
 {
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Scoregame::handleInput(SDL_Event event)
