@@ -35,9 +35,12 @@ void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
   score_ = endgame_->getScore();
   pseudo_ = pseudogame_->getPseudo();
 
-  std::cout << score_ << std::endl;
-  std::cout << pseudo_ << std::endl;
-  
+  std::ofstream myfile;
+  myfile.open ("highscores.csv", std::fstream::out);
+  myfile << pseudo_;
+  myfile << score_;
+  myfile.close();
+
   music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
   if (!music_)
   {
