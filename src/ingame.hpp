@@ -44,6 +44,7 @@ private:
   ScoreViewer scoreViewer_;
 
   Tetromino *curTetromino_;
+  // Tetromino ghostTetromino_;
 
   std::queue<Tetromino> tetroQueue_;
 

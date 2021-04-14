@@ -14,6 +14,8 @@ Pseudogame::Pseudogame()
 Pseudogame::~Pseudogame()
 {
   SDL_DestroyTexture(textTexture_);
+  SDL_DestroyTexture(pseudoTexture_);
+  SDL_DestroyTexture(endTexture_);
 
   Mix_FreeMusic(music_);
 }
