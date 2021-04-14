@@ -16,6 +16,8 @@ Endgame::Endgame()
 Endgame::~Endgame()
 {
   SDL_DestroyTexture(textTexture_);
+
+  Mix_FreeMusic(music_);
 }
 
 void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,

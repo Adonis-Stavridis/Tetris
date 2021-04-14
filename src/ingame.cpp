@@ -18,6 +18,8 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
 
 Ingame::~Ingame()
 {
+  for (Mix_Music *music : music_)
+    Mix_FreeMusic(music);
 }
 
 void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
