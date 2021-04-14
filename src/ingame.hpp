@@ -62,6 +62,7 @@ private:
   void tetroRotate(TetrominoRotation rotation);
 
   void updateGhost();
+  void hardDrop();
 
   void updateScore(uint lines);
 

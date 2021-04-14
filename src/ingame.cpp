@@ -111,6 +111,10 @@ PageAction Ingame::handleInput(SDL_Event event)
       tetroTranslate(TetrominoTranslation::Down);
       break;
 
+    case SDLK_UP:
+      hardDrop();
+      break;
+
     case SDLK_z:
       tetroRotate(TetrominoRotation::CCW);
       updateGhost();
@@ -228,6 +232,11 @@ void Ingame::updateGhost()
   }
 
   ghostTetromino_ = prevTetro;
+}
+
+void Ingame::hardDrop()
+{
+  *curTetromino_ = ghostTetromino_;
 }
 
 void Ingame::updateScore(uint lines)
