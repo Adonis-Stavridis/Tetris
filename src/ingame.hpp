@@ -20,12 +20,6 @@
 
 #define TETROQUEUE_SIZE 4
 
-#define AXEL_F_MUSIC "assets/music/axel_f.mp3"
-#define BLUE_MUSIC "assets/music/blue.mp3"
-#define BOHEMIAN_RHAPSODY_MUSIC "assets/music/bohemian_rhapsody.mp3"
-#define HARDER_BETTER_FASTER_STRONGER_MUSIC \
-  "assets/music/harder_better_faster_stronger.mp3"
-#define RASPUTIN_MUSIC "assets/music/rasputin.mp3"
 #define MUSIC_NUMBER 5
 
 typedef std::chrono::_V2::system_clock::time_point TimeStamp;

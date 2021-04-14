@@ -28,11 +28,11 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
 
   scoreViewer_.init(renderer, font);
 
-  music_[0] = Mix_LoadMUS(AXEL_F_MUSIC);
-  music_[1] = Mix_LoadMUS(BLUE_MUSIC);
-  music_[2] = Mix_LoadMUS(BOHEMIAN_RHAPSODY_MUSIC);
-  music_[3] = Mix_LoadMUS(HARDER_BETTER_FASTER_STRONGER_MUSIC);
-  music_[4] = Mix_LoadMUS(RASPUTIN_MUSIC);
+  music_[0] = Mix_LoadMUS(Music::path("axel_f").c_str());
+  music_[1] = Mix_LoadMUS(Music::path("blue").c_str());
+  music_[2] = Mix_LoadMUS(Music::path("bohemian_rhapsody").c_str());
+  music_[3] = Mix_LoadMUS(Music::path("harder_better_faster_stronger").c_str());
+  music_[4] = Mix_LoadMUS(Music::path("rasputin").c_str());
 
   for (int i = 0; i < MUSIC_NUMBER; i++)
   {

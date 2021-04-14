@@ -67,7 +67,7 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
   endRect_ = {(windowWidth / 2) - (tempWidth / 2), timeRect_.y + 150, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  music_ = Mix_LoadMUS(NEW_THEME_MUSIC);
+  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
   if (!music_)
   {
     std::cerr << "Mix_LoadMUS failed!" << std::endl;

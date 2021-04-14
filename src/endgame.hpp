@@ -11,8 +11,6 @@
 #include "ingame.hpp"
 #include "colors.hpp"
 
-#define NEW_THEME_MUSIC "assets/music/new_theme.mp3"
-
 class Endgame : public GamePage
 {
 private:
