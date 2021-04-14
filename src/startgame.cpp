@@ -9,7 +9,7 @@ Startgame::Startgame()
 
 Startgame::~Startgame()
 {
-  SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(textTexture_);
 
   Mix_FreeMusic(music_);
 }

@@ -15,11 +15,11 @@ Endgame::Endgame()
 
 Endgame::~Endgame()
 {
-  SDL_DestroyTexture(textTexture_);
-  SDL_DestroyTexture(scoreTexture_);
-  SDL_DestroyTexture(timeTexture_);
-  SDL_DestroyTexture(levelTexture_);
-  SDL_DestroyTexture(endTexture_);
+  // SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(scoreTexture_);
+  // SDL_DestroyTexture(timeTexture_);
+  // SDL_DestroyTexture(levelTexture_);
+  // SDL_DestroyTexture(endTexture_);
 
   Mix_FreeMusic(music_);
 }
