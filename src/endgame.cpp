@@ -121,11 +121,13 @@ void Endgame::start()
   levelRect_ = {levelRect_.x, levelRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Endgame::handleInput(SDL_Event event)

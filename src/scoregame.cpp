@@ -56,11 +56,13 @@ PageAction Scoregame::draw(SDL_Renderer *renderer)
 
 void Scoregame::start()
 {
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Scoregame::handleInput(SDL_Event event)

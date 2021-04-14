@@ -264,11 +264,13 @@ void Ingame::updateScore(uint lines)
 
 void Ingame::playMusic()
 {
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_[curMusic_], 1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 
   curMusic_ = (curMusic_ + 1) % MUSIC_NUMBER;
 }
