@@ -63,7 +63,8 @@ PageAction Pseudogame::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, textTexture_, nullptr, &textRect_);
   SDL_RenderCopy(renderer, pseudoTexture_, nullptr, &pseudoRect_);
-  SDL_RenderCopy(renderer, endTexture_, nullptr, &endRect_);
+  if(pseudo_[6] != '_')
+    SDL_RenderCopy(renderer, endTexture_, nullptr, &endRect_);
 
   return PageAction::None;
 }
@@ -117,7 +118,7 @@ PageAction Pseudogame::handleInput(SDL_Event event)
       break;
 
     case SDLK_SPACE:
-      if (pseudo_[0] != '_')
+      if (pseudo_[6] != '_')
         return PageAction::NextPage;
       break;
 
