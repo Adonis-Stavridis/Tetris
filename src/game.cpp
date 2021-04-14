@@ -13,6 +13,7 @@ Game::Game()
       ingame_(Ingame(windowWidth_, windowHeight_)),
       endgame_(Endgame()),
       pseudogame_(Pseudogame()),
+      scoregame_(Scoregame()),
       gamePage_(&startgame_)
 {
 }
@@ -76,6 +77,7 @@ void Game::init()
   ingame_.init(renderer_, font_);
   endgame_.init(renderer_, font_, windowWidth_, windowHeight_, &ingame_);
   pseudogame_.init(renderer_,font_, windowWidth_, windowHeight_, &endgame_);
+  scoregame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_);
 
   running_ = true;
 
@@ -129,7 +131,7 @@ void Game::checkEvent(PageAction action)
 {
   static uint currentState = 0;
   static GamePage *gameStates[PAGE_NUMBER] =
-      {&startgame_, &ingame_, &endgame_,&pseudogame_};
+      {&startgame_, &ingame_, &endgame_,&pseudogame_, &scoregame_};
 
   switch (action)
   {
