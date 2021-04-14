@@ -1,5 +1,12 @@
 #include "tetromino.hpp"
 
+Tetromino::Tetromino()
+    : matrix_({}),
+      posX_(0),
+      posY_(0)
+{
+}
+
 Tetromino::Tetromino(TetrominoType tetroType)
     : posX_(4),
       posY_(0)

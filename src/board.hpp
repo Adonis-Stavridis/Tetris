@@ -64,7 +64,8 @@ public:
   ~Board();
 
   void start();
-  void draw(SDL_Renderer *renderer, const Tetromino &tetromino);
+  void draw(SDL_Renderer *renderer, const Tetromino &tetromino,
+            const Tetromino &ghost);
   bool collision(const Tetromino &tetromino);
   bool lockable(const Tetromino &tetromino);
   int lock(const Tetromino &tetromino);

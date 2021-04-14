@@ -44,7 +44,7 @@ private:
   ScoreViewer scoreViewer_;
 
   Tetromino *curTetromino_;
-  // Tetromino ghostTetromino_;
+  Tetromino ghostTetromino_;
 
   std::queue<Tetromino> tetroQueue_;
 
@@ -60,6 +60,8 @@ private:
 
   void tetroTranslate(TetrominoTranslation translation);
   void tetroRotate(TetrominoRotation rotation);
+
+  void updateGhost();
 
   void updateScore(uint lines);
 

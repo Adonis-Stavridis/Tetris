@@ -12,6 +12,7 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       board_(Board(windowWidth_, windowHeight_)),
       scoreViewer_(ScoreViewer()),
       curTetromino_(nullptr),
+      ghostTetromino_(Tetromino()),
       curMusic_(0)
 {
 }
@@ -49,7 +50,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   updateTime();
   tetroFall();
 
-  board_.draw(renderer, *curTetromino_);
+  board_.draw(renderer, *curTetromino_, ghostTetromino_);
   scoreViewer_.draw(renderer, score_, level_, lineClear_, curTime_);
 
   if (endgame_)
@@ -78,6 +79,7 @@ void Ingame::start()
   score_ = 0;
 
   curTetromino_ = initTetroQueue();
+  updateGhost();
 
   board_.start();
 
@@ -97,10 +99,12 @@ PageAction Ingame::handleInput(SDL_Event event)
     {
     case SDLK_LEFT:
       tetroTranslate(TetrominoTranslation::Left);
+      updateGhost();
       break;
 
     case SDLK_RIGHT:
       tetroTranslate(TetrominoTranslation::Right);
+      updateGhost();
       break;
 
     case SDLK_DOWN:
@@ -109,10 +113,12 @@ PageAction Ingame::handleInput(SDL_Event event)
 
     case SDLK_z:
       tetroRotate(TetrominoRotation::CCW);
+      updateGhost();
       break;
 
     case SDLK_x:
       tetroRotate(TetrominoRotation::CW);
+      updateGhost();
       break;
 
     case SDLK_ESCAPE:
@@ -194,6 +200,7 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
     {
       updateScore(lines);
       curTetromino_ = getTetroQueue();
+      updateGhost();
     }
   }
 }
@@ -205,6 +212,22 @@ void Ingame::tetroRotate(TetrominoRotation rotation)
   tempTetro.rotate(rotation);
   if (!board_.collision(tempTetro))
     *curTetromino_ = tempTetro;
+}
+
+void Ingame::updateGhost()
+{
+  Tetromino tempTetro = *curTetromino_;
+  Tetromino prevTetro = tempTetro;
+
+  tempTetro.translate(TetrominoTranslation::Down);
+
+  while (!board_.collision(tempTetro))
+  {
+    prevTetro = tempTetro;
+    tempTetro.translate(TetrominoTranslation::Down);
+  }
+
+  ghostTetromino_ = prevTetro;
 }
 
 void Ingame::updateScore(uint lines)
