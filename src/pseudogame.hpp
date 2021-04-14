@@ -20,7 +20,7 @@ private:
   SDL_Rect textRect_, pseudoRect_, endRect_;
   SDL_Texture *textTexture_, *pseudoTexture_, *endTexture_;
 
-  int score_, cpt_;
+  int cpt_;
   std::string pseudo_;
 
   SDL_Renderer *renderer_;

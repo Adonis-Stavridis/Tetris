@@ -14,6 +14,7 @@
 class Endgame : public GamePage
 {
 private:
+
   const char *text_;
   SDL_Color textColor_, scoreColor_, timeColor_, levelColor_, endColor_;
 
@@ -21,7 +22,7 @@ private:
   SDL_Texture *textTexture_, *scoreTexture_, *timeTexture_, *levelTexture_, *endTexture_;
 
   //To get score + time and print them
-  int score_;
+  uint score_;
   std::chrono::duration<double> time_;
   int level_;
   SDL_Renderer *renderer_;
