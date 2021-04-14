@@ -197,15 +197,7 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
 
   if (translation == TetrominoTranslation::Down && board_.lockable(tempTetro))
   {
-    int lines = board_.lock(*curTetromino_);
-    if (lines < 0)
-      endgame_ = true;
-    else
-    {
-      updateScore(lines);
-      curTetromino_ = getTetroQueue();
-      updateGhost();
-    }
+    tetroLock();
   }
 }
 
@@ -216,6 +208,19 @@ void Ingame::tetroRotate(TetrominoRotation rotation)
   tempTetro.rotate(rotation);
   if (!board_.collision(tempTetro))
     *curTetromino_ = tempTetro;
+}
+
+void Ingame::tetroLock()
+{
+  int lines = board_.lock(*curTetromino_);
+  if (lines < 0)
+    endgame_ = true;
+  else
+  {
+    updateScore(lines);
+    curTetromino_ = getTetroQueue();
+    updateGhost();
+  }
 }
 
 void Ingame::updateGhost()
@@ -237,6 +242,7 @@ void Ingame::updateGhost()
 void Ingame::hardDrop()
 {
   *curTetromino_ = ghostTetromino_;
+  tetroLock();
 }
 
 void Ingame::updateScore(uint lines)

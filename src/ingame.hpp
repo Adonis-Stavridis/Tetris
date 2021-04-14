@@ -60,6 +60,7 @@ private:
 
   void tetroTranslate(TetrominoTranslation translation);
   void tetroRotate(TetrominoRotation rotation);
+  void tetroLock();
 
   void updateGhost();
   void hardDrop();
