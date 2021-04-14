@@ -38,7 +38,7 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
   {
     if (!music_[i])
     {
-      std::cerr << "Mix_LoadMUS failed!" << i << std::endl;
+      std::cerr << "Mix_LoadMUS failed!" << std::endl;
       exit(EXIT_FAILURE);
     }
   }
@@ -50,7 +50,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   tetroFall();
 
   board_.draw(renderer, *curTetromino_);
-  scoreViewer_.draw(renderer, score_, level_, curTime_);
+  scoreViewer_.draw(renderer, score_, level_, lineClear_, curTime_);
 
   if (endgame_)
     return PageAction::NextPage;

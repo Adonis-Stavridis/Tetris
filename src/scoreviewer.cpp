@@ -5,8 +5,10 @@ ScoreViewer::ScoreViewer()
       scoreValue_(0),
       level_("Level"),
       levelValue_(0),
+      lines_("Lines"),
+      linesValue_(0),
       time_("00:00"),
-      scoreColor_(Colors::snow()),
+      textColor_(Colors::snow()),
       valueColor_(Colors::gold()),
       timeColor_(Colors::tomato())
 {
@@ -21,7 +23,7 @@ ScoreViewer::~ScoreViewer()
 
 void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)
 {
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font, score_, scoreColor_);
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(font, score_, textColor_);
   scoreTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   int tempWidth, tempHeight;
   SDL_QueryTexture(scoreTexture_, NULL, NULL, &tempWidth, &tempHeight);
@@ -37,7 +39,7 @@ void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)
        tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  tempSurface = TTF_RenderText_Blended(font, level_, scoreColor_);
+  tempSurface = TTF_RenderText_Blended(font, level_, textColor_);
   levelTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(levelTexture_, NULL, NULL, &tempWidth, &tempHeight);
   levelRect_ = {scoreRect_.x, scoreValueRect_.y + scoreValueRect_.h + 50,
@@ -53,6 +55,22 @@ void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)
        tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
+  tempSurface = TTF_RenderText_Blended(font, lines_, textColor_);
+  linesTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  SDL_QueryTexture(linesTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  linesRect_ = {levelRect_.x, levelValueRect_.y + levelValueRect_.h + 50,
+                tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+
+  const char *linesValueText = std::to_string(linesValue_).c_str();
+  tempSurface = TTF_RenderText_Blended(font, linesValueText, valueColor_);
+  linesValueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  SDL_QueryTexture(linesValueTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  linesValueRect_ =
+      {linesRect_.x + 10, linesRect_.y + linesRect_.h + 10,
+       tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+
   tempSurface = TTF_RenderText_Blended(font, time_.c_str(), timeColor_);
   timeTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(timeTexture_, NULL, NULL, &tempWidth, &tempHeight);
@@ -64,7 +82,7 @@ void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)
 }
 
 void ScoreViewer::draw(SDL_Renderer *renderer, uint scoreValue, uint levelValue,
-                       std::chrono::duration<double> curTime)
+                       uint lines, std::chrono::duration<double> curTime)
 {
   SDL_RenderCopy(renderer, scoreTexture_, nullptr, &scoreRect_);
   updateScore(renderer, scoreValue);
@@ -72,6 +90,9 @@ void ScoreViewer::draw(SDL_Renderer *renderer, uint scoreValue, uint levelValue,
   SDL_RenderCopy(renderer, levelTexture_, nullptr, &levelRect_);
   updateLevel(renderer, levelValue);
   SDL_RenderCopy(renderer, levelValueTexture_, nullptr, &levelValueRect_);
+  SDL_RenderCopy(renderer, linesTexture_, nullptr, &linesRect_);
+  updateLines(renderer, lines);
+  SDL_RenderCopy(renderer, linesValueTexture_, nullptr, &linesValueRect_);
   updateTime(renderer, curTime);
   SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 }
@@ -110,6 +131,25 @@ void ScoreViewer::updateLevel(SDL_Renderer *renderer, uint levelValue)
   SDL_QueryTexture(levelValueTexture_, NULL, NULL, &tempWidth, &tempHeight);
   levelValueRect_ =
       {levelRect_.x + 10, levelRect_.y + levelRect_.h + 10,
+       tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+}
+
+void ScoreViewer::updateLines(SDL_Renderer *renderer, uint linesValue)
+{
+  if (linesValue_ == linesValue)
+    return;
+
+  linesValue_ = linesValue;
+  const std::string linesString = std::to_string(linesValue_);
+
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(
+      font_, linesString.c_str(), valueColor_);
+  linesValueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  int tempWidth, tempHeight;
+  SDL_QueryTexture(linesValueTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  linesValueRect_ =
+      {linesRect_.x + 10, linesRect_.y + linesRect_.h + 10,
        tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 }
