@@ -69,6 +69,8 @@ void Game::init()
     exit(EXIT_FAILURE);
   }
 
+  Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
+
   startgame_.init(renderer_, font_, windowWidth_, windowHeight_);
   ingame_.init(renderer_, font_);
   endgame_.init(renderer_, font_, windowWidth_, windowHeight_, &ingame_);
