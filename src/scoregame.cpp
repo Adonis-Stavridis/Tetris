@@ -15,7 +15,7 @@ Scoregame::~Scoregame()
 }
 
 void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
-                   const int windowWidth, const int windowHeight, Endgame *endgame)
+                     const int windowWidth, const int windowHeight, Endgame *endgame)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -30,8 +30,8 @@ void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
   endgame_ = endgame;
   renderer_ = renderer;
   font_ = font;
-  
-  music_ = Mix_LoadMUS(NEW_THEME_MUSIC);
+
+  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
   if (!music_)
   {
     std::cerr << "Mix_LoadMUS failed!" << std::endl;
@@ -48,31 +48,31 @@ PageAction Scoregame::draw(SDL_Renderer *renderer)
 
 void Scoregame::start()
 {
-    if (Mix_PlayMusic(music_, -1) == -1)
-    {
-        std::cerr << "Mix_PlayMusic failed!" << std::endl;
-        exit(EXIT_FAILURE);
-    }
+  if (Mix_PlayMusic(music_, -1) == -1)
+  {
+    std::cerr << "Mix_PlayMusic failed!" << std::endl;
+    exit(EXIT_FAILURE);
+  }
 }
 
 PageAction Scoregame::handleInput(SDL_Event event)
 {
-    if (event.type == SDL_KEYDOWN)
+  if (event.type == SDL_KEYDOWN)
+  {
+    switch (event.key.keysym.sym)
     {
-        switch (event.key.keysym.sym)
-        {
 
-        case SDLK_ESCAPE:
-            return PageAction::Quit;
-            break;
+    case SDLK_ESCAPE:
+      return PageAction::Quit;
+      break;
 
-        case SDLK_SPACE:
-            return PageAction::NextPage;
-            break;
+    case SDLK_SPACE:
+      return PageAction::NextPage;
+      break;
 
-        default:
-            break;
-        }
+    default:
+      break;
+    }
   }
 
   return PageAction::None;
