@@ -19,7 +19,7 @@ Pseudogame::~Pseudogame()
 }
 
 void Pseudogame::init(SDL_Renderer *renderer, TTF_Font *font,
-                   const int windowWidth, const int windowHeight, Endgame *endgame)
+                      const int windowWidth, const int windowHeight, Endgame *endgame)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -48,8 +48,8 @@ void Pseudogame::init(SDL_Renderer *renderer, TTF_Font *font,
   SDL_QueryTexture(endTexture_, NULL, NULL, &tempWidth, &tempHeight);
   endRect_ = {(windowWidth / 2) - (tempWidth / 2), pseudoRect_.y + 220, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
-  
-  music_ = Mix_LoadMUS(NEW_THEME_MUSIC);
+
+  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
   if (!music_)
   {
     std::cerr << "Mix_LoadMUS failed!" << std::endl;
@@ -93,13 +93,13 @@ PageAction Pseudogame::handleInput(SDL_Event event)
     switch (event.key.keysym.sym)
     {
     case SDLK_BACKSPACE:
-      if(cpt_ > 0)
+      if (cpt_ > 0)
       {
         cpt_ -= 2;
         pseudo_[cpt_] = '_';
 
         int tempWidth, tempHeight;
-  
+
         SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, pseudo_.c_str(), pseudoColor_);
         pseudoTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
         SDL_QueryTexture(pseudoTexture_, NULL, NULL, &tempWidth, &tempHeight);
@@ -115,21 +115,21 @@ PageAction Pseudogame::handleInput(SDL_Event event)
       break;
 
     case SDLK_SPACE:
-      if(pseudo_[0] != '_')
+      if (pseudo_[0] != '_')
         return PageAction::NextPage;
       break;
 
     default:
-      const char* k = SDL_GetKeyName(event.key.keysym.sym);
-      
-      if(strlen(k) == 1 && isalpha(k[0]))
+      const char *k = SDL_GetKeyName(event.key.keysym.sym);
+
+      if (strlen(k) == 1 && isalpha(k[0]))
       {
         pseudo_[cpt_] = k[0];
-        if(cpt_ < 8)
+        if (cpt_ < 8)
           cpt_ += 2;
-        
+
         int tempWidth, tempHeight;
-  
+
         SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, pseudo_.c_str(), pseudoColor_);
         pseudoTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
         SDL_QueryTexture(pseudoTexture_, NULL, NULL, &tempWidth, &tempHeight);
