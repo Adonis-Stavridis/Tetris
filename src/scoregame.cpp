@@ -32,6 +32,12 @@ void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
   renderer_ = renderer;
   font_ = font;
 
+  score_ = endgame_->getScore();
+  pseudo_ = pseudogame_->getPseudo();
+
+  std::cout << score_ << std::endl;
+  std::cout << pseudo_ << std::endl;
+  
   music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
   if (!music_)
   {

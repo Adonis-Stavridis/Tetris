@@ -37,6 +37,12 @@ public:
   PageAction draw(SDL_Renderer *renderer);
   void start();
   PageAction handleInput(SDL_Event event);
+
+  inline std::string getPseudo()
+  {
+    return pseudo_;
+  }
+  
 };
 
 #endif // PSEUDOGAME_HPP

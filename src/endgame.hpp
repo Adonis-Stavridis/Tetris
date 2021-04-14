@@ -40,6 +40,12 @@ public:
   void start();
   PageAction handleInput(SDL_Event event);
   void updateTime(SDL_Renderer *renderer, std::chrono::duration<double> time);
+
+  inline uint getScore()
+  {
+    return score_;
+  }
+  
 };
 
 #endif // ENDGAME_HPP

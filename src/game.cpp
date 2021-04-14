@@ -77,7 +77,7 @@ void Game::init()
   ingame_.init(renderer_, font_);
   endgame_.init(renderer_, font_, windowWidth_, windowHeight_, &ingame_);
   pseudogame_.init(renderer_,font_, windowWidth_, windowHeight_, &endgame_);
-  scoregame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_);
+  scoregame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_, &pseudogame_);
 
   running_ = true;
 

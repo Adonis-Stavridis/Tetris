@@ -26,7 +26,7 @@ private:
   Endgame *endgame_;
   Pseudogame *pseudogame_;
 
-  uint score;
+  uint score_;
   std::string pseudo_;
 
   Mix_Music *music_;
