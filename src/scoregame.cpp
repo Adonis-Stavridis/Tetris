@@ -15,7 +15,7 @@ Scoregame::~Scoregame()
 }
 
 void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
-                   const int windowWidth, const int windowHeight, Endgame *endgame)
+                   const int windowWidth, const int windowHeight, Endgame *endgame, Pseudogame *pseudogame)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -28,6 +28,7 @@ void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
   SDL_FreeSurface(tempSurface);
 
   endgame_ = endgame;
+  pseudogame_ = pseudogame;
   renderer_ = renderer;
   font_ = font;
   

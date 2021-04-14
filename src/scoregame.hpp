@@ -27,6 +27,10 @@ private:
     SDL_Renderer *renderer_;
     TTF_Font *font_;
     Endgame *endgame_;
+    Pseudogame *pseudogame_;
+
+    uint score;
+    std::string pseudo_;
 
     Mix_Music *music_;
 
@@ -34,7 +38,7 @@ private:
     Scoregame();
     ~Scoregame();
 
-    void init(SDL_Renderer *renderer, TTF_Font *font, const int windowWidth, const int windowHeight, Endgame *endgame);
+    void init(SDL_Renderer *renderer, TTF_Font *font, const int windowWidth, const int windowHeight, Endgame *endgame, Pseudogame *Pseudogame);
     PageAction draw(SDL_Renderer *renderer);
     void start();
     PageAction handleInput(SDL_Event event);

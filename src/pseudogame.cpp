@@ -5,7 +5,6 @@ Pseudogame::Pseudogame()
       textColor_(Colors::gold()),
       pseudoColor_(Colors::dodgerblue()),
       endColor_(Colors::snow()),
-      score_(0),
       cpt_(0),
       pseudo_("_ _ _ _"),
       music_(nullptr)
