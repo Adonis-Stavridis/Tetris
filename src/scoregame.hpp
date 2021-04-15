@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <array>
+#include <utility>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -17,10 +20,13 @@ class Scoregame : public GamePage
 {
 private:
   const char *text_;
-  SDL_Color textColor_;
+  SDL_Color textColor_, pseudoColor_;
 
   SDL_Rect textRect_;
   SDL_Texture *textTexture_;
+
+  std::array<SDL_Rect,9> pseudoRect_;
+  std::array<SDL_Texture*,9> pseudoTexture_;
 
   SDL_Renderer *renderer_;
   TTF_Font *font_;
@@ -31,6 +37,8 @@ private:
   std::string pseudo_;
 
   Mix_Music *music_;
+
+  std::vector<std::pair<uint, std::string>> high_;
 
 public:
   Scoregame();
