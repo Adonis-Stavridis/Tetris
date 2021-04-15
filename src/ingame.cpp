@@ -1,6 +1,6 @@
 #include "ingame.hpp"
 
-Ingame::Ingame(const int windowWidth_, const int windowHeight_)
+Ingame::Ingame(const int windowWidth, const int windowHeight)
     : startTime_(std::chrono::system_clock::now()),
       curTime_(std::chrono::system_clock::now() - startTime_),
       timeToFall_(1000),
@@ -9,8 +9,9 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       lineClear_(0),
       level_(0),
       score_(0),
-      board_(Board(windowWidth_, windowHeight_)),
+      board_(Board(windowWidth, windowHeight)),
       scoreViewer_(ScoreViewer()),
+      queueViewer_(QueueViewer(windowWidth)),
       curTetromino_(nullptr),
       curMusic_(0)
 {
@@ -27,6 +28,7 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
   srand(time(NULL));
 
   scoreViewer_.init(renderer, font);
+  queueViewer_.init(renderer, font);
 
   music_[0] = Mix_LoadMUS(AXEL_F_MUSIC);
   music_[1] = Mix_LoadMUS(BLUE_MUSIC);
@@ -51,6 +53,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
 
   board_.draw(renderer, *curTetromino_);
   scoreViewer_.draw(renderer, score_, level_, curTime_);
+  queueViewer_.draw(renderer);
 
   if (endgame_)
     return PageAction::NextPage;
