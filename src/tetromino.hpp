@@ -54,8 +54,6 @@ public:
   int getPosY() const;
   const SDL_Color getColor() const;
 
-  int getLeft() const;
-  int getTop() const;
   int getWidth() const;
   int getHeight() const;
 

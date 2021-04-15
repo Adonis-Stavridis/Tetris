@@ -165,48 +165,6 @@ void Tetromino::setupRandomRotation()
     rotate(TetrominoRotation::CW);
 }
 
-int Tetromino::getLeft() const
-{
-  size_t isize = matrix_.size();
-  size_t jsize = matrix_[0].size();
-  size_t left = matrix_[0].size() - 1;
-
-  for (size_t i = 0; i < isize; i++)
-  {
-    for (size_t j = 0; j < jsize; j++)
-    {
-      if (matrix_[i][j])
-      {
-        left = std::min(left, j);
-        break;
-      }
-    }
-  }
-
-  return static_cast<int>(left + 1);
-}
-
-int Tetromino::getTop() const
-{
-  size_t isize = matrix_.size();
-  size_t jsize = matrix_[0].size();
-  size_t left = matrix_[0].size() - 1;
-
-  for (size_t i = 0; i < isize; i++)
-  {
-    for (size_t j = 0; j < jsize; j++)
-    {
-      if (matrix_[i][j])
-      {
-        left = std::min(left, j);
-        break;
-      }
-    }
-  }
-
-  return 0;
-}
-
 int Tetromino::getWidth() const
 {
   size_t isize = matrix_.size();
