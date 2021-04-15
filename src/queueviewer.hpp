@@ -15,7 +15,8 @@ private:
   SDL_Color textColor_;
   SDL_Texture *textTexture_;
 
-  SDL_Rect textRect_, rect0_, rect1_, rect2_, rect3_;
+  SDL_Rect textRect_;
+  std::vector<SDL_Rect> tetroRects_;
 
   std::vector<Tetromino> queue_;
 
@@ -25,7 +26,7 @@ public:
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
   void draw(SDL_Renderer *renderer);
-  
+
   void updateQueue(const std::queue<Tetromino> queue);
 };
 

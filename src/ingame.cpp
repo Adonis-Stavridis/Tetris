@@ -67,6 +67,8 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
 
 void Ingame::start()
 {
+  board_.start();
+
   startTime_ = std::chrono::system_clock::now();
   curTime_ = std::chrono::system_clock::now() - startTime_;
 
@@ -83,8 +85,6 @@ void Ingame::start()
 
   curTetromino_ = initTetroQueue();
   updateGhost();
-
-  board_.start();
 
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::shuffle(music_.begin(), music_.end(), std::default_random_engine(seed));
@@ -153,6 +153,9 @@ Tetromino *Ingame::initTetroQueue()
     tempQueue.push(spawnTetromino());
 
   tetroQueue_.swap(tempQueue);
+
+  queueViewer_.updateQueue(tetroQueue_);
+
   return &tetroQueue_.front();
 }
 
@@ -160,6 +163,8 @@ Tetromino *Ingame::getTetroQueue()
 {
   tetroQueue_.pop();
   tetroQueue_.push(spawnTetromino());
+
+  queueViewer_.updateQueue(tetroQueue_);
 
   return &tetroQueue_.front();
 }
@@ -169,7 +174,12 @@ Tetromino Ingame::spawnTetromino()
   TetrominoType tetroType =
       static_cast<TetrominoType>(rand() % TetrominoType::num);
 
-  return Tetromino(tetroType);
+  Tetromino newTetro = Tetromino(tetroType);
+
+  if (board_.collision(newTetro))
+    endgame_ = true;
+
+  return newTetro;
 }
 
 void Ingame::updateTime()
