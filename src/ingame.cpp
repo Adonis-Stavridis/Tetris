@@ -53,7 +53,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   tetroFall();
 
   board_.draw(renderer, *curTetromino_, ghostTetromino_);
-  scoreViewer_.draw(renderer, score_, level_, lineClear_, curTime_);
+  scoreViewer_.draw(renderer);
   queueViewer_.draw(renderer);
 
   if (endgame_)
@@ -184,6 +184,8 @@ Tetromino Ingame::spawnTetromino()
 void Ingame::updateTime()
 {
   curTime_ = std::chrono::system_clock::now() - startTime_;
+
+  scoreViewer_.updateTime(curTime_);
 }
 
 void Ingame::tetroFall()
@@ -272,6 +274,10 @@ void Ingame::updateScore(uint lines)
   {
     timeToFall_ -= 100;
   }
+
+  scoreViewer_.updateScore(score_);
+  scoreViewer_.updateLevel(level_);
+  scoreViewer_.updateLines(lineClear_);
 }
 
 void Ingame::playMusic()

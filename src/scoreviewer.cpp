@@ -82,26 +82,22 @@ void ScoreViewer::init(SDL_Renderer *renderer, TTF_Font *font)
       {scoreRect_.x, scoreValueRect_.y + scoreValueRect_.h + 500, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
+  renderer_ = renderer;
   font_ = font;
 }
 
-void ScoreViewer::draw(SDL_Renderer *renderer, uint scoreValue, uint levelValue,
-                       uint lines, std::chrono::duration<double> curTime)
+void ScoreViewer::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, scoreTexture_, nullptr, &scoreRect_);
-  updateScore(renderer, scoreValue);
   SDL_RenderCopy(renderer, scoreValueTexture_, nullptr, &scoreValueRect_);
   SDL_RenderCopy(renderer, levelTexture_, nullptr, &levelRect_);
-  updateLevel(renderer, levelValue);
   SDL_RenderCopy(renderer, levelValueTexture_, nullptr, &levelValueRect_);
   SDL_RenderCopy(renderer, linesTexture_, nullptr, &linesRect_);
-  updateLines(renderer, lines);
   SDL_RenderCopy(renderer, linesValueTexture_, nullptr, &linesValueRect_);
-  updateTime(renderer, curTime);
   SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
 }
 
-void ScoreViewer::updateScore(SDL_Renderer *renderer, uint scoreValue)
+void ScoreViewer::updateScore(uint scoreValue)
 {
   if (scoreValue_ == scoreValue)
     return;
@@ -111,7 +107,7 @@ void ScoreViewer::updateScore(SDL_Renderer *renderer, uint scoreValue)
 
   SDL_Surface *tempSurface = TTF_RenderText_Blended(
       font_, scoreString.c_str(), valueColor_);
-  scoreValueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  scoreValueTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
   int tempWidth, tempHeight;
   SDL_QueryTexture(scoreValueTexture_, NULL, NULL, &tempWidth, &tempHeight);
   scoreValueRect_ =
@@ -120,7 +116,7 @@ void ScoreViewer::updateScore(SDL_Renderer *renderer, uint scoreValue)
   SDL_FreeSurface(tempSurface);
 }
 
-void ScoreViewer::updateLevel(SDL_Renderer *renderer, uint levelValue)
+void ScoreViewer::updateLevel( uint levelValue)
 {
   if (levelValue_ == levelValue)
     return;
@@ -130,7 +126,7 @@ void ScoreViewer::updateLevel(SDL_Renderer *renderer, uint levelValue)
 
   SDL_Surface *tempSurface = TTF_RenderText_Blended(
       font_, levelString.c_str(), valueColor_);
-  levelValueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  levelValueTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
   int tempWidth, tempHeight;
   SDL_QueryTexture(levelValueTexture_, NULL, NULL, &tempWidth, &tempHeight);
   levelValueRect_ =
@@ -139,7 +135,7 @@ void ScoreViewer::updateLevel(SDL_Renderer *renderer, uint levelValue)
   SDL_FreeSurface(tempSurface);
 }
 
-void ScoreViewer::updateLines(SDL_Renderer *renderer, uint linesValue)
+void ScoreViewer::updateLines( uint linesValue)
 {
   if (linesValue_ == linesValue)
     return;
@@ -149,7 +145,7 @@ void ScoreViewer::updateLines(SDL_Renderer *renderer, uint linesValue)
 
   SDL_Surface *tempSurface = TTF_RenderText_Blended(
       font_, linesString.c_str(), valueColor_);
-  linesValueTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  linesValueTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
   int tempWidth, tempHeight;
   SDL_QueryTexture(linesValueTexture_, NULL, NULL, &tempWidth, &tempHeight);
   linesValueRect_ =
@@ -158,8 +154,7 @@ void ScoreViewer::updateLines(SDL_Renderer *renderer, uint linesValue)
   SDL_FreeSurface(tempSurface);
 }
 
-void ScoreViewer::updateTime(SDL_Renderer *renderer,
-                             std::chrono::duration<double> curTime)
+void ScoreViewer::updateTime( std::chrono::duration<double> curTime)
 {
   uint minutes =
       std::chrono::duration_cast<std::chrono::minutes>(curTime).count();
@@ -181,7 +176,7 @@ void ScoreViewer::updateTime(SDL_Renderer *renderer,
     time_ = newTime;
     SDL_Surface *tempSurface = TTF_RenderText_Blended(
         font_, time_.c_str(), timeColor_);
-    timeTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+    timeTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
     SDL_FreeSurface(tempSurface);
   }
 }

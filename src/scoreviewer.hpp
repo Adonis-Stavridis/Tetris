@@ -28,21 +28,20 @@ private:
   SDL_Texture *scoreTexture_, *scoreValueTexture_, *levelTexture_,
       *levelValueTexture_, *linesTexture_, *linesValueTexture_, *timeTexture_;
 
+  SDL_Renderer *renderer_;
   TTF_Font *font_;
-
-  void updateScore(SDL_Renderer *renderer, uint scoreValue);
-  void updateLevel(SDL_Renderer *renderer, uint levelValue);
-  void updateLines(SDL_Renderer *renderer, uint linesValue);
-  void updateTime(SDL_Renderer *renderer,
-                  std::chrono::duration<double> curTime);
 
 public:
   ScoreViewer();
   ~ScoreViewer();
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
-  void draw(SDL_Renderer *renderer, uint scoreValue, uint levelValue,
-            uint lines, std::chrono::duration<double> curTime);
+  void draw(SDL_Renderer *renderer);
+
+  void updateScore(uint scoreValue);
+  void updateLevel(uint levelValue);
+  void updateLines(uint linesValue);
+  void updateTime(std::chrono::duration<double> curTime);
 };
 
 #endif // SCOREVIEWER_HPP
