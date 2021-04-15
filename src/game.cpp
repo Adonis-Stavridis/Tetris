@@ -12,6 +12,8 @@ Game::Game()
       startgame_(Startgame()),
       ingame_(Ingame(windowWidth_, windowHeight_)),
       endgame_(Endgame()),
+      pseudogame_(Pseudogame()),
+      scoregame_(Scoregame()),
       gamePage_(&startgame_)
 {
 }
@@ -69,9 +71,13 @@ void Game::init()
     exit(EXIT_FAILURE);
   }
 
+  Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
+
   startgame_.init(renderer_, font_, windowWidth_, windowHeight_);
   ingame_.init(renderer_, font_);
   endgame_.init(renderer_, font_, windowWidth_, windowHeight_, &ingame_);
+  pseudogame_.init(renderer_,font_, windowWidth_, windowHeight_, &endgame_);
+  scoregame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_, &pseudogame_);
 
   running_ = true;
 
@@ -125,7 +131,7 @@ void Game::checkEvent(PageAction action)
 {
   static uint currentState = 0;
   static GamePage *gameStates[PAGE_NUMBER] =
-      {&startgame_, &ingame_, &endgame_};
+      {&startgame_, &ingame_, &endgame_,&pseudogame_, &scoregame_};
 
   switch (action)
   {

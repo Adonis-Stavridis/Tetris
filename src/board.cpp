@@ -23,7 +23,8 @@ void Board::start()
   }
 }
 
-void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino)
+void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino,
+                 const Tetromino &ghost)
 {
   SDL_SetRenderDrawColor(renderer, fillColor_.r, fillColor_.g, fillColor_.b,
                          fillColor_.a);
@@ -90,6 +91,36 @@ void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino)
   for (int y = rect_.y + 32; y < rect_.y + rect_.h; y += 32)
   {
     SDL_RenderDrawLine(renderer, rect_.x, y, rect_.x + rect_.w, y);
+  }
+
+  const Matrix ghostMatrix = ghost.getMatrix();
+  const size_t isizeGhost = ghostMatrix.size();
+  const size_t jsizeGhost = ghostMatrix[0].size();
+  const int tetroPosXGhost = ghost.getPosX();
+  const int tetroPosYGhost = ghost.getPosY();
+  const SDL_Color tetroColorGhost = ghost.getColor();
+
+  SDL_SetRenderDrawColor(renderer, tetroColorGhost.r, tetroColorGhost.g,
+                         tetroColorGhost.b, tetroColorGhost.a);
+  for (size_t i = 0; i < isizeGhost; i++)
+  {
+    for (size_t j = 0; j < jsizeGhost; j++)
+    {
+      int ivalue = static_cast<int>(i);
+      int jvalue = static_cast<int>(j);
+
+      int iPos = tetroPosXGhost + ivalue;
+      int jPos = tetroPosYGhost + jvalue;
+
+      if (jPos >= 0 && ghostMatrix[i][j])
+      {
+        SDL_Rect tetroRect = {rect_.x + 32 * (iPos) + 1,
+                              rect_.y + 32 * (jPos) + 1,
+                              32 - 1,
+                              32 - 1};
+        SDL_RenderDrawRect(renderer, &tetroRect);
+      }
+    }
   }
 
   SDL_SetRenderDrawColor(renderer, borderColor_.r, borderColor_.g,

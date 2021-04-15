@@ -15,7 +15,11 @@ Endgame::Endgame()
 
 Endgame::~Endgame()
 {
-  SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(scoreTexture_);
+  // SDL_DestroyTexture(timeTexture_);
+  // SDL_DestroyTexture(levelTexture_);
+  // SDL_DestroyTexture(endTexture_);
 
   Mix_FreeMusic(music_);
 }
@@ -67,7 +71,7 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
   endRect_ = {(windowWidth / 2) - (tempWidth / 2), timeRect_.y + 150, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  music_ = Mix_LoadMUS(NEW_THEME_MUSIC);
+  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
   if (!music_)
   {
     std::cerr << "Mix_LoadMUS failed!" << std::endl;
@@ -117,11 +121,13 @@ void Endgame::start()
   levelRect_ = {levelRect_.x, levelRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Endgame::handleInput(SDL_Event event)

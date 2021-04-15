@@ -9,7 +9,7 @@ Startgame::Startgame()
 
 Startgame::~Startgame()
 {
-  SDL_DestroyTexture(textTexture_);
+  // SDL_DestroyTexture(textTexture_);
 
   Mix_FreeMusic(music_);
 }
@@ -25,7 +25,7 @@ void Startgame::init(SDL_Renderer *renderer, TTF_Font *font,
                (windowHeight / 2) - (tempHeight / 2), tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  music_ = Mix_LoadMUS(THEME_MUSIC);
+  music_ = Mix_LoadMUS(Music::path("theme").c_str());
   if (!music_)
   {
     std::cerr << "Mix_LoadMUS failed!" << std::endl;
@@ -42,11 +42,13 @@ PageAction Startgame::draw(SDL_Renderer *renderer)
 
 void Startgame::start()
 {
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_, -1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 }
 
 PageAction Startgame::handleInput(SDL_Event event)

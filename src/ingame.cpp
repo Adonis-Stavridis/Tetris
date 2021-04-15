@@ -13,6 +13,7 @@ Ingame::Ingame(const int windowWidth, const int windowHeight)
       scoreViewer_(ScoreViewer()),
       queueViewer_(QueueViewer(windowWidth)),
       curTetromino_(nullptr),
+      ghostTetromino_(Tetromino()),
       curMusic_(0)
 {
 }
@@ -30,17 +31,17 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
   scoreViewer_.init(renderer, font);
   queueViewer_.init(renderer, font);
 
-  music_[0] = Mix_LoadMUS(AXEL_F_MUSIC);
-  music_[1] = Mix_LoadMUS(BLUE_MUSIC);
-  music_[2] = Mix_LoadMUS(BOHEMIAN_RHAPSODY_MUSIC);
-  music_[3] = Mix_LoadMUS(HARDER_BETTER_FASTER_STRONGER_MUSIC);
-  music_[4] = Mix_LoadMUS(RASPUTIN_MUSIC);
+  music_[0] = Mix_LoadMUS(Music::path("axel_f").c_str());
+  music_[1] = Mix_LoadMUS(Music::path("blue").c_str());
+  music_[2] = Mix_LoadMUS(Music::path("bohemian_rhapsody").c_str());
+  music_[3] = Mix_LoadMUS(Music::path("harder_better_faster_stronger").c_str());
+  music_[4] = Mix_LoadMUS(Music::path("rasputin").c_str());
 
   for (int i = 0; i < MUSIC_NUMBER; i++)
   {
     if (!music_[i])
     {
-      std::cerr << "Mix_LoadMUS failed!" << i << std::endl;
+      std::cerr << "Mix_LoadMUS failed!" << std::endl;
       exit(EXIT_FAILURE);
     }
   }
@@ -51,8 +52,8 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
   updateTime();
   tetroFall();
 
-  board_.draw(renderer, *curTetromino_);
-  scoreViewer_.draw(renderer, score_, level_, curTime_);
+  board_.draw(renderer, *curTetromino_, ghostTetromino_);
+  scoreViewer_.draw(renderer, score_, level_, lineClear_, curTime_);
   queueViewer_.draw(renderer);
 
   if (endgame_)
@@ -81,6 +82,7 @@ void Ingame::start()
   score_ = 0;
 
   curTetromino_ = initTetroQueue();
+  updateGhost();
 
   board_.start();
 
@@ -100,22 +102,30 @@ PageAction Ingame::handleInput(SDL_Event event)
     {
     case SDLK_LEFT:
       tetroTranslate(TetrominoTranslation::Left);
+      updateGhost();
       break;
 
     case SDLK_RIGHT:
       tetroTranslate(TetrominoTranslation::Right);
+      updateGhost();
       break;
 
     case SDLK_DOWN:
       tetroTranslate(TetrominoTranslation::Down);
       break;
 
+    case SDLK_UP:
+      hardDrop();
+      break;
+
     case SDLK_z:
       tetroRotate(TetrominoRotation::CCW);
+      updateGhost();
       break;
 
     case SDLK_x:
       tetroRotate(TetrominoRotation::CW);
+      updateGhost();
       break;
 
     case SDLK_ESCAPE:
@@ -190,14 +200,7 @@ void Ingame::tetroTranslate(TetrominoTranslation translation)
 
   if (translation == TetrominoTranslation::Down && board_.lockable(tempTetro))
   {
-    int lines = board_.lock(*curTetromino_);
-    if (lines < 0)
-      endgame_ = true;
-    else
-    {
-      updateScore(lines);
-      curTetromino_ = getTetroQueue();
-    }
+    tetroLock();
   }
 }
 
@@ -208,6 +211,41 @@ void Ingame::tetroRotate(TetrominoRotation rotation)
   tempTetro.rotate(rotation);
   if (!board_.collision(tempTetro))
     *curTetromino_ = tempTetro;
+}
+
+void Ingame::tetroLock()
+{
+  int lines = board_.lock(*curTetromino_);
+  if (lines < 0)
+    endgame_ = true;
+  else
+  {
+    updateScore(lines);
+    curTetromino_ = getTetroQueue();
+    updateGhost();
+  }
+}
+
+void Ingame::updateGhost()
+{
+  Tetromino tempTetro = *curTetromino_;
+  Tetromino prevTetro = tempTetro;
+
+  tempTetro.translate(TetrominoTranslation::Down);
+
+  while (!board_.collision(tempTetro))
+  {
+    prevTetro = tempTetro;
+    tempTetro.translate(TetrominoTranslation::Down);
+  }
+
+  ghostTetromino_ = prevTetro;
+}
+
+void Ingame::hardDrop()
+{
+  *curTetromino_ = ghostTetromino_;
+  tetroLock();
 }
 
 void Ingame::updateScore(uint lines)
@@ -229,11 +267,13 @@ void Ingame::updateScore(uint lines)
 
 void Ingame::playMusic()
 {
+#ifdef MUSIC_ENABLED
   if (Mix_PlayMusic(music_[curMusic_], 1) == -1)
   {
     std::cerr << "Mix_PlayMusic failed!" << std::endl;
     exit(EXIT_FAILURE);
   }
+#endif
 
   curMusic_ = (curMusic_ + 1) % MUSIC_NUMBER;
 }
