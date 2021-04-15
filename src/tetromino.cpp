@@ -71,7 +71,7 @@ Tetromino::Tetromino(TetrominoType tetroType)
   }
 
   setupRandomRotation();
-  posY_ = -setupPosY();
+  posY_ = -getHeight();
 }
 
 Tetromino::~Tetromino()
@@ -165,11 +165,10 @@ void Tetromino::setupRandomRotation()
     rotate(TetrominoRotation::CW);
 }
 
-int Tetromino::setupPosY()
+int Tetromino::getWidth() const
 {
   size_t isize = matrix_.size();
   size_t jsize = matrix_[0].size();
-  size_t low = 0;
 
   for (size_t i = isize; i-- > 0;)
   {
@@ -177,11 +176,31 @@ int Tetromino::setupPosY()
     {
       if (matrix_[i][j])
       {
-        low = std::max(low, j);
+        return static_cast<int>(i);
+      }
+    }
+  }
+
+  return 0;
+}
+
+int Tetromino::getHeight() const
+{
+  size_t isize = matrix_.size();
+  size_t jsize = matrix_[0].size();
+  size_t height = 0;
+
+  for (size_t i = isize; i-- > 0;)
+  {
+    for (size_t j = jsize; j-- > 0;)
+    {
+      if (matrix_[i][j])
+      {
+        height = std::max(height, j);
         break;
       }
     }
   }
 
-  return static_cast<int>(low);
+  return static_cast<int>(height);
 }

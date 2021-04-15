@@ -16,6 +16,7 @@
 #include "gamepage.hpp"
 #include "board.hpp"
 #include "scoreviewer.hpp"
+#include "queueviewer.hpp"
 #include "tetromino.hpp"
 
 #define TETROQUEUE_SIZE 4
@@ -42,6 +43,7 @@ private:
 
   Board board_;
   ScoreViewer scoreViewer_;
+  QueueViewer queueViewer_;
 
   Tetromino *curTetromino_;
   Tetromino ghostTetromino_;
@@ -70,7 +72,7 @@ private:
   void playMusic();
 
 public:
-  Ingame(const int windowWidth_, const int windowHeight_);
+  Ingame(const int windowWidth, const int windowHeight);
   ~Ingame();
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
