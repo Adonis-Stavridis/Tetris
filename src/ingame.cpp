@@ -91,6 +91,11 @@ void Ingame::start()
 
   curMusic_ = 0;
 
+  scoreViewer_.updateTime(curTime_);
+  scoreViewer_.updateScore(score_);
+  scoreViewer_.updateLevel(level_);
+  scoreViewer_.updateLines(lineClear_);
+
   playMusic();
 }
 
