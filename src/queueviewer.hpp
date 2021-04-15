@@ -24,8 +24,9 @@ public:
   ~QueueViewer();
 
   void init(SDL_Renderer *renderer, TTF_Font *font);
-  void start(const std::queue<Tetromino> queue);
   void draw(SDL_Renderer *renderer);
+  
+  void updateQueue(const std::queue<Tetromino> queue);
 };
 
 #endif // QUEUEVIEWER_HPP
