@@ -132,11 +132,6 @@ PageAction Ingame::handleInput(SDL_Event event)
       return PageAction::Quit;
       break;
 
-    // ! TO REMOVE : TEMPORARY
-    case SDLK_SPACE:
-      return PageAction::NextPage;
-      break;
-
     default:
       break;
     }

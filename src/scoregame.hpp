@@ -38,7 +38,7 @@ private:
 
   Mix_Music *music_;
 
-  std::vector<std::pair<uint, std::string>> high_;
+  std::vector<std::pair<std::string, uint>> high_;
 
 public:
   Scoregame();
