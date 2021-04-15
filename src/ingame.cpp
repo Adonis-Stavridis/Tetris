@@ -128,6 +128,10 @@ PageAction Ingame::handleInput(SDL_Event event)
       updateGhost();
       break;
 
+    case SDLK_SPACE:
+      hardDrop();
+      break;
+
     case SDLK_ESCAPE:
       return PageAction::Quit;
       break;

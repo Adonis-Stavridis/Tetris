@@ -1,7 +1,7 @@
 #include "scoregame.hpp"
 
 Scoregame::Scoregame()
-    : text_("Table of Highscores"),
+    : text_("Highscores"),
       textColor_(Colors::gold()),
       pseudoColor_(Colors::dodgerblue()),
       score_(0),
@@ -112,28 +112,32 @@ void Scoregame::start()
       highscore += high_[i].first + " - " + std::to_string(high_[i].second);
     }
 
-    SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, highscore.c_str(), pseudoColor_);
+    SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, highscore.c_str(),
+                                                      pseudoColor_);
     pseudoTexture_[i] = SDL_CreateTextureFromSurface(renderer_, tempSurface);
     SDL_QueryTexture(pseudoTexture_[i], NULL, NULL, &tempWidth, &tempHeight);
-    tempWidth /= 2;
-    tempHeight /= 2;
+    tempWidth *= 0.6;
+    tempHeight *= 0.6;
 
     if (i < 3)
     {
       int tmp = n * (i + 1);
-      pseudoRect_[i] = {textRect_.x + 100, textRect_.y + 100 + tmp, tempWidth, tempHeight};
+      pseudoRect_[i] = {50 + 100, textRect_.y + 100 + tmp, tempWidth,
+                        tempHeight};
     }
 
     else if (i > 2 && i < 6)
     {
       int tmp = n * ((i % 3) + 1);
-      pseudoRect_[i] = {textRect_.x + 500, textRect_.y + 100 + tmp, tempWidth, tempHeight};
+      pseudoRect_[i] = {50 + 450, textRect_.y + 100 + tmp, tempWidth,
+                        tempHeight};
     }
 
     else
     {
       int tmp = n * ((i % 3) + 1);
-      pseudoRect_[i] = {textRect_.x + 900, textRect_.y + 100 + tmp, tempWidth, tempHeight};
+      pseudoRect_[i] = {50 + 800, textRect_.y + 100 + tmp, tempWidth,
+                        tempHeight};
     }
 
     SDL_FreeSurface(tempSurface);

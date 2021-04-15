@@ -1,7 +1,7 @@
 #include "pseudogame.hpp"
 
 Pseudogame::Pseudogame()
-    : text_("Enter a nickname :"),
+    : text_("Enter username"),
       textColor_(Colors::gold()),
       pseudoColor_(Colors::dodgerblue()),
       endColor_(Colors::snow()),
