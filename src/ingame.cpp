@@ -1,6 +1,6 @@
 #include "ingame.hpp"
 
-Ingame::Ingame(const int windowWidth_, const int windowHeight_)
+Ingame::Ingame(const int windowWidth, const int windowHeight)
     : startTime_(std::chrono::system_clock::now()),
       curTime_(std::chrono::system_clock::now() - startTime_),
       timeToFall_(1000),
@@ -9,8 +9,9 @@ Ingame::Ingame(const int windowWidth_, const int windowHeight_)
       lineClear_(0),
       level_(0),
       score_(0),
-      board_(Board(windowWidth_, windowHeight_)),
+      board_(Board(windowWidth, windowHeight)),
       scoreViewer_(ScoreViewer()),
+      queueViewer_(QueueViewer(windowWidth)),
       curTetromino_(nullptr),
       ghostTetromino_(Tetromino()),
       curMusic_(0)
@@ -28,6 +29,7 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
   srand(time(NULL));
 
   scoreViewer_.init(renderer, font);
+  queueViewer_.init(renderer, font);
 
   music_[0] = Mix_LoadMUS(Music::path("axel_f").c_str());
   music_[1] = Mix_LoadMUS(Music::path("blue").c_str());
@@ -52,6 +54,7 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
 
   board_.draw(renderer, *curTetromino_, ghostTetromino_);
   scoreViewer_.draw(renderer, score_, level_, lineClear_, curTime_);
+  queueViewer_.draw(renderer);
 
   if (endgame_)
     return PageAction::NextPage;
@@ -64,6 +67,8 @@ PageAction Ingame::draw(SDL_Renderer *renderer)
 
 void Ingame::start()
 {
+  board_.start();
+
   startTime_ = std::chrono::system_clock::now();
   curTime_ = std::chrono::system_clock::now() - startTime_;
 
@@ -80,8 +85,6 @@ void Ingame::start()
 
   curTetromino_ = initTetroQueue();
   updateGhost();
-
-  board_.start();
 
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::shuffle(music_.begin(), music_.end(), std::default_random_engine(seed));
@@ -150,6 +153,9 @@ Tetromino *Ingame::initTetroQueue()
     tempQueue.push(spawnTetromino());
 
   tetroQueue_.swap(tempQueue);
+
+  queueViewer_.updateQueue(tetroQueue_);
+
   return &tetroQueue_.front();
 }
 
@@ -157,6 +163,8 @@ Tetromino *Ingame::getTetroQueue()
 {
   tetroQueue_.pop();
   tetroQueue_.push(spawnTetromino());
+
+  queueViewer_.updateQueue(tetroQueue_);
 
   return &tetroQueue_.front();
 }
@@ -166,7 +174,12 @@ Tetromino Ingame::spawnTetromino()
   TetrominoType tetroType =
       static_cast<TetrominoType>(rand() % TetrominoType::num);
 
-  return Tetromino(tetroType);
+  Tetromino newTetro = Tetromino(tetroType);
+
+  if (board_.collision(newTetro))
+    endgame_ = true;
+
+  return newTetro;
 }
 
 void Ingame::updateTime()

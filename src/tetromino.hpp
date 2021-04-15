@@ -43,7 +43,6 @@ private:
   SDL_Color color_;
 
   void setupRandomRotation();
-  int setupPosY();
 
 public:
   Tetromino();
@@ -54,6 +53,11 @@ public:
   int getPosX() const;
   int getPosY() const;
   const SDL_Color getColor() const;
+
+  int getLeft() const;
+  int getTop() const;
+  int getWidth() const;
+  int getHeight() const;
 
   void translate(TetrominoTranslation translation);
   void rotate(TetrominoRotation rotation);
