@@ -26,9 +26,11 @@ void QueueViewer::init(SDL_Renderer *renderer, TTF_Font *font)
   tetroRects_.reserve(4);
 
   tetroRects_[0] =
-      {textRect_.x, textRect_.y + textRect_.h + 50, 175, 175};
+      {textRect_.x + textRect_.w - 175,
+       textRect_.y + textRect_.h + 50, 175, 175};
   tetroRects_[1] =
-      {tetroRects_[0].x, tetroRects_[0].y + tetroRects_[0].h + 20, 100, 100};
+      {tetroRects_[0].x + tetroRects_[0].w - 100,
+       tetroRects_[0].y + tetroRects_[0].h + 20, 100, 100};
   tetroRects_[2] =
       {tetroRects_[1].x, tetroRects_[1].y + tetroRects_[1].h + 20, 100, 100};
   tetroRects_[3] =
@@ -75,6 +77,8 @@ void QueueViewer::draw(SDL_Renderer *renderer)
       }
     }
 
+    SDL_SetRenderDrawColor(renderer, textColor_.r, textColor_.g, textColor_.b,
+                           textColor_.a);
     SDL_RenderDrawRect(renderer, &tetroRects_[idx]);
   }
 }
