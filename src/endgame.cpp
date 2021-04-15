@@ -6,9 +6,11 @@ Endgame::Endgame()
       scoreColor_(Colors::gold()),
       timeColor_(Colors::mediumseagreen()),
       levelColor_(Colors::dodgerblue()),
+      linesColor_(Colors::violet()),
       endColor_(Colors::snow()),
       score_(0),
       level_(0),
+      lines_(0),
       music_(nullptr)
 {
 }
@@ -25,7 +27,8 @@ Endgame::~Endgame()
 }
 
 void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
-                   const int windowWidth, const int windowHeight, Ingame *ingame)
+                   const int windowWidth, const int windowHeight,
+                   Ingame *ingame)
 {
   SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
   textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
@@ -46,7 +49,7 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
   tempSurface = TTF_RenderText_Blended(font, scoreStd.c_str(), scoreColor_);
   scoreTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(scoreTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  scoreRect_ = {textRect_.x + 150, textRect_.y + 150, tempWidth, tempHeight};
+  scoreRect_ = {textRect_.x + 150, textRect_.y + 120, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
   std::string levelStd = "Level : " + std::to_string(level_);
@@ -57,18 +60,29 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
   levelRect_ = {scoreRect_.x, scoreRect_.y + 60, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  std::string timeStd = "Time : 00:00";
+  std::string linesStd = "Lines : " + std::to_string(lines_);
+
+  tempSurface = TTF_RenderText_Blended(font, linesStd.c_str(), linesColor_);
+  linesTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
+  SDL_QueryTexture(linesTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  linesRect_ = {levelRect_.x, levelRect_.y + 60, tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+
+  std::string timeStd = "Time  : 00:00";
 
   tempSurface = TTF_RenderText_Blended(font, timeStd.c_str(), timeColor_);
   timeTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(timeTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  timeRect_ = {levelRect_.x, levelRect_.y + 60, tempWidth, tempHeight};
+  timeRect_ = {linesRect_.x, linesRect_.y + 60, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  tempSurface = TTF_RenderText_Blended(font, "Press [space] to CONTINUE", endColor_);
+  tempSurface = TTF_RenderText_Blended(font, "Press [space] to CONTINUE",
+                                       endColor_);
   endTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   SDL_QueryTexture(endTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  endRect_ = {(windowWidth / 2) - (tempWidth / 2), timeRect_.y + 150, tempWidth, tempHeight};
+  endRect_ = {(windowWidth / 2) - (tempWidth / 2),
+              windowHeight - tempHeight - 120,
+              tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
   music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
@@ -83,8 +97,9 @@ PageAction Endgame::draw(SDL_Renderer *renderer)
 {
   SDL_RenderCopy(renderer, textTexture_, nullptr, &textRect_);
   SDL_RenderCopy(renderer, scoreTexture_, nullptr, &scoreRect_);
-  SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
   SDL_RenderCopy(renderer, levelTexture_, nullptr, &levelRect_);
+  SDL_RenderCopy(renderer, linesTexture_, nullptr, &linesRect_);
+  SDL_RenderCopy(renderer, timeTexture_, nullptr, &timeRect_);
   SDL_RenderCopy(renderer, endTexture_, nullptr, &endRect_);
 
   return PageAction::None;
@@ -95,14 +110,16 @@ void Endgame::start()
   score_ = ingame_->getScore();
   time_ = ingame_->getTime();
   level_ = ingame_->getLevel();
+  lines_ = ingame_->getLines();
 
   updateTime(renderer_, time_);
 
   std::string scoreStd = "Score : " + std::to_string(score_);
-  std::string timeStd = "Time : ";
+  std::string timeStd = "Time  : ";
 
   int tempWidth, tempHeight;
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, scoreStd.c_str(), scoreColor_);
+  SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, scoreStd.c_str(),
+                                                    scoreColor_);
   scoreTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
   SDL_QueryTexture(scoreTexture_, NULL, NULL, &tempWidth, &tempHeight);
   scoreRect_ = {scoreRect_.x, scoreRect_.y, tempWidth, tempHeight};
@@ -119,6 +136,14 @@ void Endgame::start()
   levelTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
   SDL_QueryTexture(levelTexture_, NULL, NULL, &tempWidth, &tempHeight);
   levelRect_ = {levelRect_.x, levelRect_.y, tempWidth, tempHeight};
+  SDL_FreeSurface(tempSurface);
+
+  std::string linesStd = "Lines : " + std::to_string(lines_);
+
+  tempSurface = TTF_RenderText_Blended(font_, linesStd.c_str(), linesColor_);
+  linesTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
+  SDL_QueryTexture(linesTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  linesRect_ = {linesRect_.x, linesRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
 #ifdef MUSIC_ENABLED
@@ -161,7 +186,7 @@ void Endgame::updateTime(SDL_Renderer *renderer,
       std::chrono::duration_cast<std::chrono::seconds>(time).count() %
       60;
 
-  std::string newTime = "Time : ";
+  std::string newTime = "Time  : ";
   if (minutes < 10)
     newTime += "0";
   newTime += std::to_string(minutes);

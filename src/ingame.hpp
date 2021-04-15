@@ -94,6 +94,11 @@ public:
   {
     return level_;
   }
+
+  inline uint getLines()
+  {
+    return lineClear_;
+  }
 };
 
 #endif // INGAME_HPP

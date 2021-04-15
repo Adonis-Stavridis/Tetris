@@ -14,19 +14,23 @@
 class Endgame : public GamePage
 {
 private:
-
   const char *text_;
-  SDL_Color textColor_, scoreColor_, timeColor_, levelColor_, endColor_;
+  SDL_Color textColor_, scoreColor_, timeColor_, levelColor_, linesColor_,
+      endColor_;
 
-  SDL_Rect textRect_, scoreRect_, timeRect_, levelRect_, endRect_;
-  SDL_Texture *textTexture_, *scoreTexture_, *timeTexture_, *levelTexture_, *endTexture_;
+  SDL_Rect textRect_, scoreRect_, timeRect_, levelRect_, linesRect_, endRect_;
+  SDL_Texture *textTexture_, *scoreTexture_, *timeTexture_, *levelTexture_,
+      *linesTexture_, *endTexture_;
 
   //To get score + time and print them
   uint score_;
+  uint level_;
+  uint lines_;
   std::chrono::duration<double> time_;
-  int level_;
+
   SDL_Renderer *renderer_;
   TTF_Font *font_;
+
   Ingame *ingame_;
 
   Mix_Music *music_;
@@ -45,7 +49,6 @@ public:
   {
     return score_;
   }
-  
 };
 
 #endif // ENDGAME_HPP
