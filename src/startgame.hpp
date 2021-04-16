@@ -7,6 +7,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "gamepage.hpp"
+#include "textures.hpp"
 
 class Startgame : public GamePage
 {

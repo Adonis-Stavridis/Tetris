@@ -17,13 +17,11 @@ Startgame::~Startgame()
 void Startgame::init(SDL_Renderer *renderer, TTF_Font *font,
                      const int windowWidth, const int windowHeight)
 {
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
-  textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   int tempWidth, tempHeight;
-  SDL_QueryTexture(textTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  textTexture_ = Textures::init(font, text_, textColor_, renderer, tempWidth,
+                                tempHeight);
   textRect_ = {(windowWidth / 2) - (tempWidth / 2),
                (windowHeight / 2) - (tempHeight / 2), tempWidth, tempHeight};
-  SDL_FreeSurface(tempSurface);
 
   music_ = Music::load("theme");
 }

@@ -58,6 +58,7 @@ add_executable(Tetris
   src/startgame.hpp
   src/tetromino.cpp
   src/tetromino.hpp
+  src/textures.hpp
 )
 target_link_libraries(Tetris ${SDL2_LIBRARIES} SDL2_ttf SDL2_mixer)
 
