@@ -9,6 +9,18 @@
 
 namespace Music
 {
+  inline void init()
+  {
+    if (Mix_OpenAudio(
+            44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+    {
+      std::cerr << "Mix_OpenAudio failed: " << Mix_GetError() << std::endl;
+      exit(EXIT_FAILURE);
+    }
+
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
+  }
+
   inline Mix_Music *load(const char *filename)
   {
     std::string path(MUSIC_PATH);
@@ -37,6 +49,11 @@ namespace Music
       std::cerr << "Mix_PlayMusic failed!" << std::endl;
       exit(EXIT_FAILURE);
     }
+  }
+
+  inline void close()
+  {
+    Mix_CloseAudio();
   }
 } // namespace Music
 

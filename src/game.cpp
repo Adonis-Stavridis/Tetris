@@ -64,20 +64,14 @@ void Game::init()
     exit(EXIT_FAILURE);
   }
 
-  if (Mix_OpenAudio(
-          44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
-  {
-    std::cerr << "Mix_OpenAudio failed: " << Mix_GetError() << std::endl;
-    exit(EXIT_FAILURE);
-  }
-
-  Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
+  Music::init();
 
   startgame_.init(renderer_, font_, windowWidth_, windowHeight_);
   ingame_.init(renderer_, font_);
   endgame_.init(renderer_, font_, windowWidth_, windowHeight_, &ingame_);
-  pseudogame_.init(renderer_,font_, windowWidth_, windowHeight_, &endgame_);
-  scoregame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_, &pseudogame_);
+  pseudogame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_);
+  scoregame_.init(renderer_, font_, windowWidth_, windowHeight_, &endgame_,
+                  &pseudogame_);
 
   running_ = true;
 
@@ -122,7 +116,7 @@ void Game::quit()
 
   TTF_Quit();
 
-  Mix_CloseAudio();
+  Music::close();
 
   SDL_Quit();
 }
@@ -131,7 +125,7 @@ void Game::checkEvent(PageAction action)
 {
   static uint currentState = 0;
   static GamePage *gameStates[PAGE_NUMBER] =
-      {&startgame_, &ingame_, &endgame_,&pseudogame_, &scoregame_};
+      {&startgame_, &ingame_, &endgame_, &pseudogame_, &scoregame_};
 
   switch (action)
   {
