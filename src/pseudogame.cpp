@@ -21,37 +21,30 @@ void Pseudogame::init(SDL_Renderer *renderer, TTF_Font *font,
                       const int windowWidth, const int windowHeight,
                       Endgame *endgame)
 {
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
-  textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
-  int tempWidth, tempHeight;
-  SDL_QueryTexture(textTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  tempWidth *= 2;
-  tempHeight *= 2;
-  textRect_ = {(windowWidth / 2) - (tempWidth / 2),
-               (windowHeight / 4) - (tempHeight / 2), tempWidth, tempHeight};
-  SDL_FreeSurface(tempSurface);
-
   endgame_ = endgame;
   renderer_ = renderer;
   font_ = font;
 
-  tempSurface = TTF_RenderText_Blended(font, pseudo_.c_str(), pseudoColor_);
-  pseudoTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
-  SDL_QueryTexture(pseudoTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  int tempWidth, tempHeight;
+  textTexture_ = Textures::create(font, text_, textColor_, renderer, tempWidth,
+                                  tempHeight);
+  tempWidth *= 2;
+  tempHeight *= 2;
+  textRect_ = {(windowWidth / 2) - (tempWidth / 2),
+               (windowHeight / 4) - (tempHeight / 2), tempWidth, tempHeight};
+
+  pseudoTexture_ = Textures::create(font, pseudo_.c_str(), pseudoColor_,
+                                    renderer, tempWidth, tempHeight);
   tempWidth *= 2;
   tempHeight *= 2;
   pseudoRect_ = {textRect_.x + (textRect_.w / 4), textRect_.y + 200, tempWidth,
                  tempHeight};
-  SDL_FreeSurface(tempSurface);
 
-  tempSurface = TTF_RenderText_Blended(font, "Press [space] to CONTINUE",
-                                       endColor_);
-  endTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
-  SDL_QueryTexture(endTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  endTexture_ = Textures::create(font, "Press [space] to CONTINUE", endColor_,
+                                 renderer, tempWidth, tempHeight);
   endRect_ = {(windowWidth / 2) - (tempWidth / 2),
               windowHeight - tempHeight - 120,
               tempWidth, tempHeight};
-  SDL_FreeSurface(tempSurface);
 }
 
 PageAction Pseudogame::draw(SDL_Renderer *renderer)
@@ -66,17 +59,11 @@ PageAction Pseudogame::draw(SDL_Renderer *renderer)
 
 void Pseudogame::start()
 {
-  int tempWidth, tempHeight;
   pseudo_ = "_ _ _ _";
   cpt_ = 0;
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font_, pseudo_.c_str(),
-                                                    pseudoColor_);
-  pseudoTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
-  SDL_QueryTexture(pseudoTexture_, NULL, NULL, &tempWidth, &tempHeight);
-  tempWidth *= 2;
-  tempHeight *= 2;
-  pseudoRect_ = {pseudoRect_.x, pseudoRect_.y, tempWidth, tempHeight};
-  SDL_FreeSurface(tempSurface);
+
+  pseudoTexture_ = Textures::create(font_, pseudo_.c_str(), pseudoColor_,
+                                    renderer_);
 }
 
 PageAction Pseudogame::handleInput(SDL_Event event)
@@ -91,16 +78,8 @@ PageAction Pseudogame::handleInput(SDL_Event event)
         cpt_ -= 2;
         pseudo_[cpt_] = '_';
 
-        int tempWidth, tempHeight;
-
-        SDL_Surface *tempSurface =
-            TTF_RenderText_Blended(font_, pseudo_.c_str(), pseudoColor_);
-        pseudoTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
-        SDL_QueryTexture(pseudoTexture_, NULL, NULL, &tempWidth, &tempHeight);
-        tempWidth *= 2;
-        tempHeight *= 2;
-        pseudoRect_ = {pseudoRect_.x, pseudoRect_.y, tempWidth, tempHeight};
-        SDL_FreeSurface(tempSurface);
+        pseudoTexture_ = Textures::create(font_, pseudo_.c_str(), pseudoColor_,
+                                          renderer_);
       }
       break;
 
@@ -122,16 +101,8 @@ PageAction Pseudogame::handleInput(SDL_Event event)
         if (cpt_ < 8)
           cpt_ += 2;
 
-        int tempWidth, tempHeight;
-
-        SDL_Surface *tempSurface =
-            TTF_RenderText_Blended(font_, pseudo_.c_str(), pseudoColor_);
-        pseudoTexture_ = SDL_CreateTextureFromSurface(renderer_, tempSurface);
-        SDL_QueryTexture(pseudoTexture_, NULL, NULL, &tempWidth, &tempHeight);
-        tempWidth *= 2;
-        tempHeight *= 2;
-        pseudoRect_ = {pseudoRect_.x, pseudoRect_.y, tempWidth, tempHeight};
-        SDL_FreeSurface(tempSurface);
+        pseudoTexture_ = Textures::create(font_, pseudo_.c_str(), pseudoColor_,
+                                          renderer_);
       }
       break;
     }

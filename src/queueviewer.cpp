@@ -15,12 +15,10 @@ QueueViewer::~QueueViewer()
 
 void QueueViewer::init(SDL_Renderer *renderer, TTF_Font *font)
 {
-  SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text_, textColor_);
-  textTexture_ = SDL_CreateTextureFromSurface(renderer, tempSurface);
   int tempWidth, tempHeight;
-  SDL_QueryTexture(textTexture_, NULL, NULL, &tempWidth, &tempHeight);
+  textTexture_ = Textures::create(font, text_, textColor_, renderer, tempWidth,
+                                  tempHeight);
   textRect_ = {textRect_.x - tempWidth, 50, tempWidth, tempHeight};
-  SDL_FreeSurface(tempSurface);
 
   queue_.reserve(4);
   tetroRects_.reserve(4);

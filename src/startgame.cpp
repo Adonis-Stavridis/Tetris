@@ -18,8 +18,8 @@ void Startgame::init(SDL_Renderer *renderer, TTF_Font *font,
                      const int windowWidth, const int windowHeight)
 {
   int tempWidth, tempHeight;
-  textTexture_ = Textures::init(font, text_, textColor_, renderer, tempWidth,
-                                tempHeight);
+  textTexture_ = Textures::create(font, text_, textColor_, renderer, tempWidth,
+                                  tempHeight);
   textRect_ = {(windowWidth / 2) - (tempWidth / 2),
                (windowHeight / 2) - (tempHeight / 2), tempWidth, tempHeight};
 

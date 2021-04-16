@@ -6,8 +6,11 @@
 
 namespace Textures
 {
-  inline SDL_Texture *init(TTF_Font *font, const char *text, SDL_Color color,
-                           SDL_Renderer *renderer, int &width, int &height)
+  static int defaultValue = 0;
+
+  inline SDL_Texture *create(TTF_Font *font, const char *text, SDL_Color color,
+                           SDL_Renderer *renderer, int &width = defaultValue,
+                           int &height = defaultValue)
   {
     SDL_Surface *tempSurface = TTF_RenderText_Blended(font, text, color);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, tempSurface);

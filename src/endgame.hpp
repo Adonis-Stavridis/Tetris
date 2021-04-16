@@ -9,6 +9,7 @@
 #include "gamepage.hpp"
 #include "ingame.hpp"
 #include "colors.hpp"
+#include "textures.hpp"
 
 class Endgame : public GamePage
 {
@@ -42,7 +43,7 @@ public:
   PageAction draw(SDL_Renderer *renderer);
   void start();
   PageAction handleInput(SDL_Event event);
-  void updateTime(SDL_Renderer *renderer, std::chrono::duration<double> time);
+  void updateTime(std::chrono::duration<double> time);
 
   inline uint getScore()
   {
