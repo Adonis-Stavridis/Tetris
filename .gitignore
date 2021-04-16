@@ -3,3 +3,6 @@ build
 
 # Visual Studio Code
 .vscode
+
+# Documentation
+doc
