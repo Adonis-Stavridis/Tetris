@@ -2,6 +2,7 @@
 #define MUSIC_HPP
 
 #include <string>
+#include <SDL2/SDL_mixer.h>
 
 #define MUSIC_PATH "assets/music/"
 

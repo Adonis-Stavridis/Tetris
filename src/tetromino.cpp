@@ -115,6 +115,9 @@ void Tetromino::translate(TetrominoTranslation translation)
     break;
 
   default:
+    std::cerr << "Tetromino Error : Unknown TetrominoTranslation."
+              << std::endl;
+    exit(EXIT_FAILURE);
     break;
   }
 }
