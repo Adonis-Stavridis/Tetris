@@ -11,6 +11,10 @@
 
 #define FONT_SIZE 32
 
+/**
+ * @brief Left-side Score Viewer
+ * 
+ */
 class ScoreViewer
 {
 private:
@@ -32,15 +36,59 @@ private:
   TTF_Font *font_;
 
 public:
+  /**
+   * @brief Construct a new Score Viewer object
+   * 
+   */
   ScoreViewer();
+
+  /**
+   * @brief Destroy the Score Viewer object
+   * 
+   */
   ~ScoreViewer();
 
+  /**
+   * @brief Init ScoreViewer
+   * 
+   * @param renderer 
+   * @param font 
+   */
   void init(SDL_Renderer *renderer, TTF_Font *font);
+
+  /**
+   * @brief Draw ScoreViewer's components
+   * 
+   * @param renderer 
+   */
   void draw(SDL_Renderer *renderer);
 
+  /**
+   * @brief Update score texture
+   * 
+   * @param scoreValue 
+   */
   void updateScore(uint scoreValue);
+
+  /**
+   * @brief Update level texture
+   * 
+   * @param levelValue 
+   */
   void updateLevel(uint levelValue);
+
+  /**
+   * @brief Update lines value
+   * 
+   * @param linesValue 
+   */
   void updateLines(uint linesValue);
+
+  /**
+   * @brief Update time value
+   * 
+   * @param curTime 
+   */
   void updateTime(std::chrono::duration<double> curTime);
 };
 

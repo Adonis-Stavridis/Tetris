@@ -9,6 +9,10 @@
 #include "gamepage.hpp"
 #include "textures.hpp"
 
+/**
+ * @brief First page of Game
+ * 
+ */
 class Startgame : public GamePage
 {
 private:
@@ -21,13 +25,49 @@ private:
   Mix_Music *music_;
 
 public:
+  /**
+   * @brief Construct a new Startgame object
+   * 
+   */
   Startgame();
+
+  /**
+   * @brief Destroy the Startgame object
+   * 
+   */
   ~Startgame();
 
+  /**
+   * @brief Init Startgame object
+   * 
+   * @param renderer 
+   * @param font 
+   * @param windowWidth 
+   * @param windowHeight 
+   */
   void init(SDL_Renderer *renderer, TTF_Font *font,
             const int windowWidth, const int windowHeight);
+
+  /**
+   * @brief Draw page's components
+   * 
+   * @param renderer 
+   * @return PageAction 
+   */
   PageAction draw(SDL_Renderer *renderer);
+
+  /**
+   * @brief Reset page's components
+   * 
+   */
   void start();
+
+  /**
+   * @brief Handle inputs
+   * 
+   * @param event 
+   * @return PageAction 
+   */
   PageAction handleInput(SDL_Event event);
 };
 

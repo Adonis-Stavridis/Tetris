@@ -20,6 +20,13 @@
 
 #define PAGE_NUMBER 5
 
+/**
+ * @class Game
+ * 
+ * @brief Main Game engine that will instantiate everything and loop during the
+ * entire gaming session.
+ * 
+ */
 class Game
 {
 private:
@@ -44,14 +51,47 @@ private:
   GamePage *gamePage_;
 
 public:
+  /**
+   * @brief Construct a new Game object
+   * 
+   */
   Game();
+
+  /**
+   * @brief Destroy the Game object
+   * 
+   */
   ~Game();
 
+  /**
+   * @brief Init Game object
+   * 
+   */
   void init();
+
+  /**
+   * @brief Run Game object (main loop)
+   * 
+   */
   void run();
+
+  /**
+   * @brief Draw instances in window
+   * 
+   */
   void draw();
+
+  /**
+   * @brief Quit Game
+   * 
+   */
   void quit();
 
+  /**
+   * @brief Check event in order to change page
+   * 
+   * @param action 
+   */
   void checkEvent(PageAction action);
 };
 
