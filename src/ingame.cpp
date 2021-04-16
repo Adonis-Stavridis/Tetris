@@ -31,11 +31,11 @@ void Ingame::init(SDL_Renderer *renderer, TTF_Font *font)
   scoreViewer_.init(renderer, font);
   queueViewer_.init(renderer, font);
 
-  music_[0] = Mix_LoadMUS(Music::path("axel_f").c_str());
-  music_[1] = Mix_LoadMUS(Music::path("blue").c_str());
-  music_[2] = Mix_LoadMUS(Music::path("bohemian_rhapsody").c_str());
-  music_[3] = Mix_LoadMUS(Music::path("harder_better_faster_stronger").c_str());
-  music_[4] = Mix_LoadMUS(Music::path("rasputin").c_str());
+  music_[0] = Music::load("axel_f");
+  music_[1] = Music::load("blue");
+  music_[2] = Music::load("bohemian_rhapsody");
+  music_[3] = Music::load("harder_better_faster_stronger");
+  music_[4] = Music::load("rasputin");
 
   for (int i = 0; i < MUSIC_NUMBER; i++)
   {
@@ -287,13 +287,6 @@ void Ingame::updateScore(uint lines)
 
 void Ingame::playMusic()
 {
-#ifdef MUSIC_ENABLED
-  if (Mix_PlayMusic(music_[curMusic_], 1) == -1)
-  {
-    std::cerr << "Mix_PlayMusic failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
-#endif
-
+  Music::play(music_[curMusic_], false);
   curMusic_ = (curMusic_ + 1) % MUSIC_NUMBER;
 }

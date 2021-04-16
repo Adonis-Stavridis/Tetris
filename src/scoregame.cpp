@@ -4,16 +4,13 @@ Scoregame::Scoregame()
     : text_("Highscores"),
       textColor_(Colors::gold()),
       pseudoColor_(Colors::dodgerblue()),
-      score_(0),
-      music_(nullptr)
+      score_(0)
 {
 }
 
 Scoregame::~Scoregame()
 {
   // SDL_DestroyTexture(textTexture_);
-
-  Mix_FreeMusic(music_);
 }
 
 void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
@@ -34,13 +31,6 @@ void Scoregame::init(SDL_Renderer *renderer, TTF_Font *font,
   pseudogame_ = pseudogame;
   renderer_ = renderer;
   font_ = font;
-
-  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
-  if (!music_)
-  {
-    std::cerr << "Mix_LoadMUS failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
 }
 
 PageAction Scoregame::draw(SDL_Renderer *renderer)
@@ -142,14 +132,6 @@ void Scoregame::start()
 
     SDL_FreeSurface(tempSurface);
   }
-
-#ifdef MUSIC_ENABLED
-  if (Mix_PlayMusic(music_, -1) == -1)
-  {
-    std::cerr << "Mix_PlayMusic failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
-#endif
 }
 
 PageAction Scoregame::handleInput(SDL_Event event)

@@ -85,12 +85,7 @@ void Endgame::init(SDL_Renderer *renderer, TTF_Font *font,
               tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
-  if (!music_)
-  {
-    std::cerr << "Mix_LoadMUS failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
+  music_ = Music::load("new_theme");
 }
 
 PageAction Endgame::draw(SDL_Renderer *renderer)
@@ -146,13 +141,7 @@ void Endgame::start()
   linesRect_ = {linesRect_.x, linesRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
 
-#ifdef MUSIC_ENABLED
-  if (Mix_PlayMusic(music_, -1) == -1)
-  {
-    std::cerr << "Mix_PlayMusic failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
-#endif
+  Music::play(music_);
 }
 
 PageAction Endgame::handleInput(SDL_Event event)

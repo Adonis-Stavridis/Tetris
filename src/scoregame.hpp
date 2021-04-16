@@ -9,7 +9,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
 
 #include "gamepage.hpp"
 #include "endgame.hpp"
@@ -35,8 +34,6 @@ private:
 
   uint score_;
   std::string pseudo_;
-
-  Mix_Music *music_;
 
   std::vector<std::pair<std::string, uint>> high_;
 

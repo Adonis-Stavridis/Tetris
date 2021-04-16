@@ -6,8 +6,6 @@
 
 #include "music.hpp"
 
-// #define MUSIC_ENABLED 1
-
 enum PageAction
 {
   None = 0,

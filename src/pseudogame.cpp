@@ -6,8 +6,7 @@ Pseudogame::Pseudogame()
       pseudoColor_(Colors::dodgerblue()),
       endColor_(Colors::snow()),
       cpt_(0),
-      pseudo_("_ _ _ _"),
-      music_(nullptr)
+      pseudo_("_ _ _ _")
 {
 }
 
@@ -16,8 +15,6 @@ Pseudogame::~Pseudogame()
   // SDL_DestroyTexture(textTexture_);
   // SDL_DestroyTexture(pseudoTexture_);
   // SDL_DestroyTexture(endTexture_);
-
-  Mix_FreeMusic(music_);
 }
 
 void Pseudogame::init(SDL_Renderer *renderer, TTF_Font *font,
@@ -55,13 +52,6 @@ void Pseudogame::init(SDL_Renderer *renderer, TTF_Font *font,
               windowHeight - tempHeight - 120,
               tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
-
-  music_ = Mix_LoadMUS(Music::path("new_theme").c_str());
-  if (!music_)
-  {
-    std::cerr << "Mix_LoadMUS failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
 }
 
 PageAction Pseudogame::draw(SDL_Renderer *renderer)
@@ -87,14 +77,6 @@ void Pseudogame::start()
   tempHeight *= 2;
   pseudoRect_ = {pseudoRect_.x, pseudoRect_.y, tempWidth, tempHeight};
   SDL_FreeSurface(tempSurface);
-
-#ifdef MUSIC_ENABLED
-  if (Mix_PlayMusic(music_, -1) == -1)
-  {
-    std::cerr << "Mix_PlayMusic failed!" << std::endl;
-    exit(EXIT_FAILURE);
-  }
-#endif
 }
 
 PageAction Pseudogame::handleInput(SDL_Event event)
