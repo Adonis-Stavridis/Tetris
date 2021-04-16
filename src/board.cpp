@@ -14,13 +14,9 @@ Board::~Board()
 
 void Board::start()
 {
-  for (int i = 0; i < WIDTH; i++)
-  {
-    for (int j = 0; j < HEIGHT; j++)
-    {
-      grid_[i][j].unlock();
-    }
-  }
+  grid_.foreach ([](GridRect &rect) {
+    rect.unlock();
+  });
 }
 
 void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino,

@@ -8,41 +8,10 @@
 
 #include "colors.hpp"
 #include "tetromino.hpp"
+#include "grid.hpp"
 
 #define WIDTH 10
 #define HEIGHT 20
-
-struct GridRect
-{
-  bool set_;
-  SDL_Color color_;
-
-  GridRect()
-  {
-    set_ = false;
-  }
-
-  bool locked()
-  {
-    return set_;
-  }
-
-  SDL_Color color()
-  {
-    return color_;
-  }
-
-  void lock(SDL_Color color)
-  {
-    set_ = true;
-    color_ = color;
-  }
-
-  void unlock()
-  {
-    set_ = false;
-  }
-};
 
 class Board
 {
@@ -55,7 +24,7 @@ private:
   SDL_Rect rect2_;
   SDL_Rect rect3_;
 
-  GridRect grid_[WIDTH][HEIGHT];
+  Grid<GridRect, WIDTH, HEIGHT> grid_;
 
   uint checkLines(std::set<int> changedLines);
 
