@@ -11,6 +11,10 @@
 #include "colors.hpp"
 #include "textures.hpp"
 
+/**
+ * @brief Game over page
+ * 
+ */
 class Endgame : public GamePage
 {
 private:
@@ -36,15 +40,64 @@ private:
   Mix_Music *music_;
 
 public:
+  /**
+   * @brief Construct a new Endgame object
+   * 
+   */
   Endgame();
+
+  /**
+   * @brief Destroy the Endgame object
+   * 
+   */
   ~Endgame();
 
-  void init(SDL_Renderer *renderer, TTF_Font *font, const int windowWidth, const int windowHeight, Ingame *ingame);
+  /**
+   * @brief Init the Endgame object
+   * 
+   * @param renderer 
+   * @param font 
+   * @param windowWidth 
+   * @param windowHeight 
+   * @param ingame 
+   */
+  void init(SDL_Renderer *renderer, TTF_Font *font, const int windowWidth,
+            const int windowHeight, Ingame *ingame);
+
+  /**
+   * @brief Draw Endgame's components
+   * 
+   * @param renderer 
+   * @return PageAction 
+   */
   PageAction draw(SDL_Renderer *renderer);
+
+  /**
+   * @brief Reset page's components
+   * 
+   */
   void start();
+
+  /**
+   * @brief Handle inputs
+   * 
+   * @param event 
+   * @return PageAction 
+   */
   PageAction handleInput(SDL_Event event);
+
+  /**
+   * @brief Update time texture
+   * 
+   * @param time 
+   */
   void updateTime(std::chrono::duration<double> time);
 
+  /**
+   * @brief Get the Score value
+   * 
+   * @return uint 
+   */
   inline uint getScore()
   {
     return score_;

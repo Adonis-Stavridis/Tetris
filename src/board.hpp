@@ -13,6 +13,10 @@
 #define WIDTH 10
 #define HEIGHT 20
 
+/**
+ * @brief Board containing locked Tetrominos
+ * 
+ */
 class Board
 {
 private:
@@ -29,14 +33,60 @@ private:
   uint checkLines(std::set<int> changedLines);
 
 public:
+  /**
+   * @brief Construct a new Board object
+   * 
+   * @param windowWidth 
+   * @param windowHeight 
+   */
   Board(const int windowWidth, const int windowHeight);
+
+  /**
+   * @brief Destroy the Board object
+   * 
+   */
   ~Board();
 
+  /**
+   * @brief Reset board
+   * 
+   */
   void start();
+
+  /**
+   * @brief Draw the Board's component's
+   * 
+   * @param renderer 
+   * @param tetromino 
+   * @param ghost 
+   */
   void draw(SDL_Renderer *renderer, const Tetromino &tetromino,
             const Tetromino &ghost);
+
+  /**
+   * @brief Returns if there is a collision for the Tetromino
+   * 
+   * @param tetromino 
+   * @return true 
+   * @return false 
+   */
   bool collision(const Tetromino &tetromino);
+
+  /**
+   * @brief Returns if a Tetromino is lockable
+   * 
+   * @param tetromino 
+   * @return true 
+   * @return false 
+   */
   bool lockable(const Tetromino &tetromino);
+
+  /**
+   * @brief Locks a Tetromino to the board
+   * 
+   * @param tetromino 
+   * @return int 
+   */
   int lock(const Tetromino &tetromino);
 };
 

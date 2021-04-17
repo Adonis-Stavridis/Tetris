@@ -10,6 +10,10 @@
 #include "endgame.hpp"
 #include "colors.hpp"
 
+/**
+ * @brief Username selection Game page
+ * 
+ */
 class Pseudogame : public GamePage
 {
 private:
@@ -27,19 +31,61 @@ private:
   Endgame *endgame_;
 
 public:
+  /**
+   * @brief Construct a new Pseudogame object
+   * 
+   */
   Pseudogame();
+
+  /**
+   * @brief Destroy the Pseudogame object
+   * 
+   */
   ~Pseudogame();
 
-  void init(SDL_Renderer *renderer, TTF_Font *font, const int windowWidth, const int windowHeight, Endgame *endgame);
+  /**
+   * @brief Init Pseudogame object
+   * 
+   * @param renderer 
+   * @param font 
+   * @param windowWidth 
+   * @param windowHeight 
+   * @param endgame 
+   */
+  void init(SDL_Renderer *renderer, TTF_Font *font, const int windowWidth,
+            const int windowHeight, Endgame *endgame);
+
+  /**
+   * @brief Draw Pseugame's components
+   * 
+   * @param renderer 
+   * @return PageAction 
+   */
   PageAction draw(SDL_Renderer *renderer);
+
+  /**
+   * @brief Reset page's components
+   * 
+   */
   void start();
+
+  /**
+   * @brief Handle inputs
+   * 
+   * @param event 
+   * @return PageAction 
+   */
   PageAction handleInput(SDL_Event event);
 
+  /**
+   * @brief Get the Pseudo value
+   * 
+   * @return std::string 
+   */
   inline std::string getPseudo()
   {
     return pseudo_;
   }
-  
 };
 
 #endif // PSEUDOGAME_HPP

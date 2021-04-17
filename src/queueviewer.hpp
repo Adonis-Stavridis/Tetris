@@ -9,6 +9,10 @@
 #include "tetromino.hpp"
 #include "textures.hpp"
 
+/**
+ * @brief Right-side Tetromino Queue Viewer
+ * 
+ */
 class QueueViewer
 {
 private:
@@ -22,12 +26,39 @@ private:
   std::vector<Tetromino> queue_;
 
 public:
+  /**
+   * @brief Construct a new Queue Viewer object
+   * 
+   * @param windowWidth 
+   */
   QueueViewer(const int windowWidth);
+
+  /**
+   * @brief Destroy the Queue Viewer object
+   * 
+   */
   ~QueueViewer();
 
+  /**
+   * @brief Init Queue Viewer object
+   * 
+   * @param renderer 
+   * @param font 
+   */
   void init(SDL_Renderer *renderer, TTF_Font *font);
+
+  /**
+   * @brief Draw Queue Viewer
+   * 
+   * @param renderer 
+   */
   void draw(SDL_Renderer *renderer);
 
+  /**
+   * @brief Update queue
+   * 
+   * @param queue 
+   */
   void updateQueue(const std::queue<Tetromino> queue);
 };
 

@@ -8,8 +8,16 @@
 
 #define MUSIC_ENABLED false
 
+/**
+ * @brief Set of functions to handle Music and Sound
+ * 
+ */
 namespace Music
 {
+  /**
+   * @brief Init Music module
+   * 
+   */
   inline void init()
   {
     if (Mix_OpenAudio(
@@ -22,6 +30,12 @@ namespace Music
     Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
   }
 
+  /**
+   * @brief Load a music mp3 file
+   * 
+   * @param filename 
+   * @return Mix_Music* 
+   */
   inline Mix_Music *load(const char *filename)
   {
     std::string path(MUSIC_PATH);
@@ -38,6 +52,12 @@ namespace Music
     return music;
   }
 
+  /**
+   * @brief Play music
+   * 
+   * @param music 
+   * @param loop 
+   */
   inline void play(Mix_Music *music, bool loop = true)
   {
     if (!MUSIC_ENABLED)
@@ -52,6 +72,10 @@ namespace Music
     }
   }
 
+  /**
+   * @brief Close Music module
+   * 
+   */
   inline void close()
   {
     Mix_CloseAudio();
