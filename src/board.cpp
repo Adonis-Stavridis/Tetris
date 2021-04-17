@@ -26,54 +26,22 @@ void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino,
                          fillColor_.a);
   SDL_RenderFillRect(renderer, &rect_);
 
-  const Matrix tetroMatrix = tetromino.getMatrix();
-  const size_t isize = tetroMatrix.size();
-  const size_t jsize = tetroMatrix[0].size();
-  const int tetroPosX = tetromino.getPosX();
-  const int tetroPosY = tetromino.getPosY();
-  const SDL_Color tetroColor = tetromino.getColor();
+  tetromino.draw(renderer, rect_);
 
-  SDL_SetRenderDrawColor(renderer, tetroColor.r, tetroColor.g, tetroColor.b,
-                         tetroColor.a);
-  for (size_t i = 0; i < isize; i++)
-  {
-    for (size_t j = 0; j < jsize; j++)
+  grid_.idxforeach([this, renderer](int i, int j) {
+    if (grid_[i][j].locked())
     {
-      int ivalue = static_cast<int>(i);
-      int jvalue = static_cast<int>(j);
+      SDL_Color gridColor = grid_[i][j].color();
+      SDL_Rect gridRect = {rect_.x + 32 * i,
+                           rect_.y + 32 * j,
+                           32,
+                           32};
 
-      int iPos = tetroPosX + ivalue;
-      int jPos = tetroPosY + jvalue;
-
-      if (jPos >= 0 && tetroMatrix[i][j])
-      {
-        SDL_Rect tetroRect = {rect_.x + 32 * (iPos),
-                              rect_.y + 32 * (jPos),
-                              32,
-                              32};
-        SDL_RenderFillRect(renderer, &tetroRect);
-      }
+      SDL_SetRenderDrawColor(renderer, gridColor.r, gridColor.g, gridColor.b,
+                             gridColor.a);
+      SDL_RenderFillRect(renderer, &gridRect);
     }
-  }
-
-  for (int i = 0; i < WIDTH; i++)
-  {
-    for (int j = 0; j < HEIGHT; j++)
-    {
-      if (grid_[i][j].locked())
-      {
-        SDL_Color gridColor = grid_[i][j].color();
-        SDL_Rect gridRect = {rect_.x + 32 * i,
-                             rect_.y + 32 * j,
-                             32,
-                             32};
-
-        SDL_SetRenderDrawColor(renderer, gridColor.r, gridColor.g, gridColor.b,
-                               gridColor.a);
-        SDL_RenderFillRect(renderer, &gridRect);
-      }
-    }
-  }
+  });
 
   SDL_SetRenderDrawColor(renderer, gridColor_.r, gridColor_.g, gridColor_.b,
                          gridColor_.a);
@@ -89,35 +57,7 @@ void Board::draw(SDL_Renderer *renderer, const Tetromino &tetromino,
     SDL_RenderDrawLine(renderer, rect_.x, y, rect_.x + rect_.w, y);
   }
 
-  const Matrix ghostMatrix = ghost.getMatrix();
-  const size_t isizeGhost = ghostMatrix.size();
-  const size_t jsizeGhost = ghostMatrix[0].size();
-  const int tetroPosXGhost = ghost.getPosX();
-  const int tetroPosYGhost = ghost.getPosY();
-  const SDL_Color tetroColorGhost = ghost.getColor();
-
-  SDL_SetRenderDrawColor(renderer, tetroColorGhost.r, tetroColorGhost.g,
-                         tetroColorGhost.b, tetroColorGhost.a);
-  for (size_t i = 0; i < isizeGhost; i++)
-  {
-    for (size_t j = 0; j < jsizeGhost; j++)
-    {
-      int ivalue = static_cast<int>(i);
-      int jvalue = static_cast<int>(j);
-
-      int iPos = tetroPosXGhost + ivalue;
-      int jPos = tetroPosYGhost + jvalue;
-
-      if (jPos >= 0 && ghostMatrix[i][j])
-      {
-        SDL_Rect tetroRect = {rect_.x + 32 * (iPos) + 1,
-                              rect_.y + 32 * (jPos) + 1,
-                              32 - 1,
-                              32 - 1};
-        SDL_RenderDrawRect(renderer, &tetroRect);
-      }
-    }
-  }
+  ghost.drawGhost(renderer, rect_);
 
   SDL_SetRenderDrawColor(renderer, borderColor_.r, borderColor_.g,
                          borderColor_.b, borderColor_.a);

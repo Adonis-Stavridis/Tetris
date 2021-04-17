@@ -143,6 +143,20 @@ public:
    * @param rotation 
    */
   void rotate(TetrominoRotation rotation);
+
+  /**
+   * @brief Draw Tetromino in rect
+   * 
+   * @param rect 
+   */
+  void draw(SDL_Renderer *renderer, SDL_Rect rect) const;
+
+  /**
+   * @brief Draw Tetromino as ghost in rect
+   * 
+   * @param rect 
+   */
+  void drawGhost(SDL_Renderer *renderer, SDL_Rect rect) const;
 };
 
 #endif // TETROMINO_HPP

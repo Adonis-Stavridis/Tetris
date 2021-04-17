@@ -207,3 +207,69 @@ int Tetromino::getHeight() const
 
   return static_cast<int>(height);
 }
+
+void Tetromino::draw(SDL_Renderer *renderer, SDL_Rect rect) const
+{
+  const Matrix tetroMatrix = getMatrix();
+  const size_t isize = tetroMatrix.size();
+  const size_t jsize = tetroMatrix[0].size();
+  const int tetroPosX = getPosX();
+  const int tetroPosY = getPosY();
+  const SDL_Color tetroColor = getColor();
+
+  SDL_SetRenderDrawColor(renderer, tetroColor.r, tetroColor.g, tetroColor.b,
+                         tetroColor.a);
+  for (size_t i = 0; i < isize; i++)
+  {
+    for (size_t j = 0; j < jsize; j++)
+    {
+      int ivalue = static_cast<int>(i);
+      int jvalue = static_cast<int>(j);
+
+      int iPos = tetroPosX + ivalue;
+      int jPos = tetroPosY + jvalue;
+
+      if (jPos >= 0 && tetroMatrix[i][j])
+      {
+        SDL_Rect tetroRect = {rect.x + 32 * (iPos),
+                              rect.y + 32 * (jPos),
+                              32,
+                              32};
+        SDL_RenderFillRect(renderer, &tetroRect);
+      }
+    }
+  }
+}
+
+void Tetromino::drawGhost(SDL_Renderer *renderer, SDL_Rect rect) const
+{
+  const Matrix tetroMatrix = getMatrix();
+  const size_t isize = tetroMatrix.size();
+  const size_t jsize = tetroMatrix[0].size();
+  const int tetroPosX = getPosX();
+  const int tetroPosY = getPosY();
+  const SDL_Color tetroColor = getColor();
+
+  SDL_SetRenderDrawColor(renderer, tetroColor.r, tetroColor.g, tetroColor.b,
+                         tetroColor.a);
+  for (size_t i = 0; i < isize; i++)
+  {
+    for (size_t j = 0; j < jsize; j++)
+    {
+      int ivalue = static_cast<int>(i);
+      int jvalue = static_cast<int>(j);
+
+      int iPos = tetroPosX + ivalue;
+      int jPos = tetroPosY + jvalue;
+
+      if (jPos >= 0 && tetroMatrix[i][j])
+      {
+        SDL_Rect tetroRect = {rect.x + 32 * (iPos),
+                              rect.y + 32 * (jPos),
+                              32,
+                              32};
+        SDL_RenderDrawRect(renderer, &tetroRect);
+      }
+    }
+  }
+}

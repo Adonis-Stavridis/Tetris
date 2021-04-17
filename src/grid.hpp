@@ -54,6 +54,24 @@ public:
   }
 
   /**
+   * @brief Call lambda for each cell in Grid with indexes
+   * 
+   * @tparam F 
+   * @param lambda 
+   */
+  template <typename F>
+  inline void idxforeach(F lambda)
+  {
+    for (size_t i = 0; i < W; i++)
+    {
+      for (size_t j = 0; j < H; j++)
+      {
+        lambda(i, j);
+      }
+    }
+  }
+
+  /**
    * @brief Subscript operator overload for Gris
    * 
    * @param i 

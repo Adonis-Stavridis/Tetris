@@ -20,7 +20,7 @@ the build directory.
 
 The keybinds to use and play Tetris are the following :
 
-- ESC : qui the game at any time
+- ESC : quit the game at any time
 - LEFT ARROW : Translate Tetromino to the left
 - RIGHT ARROW : Translate Tetromino to the right
 - DOWN ARROW : Push Tetromino downwards
